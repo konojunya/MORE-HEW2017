@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>Mypage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../public/css/common.css">
+    <link rel="stylesheet" href="../public/css/mypage.css">
+</head>
+<body>
+    <header id="header">
+        
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-top">
+            <div class="profile-cover"></div>
+            <div class="profile-icon"></div>
+            <div class="profile-setting-icon">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="profile-content">
+            <div class="profile-user-info">
+                <div class="profile-name">西川 和希</div>
+                <div class="profile-region"><i class="fa fa-map-marker" aria-hidden="true"></i>東淀川・大阪</div>
+            </div>
+            <div class="walking-history">
+                <div class="title">The journeys that I walked</div>
+                <div id="map"></div>
+            </div>
+            <div class="category">
+                <div class="category-left"></div>
+                <div class="category-right"></div>
+            </div>
+        </div>
+        
+        
+
+    </div>
+    
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+    <script src="../public/js/gmaps.min.js"></script>
+    <script src="../public/js/jquery.min.js"></script>
+    <script src="../public/js/MapManager.js"></script>
+    <script>
+        (function($){
+            var testPos = {
+                origin: {
+                    lat: 35.0004487,
+                    lng: 135.7617562
+                },
+                destination: {
+                    lat: 35.0017614,
+                    lng: 135.7751592
+                }
+            }
+
+
+            var history = [
+                    {
+                        lat: 35.0017614,
+                        lng: 135.7751592,
+                        title: "茶寮都路里 祇園本店",
+                        content: "カフェ"
+                    },
+                    {
+                        lat: 35.0025211,
+                        lng: 135.7750301,
+                        title: "八坂神社",
+                        content: "観光地"
+                    },
+                    {
+                        lat: 34.9986604,
+                        lng: 135.7785294,
+                        title: "二年坂",
+                        content: "観光地"
+                    },
+                    {
+                        lat: 34.997195,
+                        lng: 135.7790952,
+                        title: "総本家 ゆどうふ 奥丹清水",
+                        content: "お食事処"
+                    },
+                    {
+                        lat: 34.9959421,
+                        lng: 135.7814444,
+                        title: "清水坂",
+                        content: "観光地"
+                    }
+                ]
+
+            var latArr = []
+            var lngArr = []
+
+            for (var i in history) {
+                latArr.push(history[i].lat);
+                lngArr.push(history[i].lng);
+            }
+
+            var center = mapManager.calcCenterPositionArray(latArr,lngArr)
+            
+            mapManager.initMapArray(center.lat,center.lng,14)
+            for (var i in history) {
+                mapManager.addMarker(
+                    history[i].lat,
+                    history[i].lng,
+                    history[i].title,
+                    // history[i].content
+                    '<img src="../public/images/kiyomizu.png" alt="" width="100">'
+                )
+            }
+
+        })(jQuery)
+    </script>
+</body>
+</html>

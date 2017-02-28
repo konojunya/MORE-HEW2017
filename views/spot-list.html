@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title></title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../public/css/common.css">
+	<link rel="stylesheet" href="../public/css/spot-list.css">
+</head>
+<body>
+	<header id="header">
+		
+	</header>
+
+	<div class="switching-navi">
+		<ul>
+			<li class="switching-navi-spot active">スポット一覧</li>
+			<li class="switching-navi-map">マップ表示</li>
+		</ul>
+	</div>
+
+	<div class="search">
+		<i class="fa fa-search" aria-hidden="true"></i>
+		<!-- <p>絞り込み</p> -->
+		<input type="text" name="search" placeholder="絞り込み">
+	</div>
+
+
+	<div class="tab-box-container">
+		<div class="tab-box">
+
+			<div class="spot-container active tab-content1">
+				<ul>
+					<li class="spot">
+						<div class="spot-top">
+							<a href="spot-detail.html">
+								<div class="spot-image"></div>
+							</a>
+						</div>
+
+						<div class="spot-bottom">
+							<div class="spot-genre">
+								ジャンル:仏教寺院
+							</div>
+							<a href="spot-detail.html">
+								<div class="spot-title">
+									建仁寺
+								</div>
+							</a>
+							<div class="spot-bottom-flex">
+								<div class="spot-business-hours">
+									本日 9:00〜17:00営業
+								</div>
+								<button class="add-routes-button">
+									ルートに追加
+								</button>
+							</div>
+						</div>
+					</li>
+
+
+					<li class="spot">
+						<div class="spot-top">
+							<a href="spot-detail.html">
+								<div class="spot-image"></div>
+							</a>
+						</div>
+
+						<div class="spot-bottom">
+							<div class="spot-genre">
+								ジャンル:仏教寺院
+							</div>
+							<a href="spot-detail.html">
+								<div class="spot-title">
+									建仁寺
+								</div>
+							</a>
+							<div class="spot-bottom-flex">
+								<div class="spot-business-hours">
+									本日 9:00〜17:00営業
+								</div>
+								<button class="add-routes-button">
+									ルートに追加
+								</button>
+							</div>
+						</div>
+					</li>
+					<li class="spot">
+						<div class="spot-top">
+							<a href="spot-detail.html">
+								<div class="spot-image"></div>
+							</a>
+						</div>
+
+						<div class="spot-bottom">
+							<div class="spot-genre">
+								ジャンル:仏教寺院
+							</div>
+							<a href="spot-detail.html">
+								<div class="spot-title">
+									建仁寺
+								</div>
+							</a>
+							<div class="spot-bottom-flex">
+								<div class="spot-business-hours">
+									本日 9:00〜17:00営業
+								</div>
+								<button class="add-routes-button">
+									ルートに追加
+								</button>
+							</div>
+						</div>
+					</li>
+					<li class="spot">
+						<div class="spot-top">
+							<a href="spot-detail.html">
+								<div class="spot-image"></div>
+							</a>
+						</div>
+
+						<div class="spot-bottom">
+							<div class="spot-genre">
+								ジャンル:仏教寺院
+							</div>
+							<a href="spot-detail.html">
+								<div class="spot-title">
+									建仁寺
+								</div>
+							</a>
+							<div class="spot-bottom-flex">
+								<div class="spot-business-hours">
+									本日 9:00〜17:00営業
+								</div>
+								<button class="add-routes-button">
+									ルートに追加
+								</button>
+							</div>
+						</div>
+					</li>
+
+					
+				</ul>
+			</div>
+
+			<div class="map-container tab-content2">
+				<div id="map">
+					<div class="map-error-message">
+						ネットワークに<br>
+						接続されていません。
+					</div>
+				</div>
+				<div class="route-navi">
+					<div class="map-spot-title-container">
+						<div class="icon map-spot-from">発</div>
+						<div class="map-spot-title first">河原町駅</div>
+					</div>
+					<div class="map-spot-title-container">
+						<div class="icon map-spot-via"></div>
+						<div class="map-spot-title after">茶寮都路里 祇園本店</div>
+					</div>
+					<div class="map-spot-title-container">
+						<div class="icon map-spot-via"></div>
+						<div class="map-spot-title after">茶寮都路里 祇園本店</div>
+					</div>
+					<div class="map-spot-title-container">
+						<div class="icon map-spot-to">着</div>
+						<div class="map-spot-title after last">清水寺</div>
+					</div>
+				</div>
+			</div>
+
+		</div><!-- tab-box -->
+	</div>
+	
+
+	<!-- fix-navigation -->
+	<div class="fix-navi-button">
+		<div class="sideShowBtn">
+	        <span class="first"></span>
+	        <span class="second"></span>
+	        <span class="third"></span>
+	    </div>
+	</div>
+
+	<ul class="fix-navi">
+		<li class="fix-navi-list fix-navi-home">
+			<a href="home.html">
+				<div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+				<div class="fix-navi-content">ホーム</div>
+			</a>
+		</li>
+		<li class="fix-navi-list fix-navi-mypage">
+			<a href="mypage.html">
+				<div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+				<div class="fix-navi-content">マイページ</div>
+			</a>
+		</li>
+		<li class="fix-navi-list fix-navi-fav">
+			<a href="#">
+				<div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
+				<div class="fix-navi-content">気になるスポット</div>
+			</a>
+		</li>
+	</ul>
+	<!-- /fix-navigation -->
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+	<script src="../public/js/gmaps.min.js"></script>
+	<script src="../public/js/jquery.min.js"></script>
+	<script src="../public/js/TweenMax.min.js"></script>
+	<script src="../public/js/MapManager.js"></script>
+	<script>
+		(function($){
+			$('.switching-navi li').on('click', function(){
+				if($('.fix-navi-button').hasClass('opened')){
+					noScroll(false)
+					endAnimation()
+		    		$('.fix-navi-button').removeClass('opened')
+				}
+				if($(this).not('active')){
+					$(this).addClass('active').siblings('li').removeClass('active')
+					var index = $('.switching-navi li').index(this)
+					switch(index){
+						case 0:
+							$('.tab-content1').addClass('active')
+							$('.tab-content2').removeClass('active')
+							break;
+						case 1:
+							$('.tab-content1').removeClass('active')
+							$('.tab-content2').addClass('active')
+
+							var testPos = {
+								origin: {
+									lat: 35.0004487,
+									lng: 135.7617562
+								},
+								destination: {
+									lat: 35.0017614,
+									lng: 135.7751592
+								}
+							}
+
+							mapManager.initMap(testPos.origin,testPos.destination,14)
+							mapManager.drawRoute(testPos.origin.lat,testPos.origin.lng,testPos.destination.lat,testPos.destination.lng)
+
+							mapManager.addMarker(testPos.origin.lat,testPos.origin.lng,"名古屋駅","出発地点:名古屋駅")
+				            mapManager.addMarker(testPos.destination.lat,testPos.destination.lng,"名古屋城","経由地点:名古屋城")
+
+				            // mapManager.drawRoute(35.183766,136.900294, 35.1878217, 136.9012824)
+							testPos = {
+								origin: {
+									lat: 35.0017614,
+									lng: 135.7751592
+								},
+								destination: {
+									lat: 34.9948622,
+									lng: 135.7847918
+								}
+							}
+							mapManager.drawRoute(testPos.origin.lat,testPos.origin.lng,testPos.destination.lat,testPos.destination.lng)
+							mapManager.addMarker(testPos.destination.lat,testPos.destination.lng,"名古屋城","経由地点:名古屋城")
+
+				            
+				            // mapManager.addMarker(35.1878217,136.9012824,"名古屋公園","経由地点:名古屋公園")
+							break;
+					}
+				}
+			});
+
+			$('.fix-navi-button').on('touchend',onClickNaviButton)
+			$('.add-routes-button').on('touchstart', function(){
+				$(this).css('background-color', '#16A6B6')
+				$(this).css('color', '#FFF')
+			})
+			$('.add-routes-button').on('touchend', function(){
+				$(this).css('background-color', '#FFF')
+				$(this).css('color', '#16A6B6')
+				// ルート追加処理を書く
+			})
+
+
+			/**
+		     * fix-naviのアニメーションのキック
+		     *
+		     * @param { bool } bool
+		     */
+			function onClickNaviButton() {
+				if($(this).hasClass('opened')){
+					noScroll(false)
+					endAnimation()
+					$(this).removeClass('opened')
+				}else{
+					noScroll(true)
+					startAnimation()
+					$(this).addClass('opened')
+				}
+
+			}
+
+			/**
+		     * フラグがtrueならスクロールを止める
+		     *
+		     * @param { bool } bool
+		     */
+			function noScroll(bool){
+				if (bool) {
+					$('.tab-box-container').on('touchmove.noScroll', function(e) {
+			            e.preventDefault();
+			        });
+				} else {
+					$('.tab-box-container').off('.noScroll');
+				}
+			}
+
+			/**
+		     * 斜めにするアニメーション
+		     * ボタンのアニメーション
+		     */
+			function startAnimation(){
+				TweenMax.to('.spot-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+				TweenMax.to('.map-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+				TweenMax.to('.tab-box-container',0.7,{height: '120vh',transform: 'rotateZ(30deg)',ease: Circ.easeInOut})
+				setTimeout(function(){
+					$(".sideShowBtn .first").css("transform","rotate(45deg)");
+					$(".sideShowBtn .first").animate({
+						top: "12px"
+					},0)
+					$(".sideShowBtn .second").css("opacity","0");
+					$(".sideShowBtn .third").css("transform","rotate(-45deg)");
+					$(".sideShowBtn .third").animate({
+						top: "12px"
+					},0)
+	    		},100)
+			}
+
+			/**
+		     * 斜めにするアニメーションを元に戻す
+		     * ボタンのアニメーションを元に戻す
+		     */
+			function endAnimation(){
+				TweenMax.to('.spot-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
+				TweenMax.to('.map-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
+				TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
+				setTimeout(function(){
+					$(".sideShowBtn .first").css("transform","rotate(0deg)");
+					$(".sideShowBtn .first").animate({
+						top: "5px"
+					},0)
+					$(".sideShowBtn .second").css("opacity","1");
+					$(".sideShowBtn .third").css("transform","rotate(0deg)");
+					$(".sideShowBtn .third").animate({
+						top: "19px"
+					},0)
+	    		},100)
+			}
+
+			
+		})(jQuery)
+	</script>
+</body>
+</html>
