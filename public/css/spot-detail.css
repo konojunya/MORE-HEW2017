@@ -1,0 +1,13 @@
+.main-view {
+	width: 100%;
+	background-color: #ccc;
+	overflow: hidden;
+}
+.image {
+	width: 100%;
+	list-style: none;
+}
+.image img {
+	display: block;
+	width: 100%;
+}
