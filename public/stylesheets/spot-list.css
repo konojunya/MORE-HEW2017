@@ -103,7 +103,6 @@ body {
 .spot-image {
 	width: 100%;
 	height: 200px;
-	background-image: url(../images/kiyomizu.png);
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-position: bottom;

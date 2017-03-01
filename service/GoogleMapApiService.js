@@ -33,7 +33,9 @@ GoogleMapApiService.prototype.init = function(origin,destination){
 			self.getDestinationLatlng
 		],function(err, results){
 			if (err) reject(err);
-			self.getDirections(resolve,results);
+			setTimeout(function(){
+				self.getDirections(resolve,results);
+			},10)
 		})
 
 	})
@@ -110,7 +112,7 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 
 	var params = param({
 		location: latlng,
-		radius: 30,
+		radius: 200,
 		types: "food",
 		language: "ja",
 		key: process.env.GMAP_API_KEY

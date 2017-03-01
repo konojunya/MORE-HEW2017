@@ -15,28 +15,26 @@
 	</header>
 
 	<div class="search-form">
-		<form action="#">
-			<div class="search-from search-form-flex">
-				<label for="from">出発</label>
-				<input type="text" name="from" id="from" placeholder="出発地点を入力">
-			</div>
-            <div class="add-via">
-                <p class="add-via-button">
-                    <i class="fa fa-plus" aria-hidden="true"></i>経由する場所を追加
-                </p>
-            </div>
-            <!-- <div class="search-via search-via1 search-form-flex">
-                <label for="via1">経由1</label>
-                <input type="text" name="via1" id="via1" placeholder="経由地点を入力">
-            </div> -->
-			<div class="search-to search-form-flex">
-				<label for="to">到着</label>
-				<input type="text" name="to" id="to" placeholder="到着地点を入力">
-			</div>
-			<div class="submit-button">
-				<input type="submit" value="検索">
-			</div>
-		</form>
+		<div class="search-from search-form-flex">
+			<label for="from">出発</label>
+			<input type="text" name="from" id="from" placeholder="出発地点を入力">
+		</div>
+        <div class="add-via">
+            <p class="add-via-button">
+                <i class="fa fa-plus" aria-hidden="true"></i>経由する場所を追加
+            </p>
+        </div>
+        <!-- <div class="search-via search-via1 search-form-flex">
+            <label for="via1">経由1</label>
+            <input type="text" name="via1" id="via1" placeholder="経由地点を入力">
+        </div> -->
+		<div class="search-to search-form-flex">
+			<label for="to">到着</label>
+			<input type="text" name="to" id="to" placeholder="到着地点を入力">
+		</div>
+		<div class="submit-button">
+			<input type="button" value="検索">
+		</div>
 	</div>
     <script src="/js/jquery.min.js"></script>
     <script>
@@ -76,6 +74,24 @@
                 }
                 $('.via-container').append('<div class="search-via search-via'+throttle+' search-form-flex"><label for="via'+throttle+'">経由'+throttle+'</label><input type="text" name="via'+throttle+'" id="via'+throttle+'" placeholder="経由地点を入力"></div>')
             }
+
+
+            $(".submit-button input").on("click",function(e){
+
+                var origin = $("#from").val()
+                var destination = $("#to").val()
+
+                var params = $.param({
+                    origin: origin,
+                    destination: destination
+                })
+
+                window.location.href = "/spot?"+params
+
+                return false
+
+            })
+
         })(jQuery)
     </script>
 </body>
