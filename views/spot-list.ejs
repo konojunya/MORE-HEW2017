@@ -23,7 +23,7 @@
 
 	<div class="search">
 		<i class="fa fa-search" aria-hidden="true"></i>
-		<input type="text" name="search" placeholder="絞り込み">
+		<input type="text" name="search" placeholder="絞り込み" id="search">
 	</div>
 
 
@@ -211,6 +211,7 @@
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/TweenMax.min.js"></script>
 	<script src="/js/MapManager.js"></script>
+	<script src="/js/jquery.quicksearch.min.js"></script>
 	<script>
 		(function($){
 			$('.switching-navi li').on('click', function(){
@@ -357,6 +358,9 @@
 			}
 
 			
+
+			$('input#search').quicksearch('.spot-container ul li');
+
 		})(jQuery)
 	</script>
 </body>
