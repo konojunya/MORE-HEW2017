@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
 	<title></title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="../public/css/common.css">
-	<link rel="stylesheet" href="../public/css/spot-list.css">
+	<link rel="stylesheet" href="/stylesheets/common.css">
+	<link rel="stylesheet" href="/stylesheets/spot-list.css">
 </head>
 <body>
 	<header id="header">
@@ -23,7 +23,6 @@
 
 	<div class="search">
 		<i class="fa fa-search" aria-hidden="true"></i>
-		<!-- <p>絞り込み</p> -->
 		<input type="text" name="search" placeholder="絞り込み">
 	</div>
 
@@ -35,7 +34,7 @@
 				<ul>
 					<li class="spot">
 						<div class="spot-top">
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-image"></div>
 							</a>
 						</div>
@@ -44,7 +43,7 @@
 							<div class="spot-genre">
 								ジャンル:仏教寺院
 							</div>
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-title">
 									建仁寺
 								</div>
@@ -63,7 +62,7 @@
 
 					<li class="spot">
 						<div class="spot-top">
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-image"></div>
 							</a>
 						</div>
@@ -72,7 +71,7 @@
 							<div class="spot-genre">
 								ジャンル:仏教寺院
 							</div>
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-title">
 									建仁寺
 								</div>
@@ -89,7 +88,7 @@
 					</li>
 					<li class="spot">
 						<div class="spot-top">
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-image"></div>
 							</a>
 						</div>
@@ -98,7 +97,7 @@
 							<div class="spot-genre">
 								ジャンル:仏教寺院
 							</div>
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-title">
 									建仁寺
 								</div>
@@ -115,7 +114,7 @@
 					</li>
 					<li class="spot">
 						<div class="spot-top">
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-image"></div>
 							</a>
 						</div>
@@ -124,7 +123,7 @@
 							<div class="spot-genre">
 								ジャンル:仏教寺院
 							</div>
-							<a href="spot-detail.html">
+							<a href="spot/detail">
 								<div class="spot-title">
 									建仁寺
 								</div>
@@ -186,13 +185,13 @@
 
 	<ul class="fix-navi">
 		<li class="fix-navi-list fix-navi-home">
-			<a href="home.html">
+			<a href="/">
 				<div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
 				<div class="fix-navi-content">ホーム</div>
 			</a>
 		</li>
 		<li class="fix-navi-list fix-navi-mypage">
-			<a href="mypage.html">
+			<a href="/mypage">
 				<div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
 				<div class="fix-navi-content">マイページ</div>
 			</a>
@@ -208,10 +207,10 @@
 
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
-	<script src="../public/js/gmaps.min.js"></script>
-	<script src="../public/js/jquery.min.js"></script>
-	<script src="../public/js/TweenMax.min.js"></script>
-	<script src="../public/js/MapManager.js"></script>
+	<script src="/js/gmaps.min.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/TweenMax.min.js"></script>
+	<script src="/js/MapManager.js"></script>
 	<script>
 		(function($){
 			$('.switching-navi li').on('click', function(){
@@ -261,7 +260,7 @@
 								}
 							}
 							mapManager.drawRoute(testPos.origin.lat,testPos.origin.lng,testPos.destination.lat,testPos.destination.lng)
-							mapManager.addMarker(testPos.destination.lat,testPos.destination.lng,"名古屋城","経由地点:名古屋城")
+							mapManager.addMarker(testPos.destination.lat,testPos.destination.lng,"名古屋城","到着地点:名古屋城")
 
 				            
 				            // mapManager.addMarker(35.1878217,136.9012824,"名古屋公園","経由地点:名古屋公園")

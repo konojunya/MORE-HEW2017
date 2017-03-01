@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <title>Mypage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../public/css/common.css">
-    <link rel="stylesheet" href="../public/css/mypage.css">
+    <link rel="stylesheet" href="/stylesheets/common.css">
+    <link rel="stylesheet" href="/stylesheets/mypage.css">
 </head>
 <body>
     <header id="header">
@@ -28,12 +28,18 @@
                 <div class="profile-region"><i class="fa fa-map-marker" aria-hidden="true"></i>東淀川・大阪</div>
             </div>
             <div class="walking-history">
-                <div class="title">The journeys that I walked</div>
+                <div class="title">ルート</div>
                 <div id="map"></div>
             </div>
             <div class="category">
-                <div class="category-left"></div>
-                <div class="category-right"></div>
+                <div class="category-left">
+                    <div class="title">
+                        ジャンル
+                    </div>
+                </div>
+                <div class="category-right">
+                    <canvas id="myChart"></canvas>
+                </div>
             </div>
         </div>
         
@@ -43,9 +49,10 @@
     
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
-    <script src="../public/js/gmaps.min.js"></script>
-    <script src="../public/js/jquery.min.js"></script>
-    <script src="../public/js/MapManager.js"></script>
+    <script src="/js/gmaps.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+    <script src="/js/MapManager.js"></script>
     <script>
         (function($){
             var testPos = {
@@ -65,31 +72,31 @@
                         lat: 35.0017614,
                         lng: 135.7751592,
                         title: "茶寮都路里 祇園本店",
-                        content: "カフェ"
+                        content: "茶寮都路里 祇園本店:カフェ"
                     },
                     {
                         lat: 35.0025211,
                         lng: 135.7750301,
                         title: "八坂神社",
-                        content: "観光地"
+                        content: "八坂神社:観光地"
                     },
                     {
                         lat: 34.9986604,
                         lng: 135.7785294,
                         title: "二年坂",
-                        content: "観光地"
+                        content: "二年坂:観光地"
                     },
                     {
                         lat: 34.997195,
                         lng: 135.7790952,
                         title: "総本家 ゆどうふ 奥丹清水",
-                        content: "お食事処"
+                        content: "総本家 ゆどうふ 奥丹清水:お食事処"
                     },
                     {
                         lat: 34.9959421,
                         lng: 135.7814444,
                         title: "清水坂",
-                        content: "観光地"
+                        content: "清水坂:観光地"
                     }
                 ]
 
@@ -109,10 +116,51 @@
                     history[i].lat,
                     history[i].lng,
                     history[i].title,
-                    // history[i].content
-                    '<img src="../public/images/kiyomizu.png" alt="" width="100">'
+                    history[i].content
+                    // '<img src="/images/kiyomizu.png" alt="" width="100">'
                 )
             }
+
+
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ["観光地", "カフェ", "お食事処"],
+                    datasets: [{
+                        // backgroundColor: [
+                        //     "#f1c40f",
+                        //     "#43332A",
+                        //     "#c62929",
+                        // ],
+                        //背景色
+                        backgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56"
+                        ],
+                          //背景色(ホバーしたとき)
+                        hoverBackgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56"
+                        ],
+                        data: [3, 1, 1]
+                    }]
+                },
+                options: {
+                    cutoutPercentage: 40,
+                    scaleShowLabels : false,
+                    scaleFontSize : 5,
+                    legend: {
+                        display: false
+                    },
+                }
+            });
+
+            $('.category-left').append(myChart.generateLegend())
+
+            // console.log(myChart.generateLegend())
 
         })(jQuery)
     </script>
