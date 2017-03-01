@@ -32,113 +32,33 @@
 
 			<div class="spot-container active tab-content1">
 				<ul>
-					<li class="spot">
+
+					<li class="spot" v-for="shop in shopList">
 						<div class="spot-top">
 							<a href="spot/detail">
-								<div class="spot-image"></div>
+								<div class="spot-image" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}"></div>
 							</a>
 						</div>
 
 						<div class="spot-bottom">
 							<div class="spot-genre">
-								ジャンル:仏教寺院
+								ジャンル: {{shop.genre}}
 							</div>
 							<a href="spot/detail">
 								<div class="spot-title">
-									建仁寺
+									{{shop.shopName}}
 								</div>
 							</a>
 							<div class="spot-bottom-flex">
 								<div class="spot-business-hours">
 									本日 9:00〜17:00営業
 								</div>
-								<button class="add-routes-button">
+								<button class="add-routes-button" data-id="{{shop.placeId}}">
 									ルートに追加
 								</button>
 							</div>
 						</div>
 					</li>
-
-
-					<li class="spot">
-						<div class="spot-top">
-							<a href="spot/detail">
-								<div class="spot-image"></div>
-							</a>
-						</div>
-
-						<div class="spot-bottom">
-							<div class="spot-genre">
-								ジャンル:仏教寺院
-							</div>
-							<a href="spot/detail">
-								<div class="spot-title">
-									建仁寺
-								</div>
-							</a>
-							<div class="spot-bottom-flex">
-								<div class="spot-business-hours">
-									本日 9:00〜17:00営業
-								</div>
-								<button class="add-routes-button">
-									ルートに追加
-								</button>
-							</div>
-						</div>
-					</li>
-					<li class="spot">
-						<div class="spot-top">
-							<a href="spot/detail">
-								<div class="spot-image"></div>
-							</a>
-						</div>
-
-						<div class="spot-bottom">
-							<div class="spot-genre">
-								ジャンル:仏教寺院
-							</div>
-							<a href="spot/detail">
-								<div class="spot-title">
-									建仁寺
-								</div>
-							</a>
-							<div class="spot-bottom-flex">
-								<div class="spot-business-hours">
-									本日 9:00〜17:00営業
-								</div>
-								<button class="add-routes-button">
-									ルートに追加
-								</button>
-							</div>
-						</div>
-					</li>
-					<li class="spot">
-						<div class="spot-top">
-							<a href="spot/detail">
-								<div class="spot-image"></div>
-							</a>
-						</div>
-
-						<div class="spot-bottom">
-							<div class="spot-genre">
-								ジャンル:仏教寺院
-							</div>
-							<a href="spot/detail">
-								<div class="spot-title">
-									建仁寺
-								</div>
-							</a>
-							<div class="spot-bottom-flex">
-								<div class="spot-business-hours">
-									本日 9:00〜17:00営業
-								</div>
-								<button class="add-routes-button">
-									ルートに追加
-								</button>
-							</div>
-						</div>
-					</li>
-
 					
 				</ul>
 			</div>
@@ -206,14 +126,30 @@
 	<!-- /fix-navigation -->
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
 	<script src="/js/gmaps.min.js"></script>
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/TweenMax.min.js"></script>
 	<script src="/js/MapManager.js"></script>
 	<script src="/js/jquery.quicksearch.min.js"></script>
+	<script src="/js/ShopListManager.js"></script>
+	<script src="/js/vue.min.js"></script>
 	<script>
 		(function($){
+
+			var vm = initVue()
+
+			function initVue(){
+				var vm = new Vue({
+					el: ".spot-container",
+					data: {
+						shopList: []
+					}
+				})
+
+				return vm
+			}
+
 			$('.switching-navi li').on('click', function(){
 				if($('.fix-navi-button').hasClass('opened')){
 					noScroll(false)
@@ -355,6 +291,56 @@
 						top: "19px"
 					},0)
 	    		},100)
+			}
+
+			var params = new Object;
+			var pair=location.search.substring(1).split('&');
+			for(var i=0;pair[i];i++) {
+			    var kv = pair[i].split('=');
+			    params[kv[0]]=kv[1];
+			}
+
+			var place = shopListManager.getPlace()
+
+			if(place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
+				var shopList = shopListManager.getList()
+				renderView(shopList)
+			}else{
+				shopListManager.setPlace({
+					origin: decodeURIComponent(params.origin),
+					destination: decodeURIComponent(params.destination)
+				})
+				console.log("ajax...")
+				$.ajax({
+					url: "/api",
+					type: "GET",
+					data: {
+						origin: decodeURIComponent(params.origin),
+						destination: decodeURIComponent(params.destination)
+					}
+				})
+				.done(function(data){
+					shopListManager.setList(data.shopList)
+					renderView(data.shopList)
+				})
+			}
+
+			function renderView(shopListForVue){
+				console.log(shopListForVue)
+				Vue.nextTick(function(){
+					vm.shopList = shopListForVue
+				});
+				// 	var yelloStar = ~~shopListForVue.rating
+				// 	var blackStar = 5- ~~(shopListForVue.rating)
+
+				// 	var rating = []
+				// 	for(var i = 0; i < yelloStar; i++){
+				// 		rating.push("*")
+				// 	}
+				// 	for(var i = 0; i < blackStar; i++){
+				// 		rating.push(".")
+				// 	}
+				// 	console.log(rating.join(""))
 			}
 
 			
