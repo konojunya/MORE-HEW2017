@@ -32,13 +32,15 @@
                 <div id="map"></div>
             </div>
             <div class="category">
-                <div class="category-left">
-                    <div class="title">
-                        ジャンル
-                    </div>
+                <div class="title">
+                    ジャンル
                 </div>
-                <div class="category-right">
-                    <canvas id="myChart"></canvas>
+                <div class="category-flex">
+                    <div class="category-left"></div>
+                    <div class="category-right">
+                        <canvas id="myChart" width="200" height="200"></canvas>
+                        <div id="js-legend" class="chart-legend"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,7 +128,7 @@
             var myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ["観光地", "カフェ", "お食事処"],
+                    labels: ["観光地", "カフェ", "お食事処", "はる"],
                     datasets: [{
                         // backgroundColor: [
                         //     "#f1c40f",
@@ -135,22 +137,20 @@
                         // ],
                         //背景色
                         backgroundColor: [
-                            "#FF6384",
+                            "#09355C",
+                            "#CBCBCB",
+                            "#B61B12",
+                            "#23cbed",
                             "#36A2EB",
                             "#FFCE56"
                         ],
-                          //背景色(ホバーしたとき)
-                        hoverBackgroundColor: [
-                            "#FF6384",
-                            "#36A2EB",
-                            "#FFCE56"
-                        ],
-                        data: [3, 1, 1]
+                        data: [3, 1, 1, 0.5]
                     }]
                 },
                 options: {
-                    cutoutPercentage: 40,
-                    scaleShowLabels : false,
+                    responsive: false,
+                    cutoutPercentage: 50,
+                    // scaleShowLabels : false,
                     scaleFontSize : 5,
                     legend: {
                         display: false
@@ -159,8 +159,6 @@
             });
 
             $('.category-left').append(myChart.generateLegend())
-
-            // console.log(myChart.generateLegend())
 
         })(jQuery)
     </script>

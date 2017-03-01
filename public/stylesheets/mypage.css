@@ -53,7 +53,10 @@
 }
 
 .profile-content {
-    padding: 3rem 1rem 1rem;
+    padding: 3rem 0 1rem;
+}
+.profile-content .profile-user-info {
+    padding: 0 1rem;
 }
 .profile-content .profile-user-info .profile-region {
     color: rgba(0, 0, 0, 0.55);
@@ -62,36 +65,53 @@
 .profile-content .profile-user-info .profile-region i {
     margin-right: 5px;
 }
-
-
+.profile-content .walking-history {
+    padding-top: 2rem;
+}
+.profile-content .title {
+    border-bottom: 1px solid #757575;
+    text-indent: 1rem;
+}
 .profile-content .walking-history #map {
     /*ここだけデザイン変えたほうがいいかも*/
-    width: 100%;
+    margin: 1rem 1rem 0;
+    width: calc(100%-2rem);
     height: 40vh;
 }
 
 .profile-content .category {
-    display: flex;
     height: 30vh;
     padding-top: 2rem;
 }
-.profile-content .category .category-left {
-    width: 30%;
+.profile-content .category .title {
+    width: 100%;
 }
-.profile-content .category .category-left .title {
-    border-bottom: 1px solid #757575;
+.profile-content .category .category-flex {
+    display: flex;
+    padding-top: 1rem;
+}
+.profile-content .category .category-left {
+    width: 50%;
+    padding-left: 1.5rem;
 }
 .profile-content .category .category-left li {
     list-style: none;
 }
+.profile-content .category .category-left li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+}
 .profile-content .category .category-right {
-    width: 70%;
+    width: 50%;
+    text-align:left;
+    padding-right: 1.5rem;
 }
 .profile-content .category .category-right #myChart {
-    width: 300px !important;
-    height: auto !important;
+    width:100% !important;
+    height:auto !important;
 }
-
 
 
 
