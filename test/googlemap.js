@@ -53,15 +53,15 @@ function getShopDetail(placeId){
 		if(!err && response.statusCode == 200){
 			var results = body.result
 
-			console.log("店名:\t\t\t"+results.name)
-			console.log("住所:\t\t\t"+results.vicinity)
-			console.log("電話:\t\t\t"+results.formatted_phone_number)
-			console.log("\n営業時間:\t\t"+results.opening_hours.weekday_text)
-			console.log("\nレート:\t\t\t"+results.rating)
-			console.log("\nreviews:\t\t"+results.reviews)
-			console.log("\nwebsite:\t\t"+results.website)
-			console.log("\ngoogle mapでのURL:\t"+results.url)
-			if(results.photos) console.log("\nお店の写真:\t\t"+photoReferenceToImageUrl(results.photos[0].photo_reference))
+			console.log("店名:\t\t\t"+results.name);
+			console.log("住所:\t\t\t"+results.vicinity);
+			console.log("電話:\t\t\t"+results.formatted_phone_number);
+			console.log("\n営業時間:\t\t"+results.opening_hours.weekday_text);
+			console.log("\nレート:\t\t\t"+results.rating);
+			console.log("\nreviews:\t\t"+results.reviews);
+			console.log("\nwebsite:\t\t"+results.website);
+			console.log("\ngoogle mapでのURL:\t"+results.url);
+			if(results.photos) console.log("\nお店の写真:\t\t"+photoReferenceToImageUrl(results.photos[0].photo_reference));
 
 		}
 	})
