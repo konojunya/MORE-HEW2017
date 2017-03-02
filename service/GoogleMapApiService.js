@@ -49,37 +49,73 @@ GoogleMapApiService.prototype.init = function(origin,destination){
  *
  *	@param { string } placeId
  */
-GoogleMapApiService.prototype.getShopDetail = function(){
+GoogleMapApiService.prototype.getShopDetail = function(placeId){
 
-	var self = this
+	/**
+	 *	photoReferenceToImageUrl
+	 *
+	 *	@param { string }	photo_reference
+	 *	@return { string } url
+	 */
+	var photoReferenceToImageUrl = function(photo_reference){
+		var params = param({
+			maxwidth: 400,
+			photoreference: photo_reference,
+			key: process.env.GMAP_API_KEY
+		})
 
-	var params = param({
-		key: process.env.GMAP_API_KEY,
-		placeid: placeId,
-		language: "ja"
-	})
+		var url = "https://maps.googleapis.com/maps/api/place/photo?"+params
 
-	var options = {
-		url: "https://maps.googleapis.com/maps/api/place/details/json?"+params,
-		json: true
+		return url
 	}
 
-	request.get(options,function(err,response,body){
-		if(!err && response.statusCode == 200){
-			var results = body.result
+	var promiseProcess = new Promise(function(resolve,reject){
 
-			console.log("店名:\t\t\t"+results.name);
-			console.log("住所:\t\t\t"+results.vicinity);
-			console.log("電話:\t\t\t"+results.formatted_phone_number);
-			console.log("\n営業時間:\t\t"+results.opening_hours.weekday_text);
-			console.log("\nレート:\t\t\t"+results.rating);
-			console.log("\nreviews:\t\t"+results.reviews);
-			console.log("\nwebsite:\t\t"+results.website);
-			console.log("\ngoogle mapでのURL:\t"+results.url);
-			if(results.photos) console.log("\nお店の写真:\t\t"+self.photoReferenceToImageUrl(results.photos[0].photo_reference));
+		var self = this
 
+		var params = param({
+			key: process.env.GMAP_API_KEY,
+			placeid: placeId,
+			language: "ja"
+		})
+
+		var options = {
+			url: "https://maps.googleapis.com/maps/api/place/details/json?"+params,
+			json: true
 		}
+
+		request.get(options,function(err,response,body){
+			if(!err && response.statusCode == 200){
+				var results = body.result;
+				
+				var photosArray = []
+				if(results.photos.length > 0){
+					results.photos.map(function(photo){
+						photosArray.push(photoReferenceToImageUrl(photo.photo_reference))
+					})
+				}
+
+				var shopDetailObject = {
+					name: results.name,
+					address: results.vicinity,
+					tel: results.formatted_phone_number ? results.formatted_phone_number : null,
+					openingHours: results.opening_hours ? results.opening_hours.weekday_text : null,
+					rate: results.rating,
+					reviews: results.reviews,
+					website: results.website ? results.website : null,
+					gmapUrl: results.url,
+					image: photosArray.length > 0 ? photosArray : []
+				}
+
+				resolve(shopDetailObject)
+
+			}
+		})
+
 	})
+
+	return promiseProcess
+
 }
 
 /**

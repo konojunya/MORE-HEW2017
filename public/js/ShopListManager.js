@@ -4,6 +4,7 @@ function ShopListManager(){
 		destination: ""
 	}
 	this.shopList = []
+	this.isCache = false
 }
 ShopListManager.prototype.setList = function(shopList){
 	sessionStorage.setItem('shopList',JSON.stringify(shopList));

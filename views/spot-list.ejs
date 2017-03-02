@@ -302,7 +302,7 @@
 
 			var place = shopListManager.getPlace()
 
-			if(place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
+			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination) && shopListManager.isCache){
 				var shopList = shopListManager.getList()
 				renderView(shopList)
 			}else{
@@ -320,7 +320,10 @@
 					}
 				})
 				.done(function(data){
-					shopListManager.setList(data.shopList)
+					if(data.shopList.length > 0){
+						shopListManager.setList(data.shopList)
+						shopListManager.isCache = true
+					}
 					renderView(data.shopList)
 				})
 			}

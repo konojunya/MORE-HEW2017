@@ -10,8 +10,6 @@ router.get('/', function(req, res) {
 	promiseProcess.then(function(data){
 		var shopListArray = new Array();
 
-		console.log(data)
-
 		for(var i in data){
 			Array.prototype.push.apply(shopListArray,data[i])
 		}
@@ -25,5 +23,22 @@ router.get('/', function(req, res) {
 	})
 
 });
+
+router.get("/detail",function(req,res){
+	var placeId = req.query.placeid;
+
+	var promiseProcess = gma.getShopDetail(placeId);
+
+	promiseProcess
+	.then(function(data){
+		res.json({
+			shopDetail: data
+		})
+	})
+	.catch(function(err){
+		throw new Error(err);
+	})
+
+})
 
 module.exports = router;
