@@ -1,3 +1,4 @@
+var fs = require("fs")
 var express = require('express');
 var router = express.Router();
 var gma = require("../service/GoogleMapApiService")
@@ -37,6 +38,19 @@ router.get("/detail",function(req,res){
 	})
 	.catch(function(err){
 		throw new Error(err);
+	})
+
+})
+
+router.post("/share",function(req,res){
+
+	var jsonData = req.body.route;
+	var uuid = req.body.uuid
+
+	fs.writeFile("store/"+uuid+'.json', JSON.stringify(jsonData, null, '    '));
+	
+	res.json({
+		write: true
 	})
 
 })
