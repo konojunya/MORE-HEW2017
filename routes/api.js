@@ -4,6 +4,7 @@ var router = express.Router();
 var gma = require("../service/GoogleMapApiService")
 
 const SEARCH_RADIUS = 10;
+const MINIMAN_NEED_SHOPLIST_LENGHT = 10;
 
 function responseShopList(res,origin,destination,radius){
 	var promiseProcess = gma.init(origin,destination,radius);
@@ -16,8 +17,8 @@ function responseShopList(res,origin,destination,radius){
 			Array.prototype.push.apply(shopListArray,data[i])
 		}
 
-		if(shopListArray.length < 10){
-			radius += 10;
+		if(shopListArray.length < MINIMAN_NEED_SHOPLIST_LENGHT){
+			radius += SEARCH_RADIUS;
 			responseShopList(res,origin,destination,radius)
 		}else{
 			res.json({

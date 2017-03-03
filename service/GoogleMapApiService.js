@@ -11,6 +11,9 @@ var placeNameOrigin = placeNameDestination = null
 
 var searchRadius = null
 
+const PHOTO_MAX_WIDTH = 400;
+const SUCCESS_STATUS_CODE = 200;
+
 function GoogleMapApiService(){
 	this.key = key.token
 	this.travel_mode = {
@@ -64,7 +67,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 	 */
 	var photoReferenceToImageUrl = function(photo_reference){
 		var params = param({
-			maxwidth: 400,
+			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
 			key: key.token
 		})
@@ -90,7 +93,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		}
 
 		request.get(options,function(err,response,body){
-			if(!err && response.statusCode == 200){
+			if(!err && response.statusCode == SUCCESS_STATUS_CODE){
 				var results = body.result;
 				
 				var photosArray = []
@@ -139,7 +142,7 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 	 */
 	var photoReferenceToImageUrl = function(photo_reference){
 		var params = param({
-			maxwidth: 400,
+			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
 			key: key.token
 		})
@@ -165,7 +168,7 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 	};
 
 	request.get(options,function(err,response,body){
-		if(!err && response.statusCode == 200){
+		if(!err && response.statusCode == SUCCESS_STATUS_CODE){
 			var results = []
 			body.results.map(function(item){
 				if(item.rating && item.photos && item.opening_hours){
