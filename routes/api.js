@@ -48,7 +48,7 @@ router.post("/share",function(req,res){
 	var uuid = req.body.uuid
 
 	fs.writeFile("store/"+uuid+'.json', JSON.stringify(jsonData, null, '    '));
-	
+
 	res.json({
 		write: true
 	})
