@@ -56,7 +56,24 @@ body {
     margin-right: 0.3rem;
 }
 .search-via {
+    position: relative;
+    top: 0
+    left: 0;
     margin-bottom: 20px;
+}
+.remove-via-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    width: 25px;
+    height: 25px;
+    transform: translateY(-50%);
+    text-align: center;
+}
+.remove-via-button i {
+    line-height: 25px;
+    color: #888;
+    font-size: 1.2rem;
 }
 .submit-button {
 	margin-top: 30px;

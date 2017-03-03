@@ -27,6 +27,9 @@
         <!-- <div class="search-via search-via1 search-form-flex">
             <label for="via1">経由1</label>
             <input type="text" name="via1" id="via1" placeholder="経由地点を入力">
+            <div class="remove-via-button">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
         </div> -->
 		<div class="search-to search-form-flex">
 			<label for="to">到着</label>
@@ -46,15 +49,12 @@
                         addVia()
                         throttle++
                     }
-                } else if (throttle > 1) {
+                } else {
                     if (!checkViaValueNull()) {
                         addVia()
                         throttle++
                     }
                     
-                } else {
-                    addVia()
-                    throttle++
                 }
                 
             })
@@ -69,10 +69,10 @@
             }
 
             function addVia(){
-                if (throttle <= 1) {
+                if (!$('.via-container').length) {
                     $('.add-via').after('<div class="via-container"></div>')
                 }
-                $('.via-container').append('<div class="search-via search-via'+throttle+' search-form-flex"><label for="via'+throttle+'">経由'+throttle+'</label><input type="text" name="via'+throttle+'" id="via'+throttle+'" placeholder="経由地点を入力"></div>')
+                $('.via-container').append('<div class="search-via search-via'+throttle+' search-form-flex"><label for="via'+throttle+'">経由'+throttle+'</label><input type="text" name="via'+throttle+'" id="via'+throttle+'" placeholder="経由地点を入力"><div class="remove-via-button"><i class="fa fa-times" aria-hidden="true"></i></div></div>')
             }
 
 
@@ -90,6 +90,14 @@
 
                 return false
 
+            })
+
+            $(document).on('click', '.remove-via-button', function(){
+                $(this).parent().remove()
+                throttle--
+                if (throttle < 1) {
+                    throttle = 1;
+                }
             })
 
         })(jQuery)
