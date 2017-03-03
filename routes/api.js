@@ -3,25 +3,38 @@ var express = require('express');
 var router = express.Router();
 var gma = require("../service/GoogleMapApiService")
 
-router.get('/', function(req, res) {
-	var origin = req.query.origin
-	var destination = req.query.destination
+const SEARCH_RADIUS = 10;
 
-	var promiseProcess = gma.init(origin,destination);
-	promiseProcess.then(function(data){
+function responseShopList(res,origin,destination,radius){
+	var promiseProcess = gma.init(origin,destination,radius);
+
+	promiseProcess
+	.then(function(data){
 		var shopListArray = new Array();
 
 		for(var i in data){
 			Array.prototype.push.apply(shopListArray,data[i])
 		}
 
-		res.json({
-			shopList: shopListArray
-		})
-	})
-	promiseProcess.catch(function(err){
+		if(shopListArray.length < 10){
+			radius += 10;
+			responseShopList(res,origin,destination,radius)
+		}else{
+			res.json({
+				shopList: shopListArray
+			})
+		}
+
+	}).catch(function(err){
 		console.log(err)
 	})
+}
+
+router.get('/', function(req, res) {
+	var origin = req.query.origin
+	var destination = req.query.destination
+
+	responseShopList(res,origin,destination,SEARCH_RADIUS)
 
 });
 

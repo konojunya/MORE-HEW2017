@@ -9,6 +9,8 @@ var gm = require('@google/maps').createClient({
 var promiseProcess = null;
 var placeNameOrigin = placeNameDestination = null
 
+var searchRadius = null
+
 function GoogleMapApiService(){
 	this.key = key.token
 	this.travel_mode = {
@@ -21,11 +23,13 @@ function GoogleMapApiService(){
  *	init
  *	最初に実行する関数
  */
-GoogleMapApiService.prototype.init = function(origin,destination){
+GoogleMapApiService.prototype.init = function(origin,destination,radius){
 	var self = this
 
 	placeNameOrigin = origin
 	placeNameDestination = destination
+
+	searchRadius = radius
 
 	promiseProcess = new Promise(function(resolve,reject){
 
@@ -62,7 +66,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		var params = param({
 			maxwidth: 400,
 			photoreference: photo_reference,
-			key: process.env.GMAP_API_KEY
+			key: key.token
 		})
 
 		var url = "https://maps.googleapis.com/maps/api/place/photo?"+params
@@ -75,7 +79,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		var self = this
 
 		var params = param({
-			key: process.env.GMAP_API_KEY,
+			key: key.token,
 			placeid: placeId,
 			language: "ja"
 		})
@@ -137,7 +141,7 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 		var params = param({
 			maxwidth: 400,
 			photoreference: photo_reference,
-			key: process.env.GMAP_API_KEY
+			key: key.token
 		})
 
 		var url = "https://maps.googleapis.com/maps/api/place/photo?"+params
@@ -149,10 +153,10 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 
 	var params = param({
 		location: latlng,
-		radius: 200,
+		radius: searchRadius,
 		types: "food",
 		language: "ja",
-		key: process.env.GMAP_API_KEY
+		key: key.token
 	});
 
 	var options = {
