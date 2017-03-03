@@ -88,6 +88,15 @@
 						<div class="map-spot-title after last">清水寺</div>
 					</div>
 				</div>
+				<div class="confirm-route">
+					<button class="confirm-route-button">このルートで決定</button>
+				</div>
+			</div>
+
+			<div class="loading">
+				<div class="loading-icon">
+					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+				</div>
 			</div>
 
 		</div><!-- tab-box -->
@@ -131,7 +140,6 @@
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/TweenMax.min.js"></script>
 	<script src="/js/MapManager.js"></script>
-	<script src="/js/jquery.quicksearch.min.js"></script>
 	<script src="/js/ShopListManager.js"></script>
 	<script src="/js/vue.min.js"></script>
 	<script>
@@ -178,6 +186,9 @@
 									lng: 135.7751592
 								}
 							}
+
+							// var center = mapManager.calcCenterPositionArray(latArr,lngArr)            
+       //      				mapManager.initMapArray(center.lat,center.lng,14)
 
 							mapManager.initMap(testPos.origin,testPos.destination,14)
 							mapManager.drawRoute(testPos.origin.lat,testPos.origin.lng,testPos.destination.lat,testPos.destination.lng)
@@ -310,7 +321,10 @@
 					origin: decodeURIComponent(params.origin),
 					destination: decodeURIComponent(params.destination)
 				})
-				console.log("ajax...")
+				// console.log("ajax...")
+
+				$('.loading').show();
+
 				$.ajax({
 					url: "/api",
 					type: "GET",
@@ -320,6 +334,8 @@
 					}
 				})
 				.done(function(data){
+					$('.loading').hide();
+					
 					if(data.shopList.length > 0){
 						shopListManager.setList(data.shopList)
 						shopListManager.isCache = true
@@ -345,10 +361,6 @@
 				// 	}
 				// 	console.log(rating.join(""))
 			}
-
-			
-
-			$('input#search').quicksearch('.spot-container ul li');
 
 		})(jQuery)
 	</script>
