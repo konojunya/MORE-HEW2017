@@ -27,6 +27,9 @@
         <!-- <div class="search-via search-via1 search-form-flex">
             <label for="via1">経由1</label>
             <input type="text" name="via1" id="via1" placeholder="経由地点を入力">
+            <div class="remove-via-button">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
         </div> -->
 		<div class="search-to search-form-flex">
 			<label for="to">到着</label>
@@ -72,7 +75,7 @@
                 if (throttle <= 1) {
                     $('.add-via').after('<div class="via-container"></div>')
                 }
-                $('.via-container').append('<div class="search-via search-via'+throttle+' search-form-flex"><label for="via'+throttle+'">経由'+throttle+'</label><input type="text" name="via'+throttle+'" id="via'+throttle+'" placeholder="経由地点を入力"></div>')
+                $('.via-container').append('<div class="search-via search-via'+throttle+' search-form-flex"><label for="via'+throttle+'">経由'+throttle+'</label><input type="text" name="via'+throttle+'" id="via'+throttle+'" placeholder="経由地点を入力"><div class="remove-via-button"><i class="fa fa-times" aria-hidden="true"></i></div></div>')
             }
 
 
@@ -90,6 +93,11 @@
 
                 return false
 
+            })
+
+            $('.remove-via-button').on('click', function(){
+                console.log('click')
+                // $(this).parent().remove()
             })
 
         })(jQuery)
