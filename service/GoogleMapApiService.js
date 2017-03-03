@@ -9,6 +9,11 @@ var gm = require('@google/maps').createClient({
 var promiseProcess = null;
 var placeNameOrigin = placeNameDestination = null
 
+var searchRadius = null
+
+const PHOTO_MAX_WIDTH = 400;
+const SUCCESS_STATUS_CODE = 200;
+
 function GoogleMapApiService(){
 	this.key = key.token
 	this.travel_mode = {
@@ -21,11 +26,13 @@ function GoogleMapApiService(){
  *	init
  *	最初に実行する関数
  */
-GoogleMapApiService.prototype.init = function(origin,destination){
+GoogleMapApiService.prototype.init = function(origin,destination,radius){
 	var self = this
 
 	placeNameOrigin = origin
 	placeNameDestination = destination
+
+	searchRadius = radius
 
 	promiseProcess = new Promise(function(resolve,reject){
 
@@ -60,9 +67,9 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 	 */
 	var photoReferenceToImageUrl = function(photo_reference){
 		var params = param({
-			maxwidth: 400,
+			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
-			key: process.env.GMAP_API_KEY
+			key: key.token
 		})
 
 		var url = "https://maps.googleapis.com/maps/api/place/photo?"+params
@@ -75,7 +82,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		var self = this
 
 		var params = param({
-			key: process.env.GMAP_API_KEY,
+			key: key.token,
 			placeid: placeId,
 			language: "ja"
 		})
@@ -86,7 +93,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		}
 
 		request.get(options,function(err,response,body){
-			if(!err && response.statusCode == 200){
+			if(!err && response.statusCode == SUCCESS_STATUS_CODE){
 				var results = body.result;
 				
 				var photosArray = []
@@ -135,9 +142,9 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 	 */
 	var photoReferenceToImageUrl = function(photo_reference){
 		var params = param({
-			maxwidth: 400,
+			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
-			key: process.env.GMAP_API_KEY
+			key: key.token
 		})
 
 		var url = "https://maps.googleapis.com/maps/api/place/photo?"+params
@@ -149,10 +156,10 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 
 	var params = param({
 		location: latlng,
-		radius: 200,
+		radius: searchRadius,
 		types: "food",
 		language: "ja",
-		key: process.env.GMAP_API_KEY
+		key: key.token
 	});
 
 	var options = {
@@ -161,7 +168,7 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 	};
 
 	request.get(options,function(err,response,body){
-		if(!err && response.statusCode == 200){
+		if(!err && response.statusCode == SUCCESS_STATUS_CODE){
 			var results = []
 			body.results.map(function(item){
 				if(item.rating && item.photos && item.opening_hours){
