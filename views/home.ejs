@@ -49,15 +49,12 @@
                         addVia()
                         throttle++
                     }
-                } else if (throttle > 1) {
+                } else {
                     if (!checkViaValueNull()) {
                         addVia()
                         throttle++
                     }
                     
-                } else {
-                    addVia()
-                    throttle++
                 }
                 
             })
@@ -72,7 +69,7 @@
             }
 
             function addVia(){
-                if (throttle <= 1) {
+                if (!$('.via-container').length) {
                     $('.add-via').after('<div class="via-container"></div>')
                 }
                 $('.via-container').append('<div class="search-via search-via'+throttle+' search-form-flex"><label for="via'+throttle+'">経由'+throttle+'</label><input type="text" name="via'+throttle+'" id="via'+throttle+'" placeholder="経由地点を入力"><div class="remove-via-button"><i class="fa fa-times" aria-hidden="true"></i></div></div>')
@@ -95,9 +92,12 @@
 
             })
 
-            $('.remove-via-button').on('click', function(){
-                console.log('click')
-                // $(this).parent().remove()
+            $(document).on('click', '.remove-via-button', function(){
+                $(this).parent().remove()
+                throttle--
+                if (throttle < 1) {
+                    throttle = 1;
+                }
             })
 
         })(jQuery)
