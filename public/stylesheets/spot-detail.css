@@ -1,13 +1,128 @@
 .main-view {
+    margin-top: 3rem;
 	width: 100%;
-	background-color: #ccc;
-	overflow: hidden;
+    height: 40vh;
+	/*background-color: #ccc;*/
+	/*overflow: hidden;*/
+}
+.main-view ul {
+    width: 100%;
+    height: 100%;
 }
 .image {
 	width: 100%;
+    height: 100%;
 	list-style: none;
+    background-color: #000;
 }
 .image img {
 	display: block;
-	width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+
+.flickity-prev-next-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 0;
+    background: hsla(0, 0%, 100%, 0);
+}
+.flickity-prev-next-button .arrow {
+    fill: #fff;
+}
+.flickity-prev-next-button.previous { left: 5px; }
+.flickity-prev-next-button.next { right: 5px; }
+
+.flickity-page-dots {
+  bottom: -20px;
+}
+.flickity-page-dots .dot {
+    background-color: #fff;
+}
+.flickity-page-dots .dot.is-selected {
+    background-color: #fff;
+}
+
+.page-dots-cover {
+    width: 100%;
+    height: 30px;
+    background-color: #000;
+}
+
+.spot-detail-container {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.spot-detail-navi {
+    position: absolute;
+    right: 0px;
+    top: -88px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.7rem;
+    background-color: rgba(0,0,0,0.5);
+    /*border-bottom: 1px solid #ddd;*/
+}
+.add-fav-spot {
+    /*position: absolute;
+    right: 10px;
+    top: -70px;*/
+}
+.add-fav-spot i {
+    color: #fff;
+}
+.add-routes-button {
+    display: block;
+    margin-left: auto;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #fff;
+    outline: none;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background: none;
+}
+
+.spot-content {
+    padding: 1rem 1rem 0;
+}
+.spot-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    /*border-bottom: 1px solid #ddd;*/
+}
+.spot-content .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    color: #F5857D;
+}
+.spot-content .title span {
+    display: block;
+}
+.spot-content .title .span-right {
+    color: #888;
+    font-size: 0.8rem;
+}
+.spot-content li {
+    list-style: none;
+}
+.review-text {
+    font-size: 0.8rem;
+    border-bottom: 1px solid #ddd;
+}
+.review-content-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+.review-name {
+    font-size: 0.8rem
 }
