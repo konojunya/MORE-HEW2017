@@ -1,15 +1,16 @@
+var key = require("../.key")
 var param = require('jquery-param');
 var request = require("request");
 var async = require('async');
 var gm = require('@google/maps').createClient({
-  key: process.env.GMAP_API_KEY
+  key: key.token
 });
 
 var promiseProcess = null;
 var placeNameOrigin = placeNameDestination = null
 
 function GoogleMapApiService(){
-	this.key = process.env.GMAP_API_KEY
+	this.key = key.token
 	this.travel_mode = {
 		walk: "walking",
 		drive: "driving"
