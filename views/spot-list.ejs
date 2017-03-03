@@ -321,7 +321,10 @@
 					origin: decodeURIComponent(params.origin),
 					destination: decodeURIComponent(params.destination)
 				})
-				console.log("ajax...")
+				// console.log("ajax...")
+
+				$('.loading').show();
+
 				$.ajax({
 					url: "/api",
 					type: "GET",
@@ -331,6 +334,8 @@
 					}
 				})
 				.done(function(data){
+					$('.loading').hide();
+					
 					if(data.shopList.length > 0){
 						shopListManager.setList(data.shopList)
 						shopListManager.isCache = true
