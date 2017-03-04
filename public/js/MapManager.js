@@ -25,6 +25,8 @@ MapManager.prototype.initMapArray = function(lat,lng,zoom){
         div: "#map",//id名
         lat: lat,
         lng: lng,
+        mapTypeControl: false,
+        scrollwheel: false,
         zoom: zoom//縮尺
     })
 }
