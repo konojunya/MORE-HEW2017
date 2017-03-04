@@ -1,15 +1,14 @@
-var key = require("../.key")
-var param = require('jquery-param');
-var request = require("request");
-var async = require('async');
-var gm = require('@google/maps').createClient({
+const key = require("../.key")
+const param = require('jquery-param');
+const request = require("request");
+const async = require('async');
+const gm = require('@google/maps').createClient({
   key: key.token
 });
 
-var promiseProcess = null;
-var placeNameOrigin = placeNameDestination = null
+let placeNameOrigin = placeNameDestination = null
 
-var searchRadius = null
+let searchRadius = null
 
 const PHOTO_MAX_WIDTH = 400;
 const SUCCESS_STATUS_CODE = 200;
@@ -27,23 +26,21 @@ function GoogleMapApiService(){
  *	最初に実行する関数
  */
 GoogleMapApiService.prototype.init = function(origin,destination,radius){
-	var self = this
+	const self = this
 
 	placeNameOrigin = origin
 	placeNameDestination = destination
 
 	searchRadius = radius
 
-	promiseProcess = new Promise(function(resolve,reject){
+	const promiseProcess = new Promise(function(resolve,reject){
 
 		async.series([
 			self.getOriginLatlng,
 			self.getDestinationLatlng
 		],function(err, results){
 			if (err) reject(err);
-			setTimeout(function(){
-				self.getDirections(resolve,results);
-			},10)
+			self.getDirections(resolve,results);
 		})
 
 	})
@@ -65,45 +62,45 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 	 *	@param { string }	photo_reference
 	 *	@return { string } url
 	 */
-	var photoReferenceToImageUrl = function(photo_reference){
-		var params = param({
+	const photoReferenceToImageUrl = function(photo_reference){
+		const params = param({
 			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
 			key: key.token
 		})
 
-		var url = "https://maps.googleapis.com/maps/api/place/photo?"+params
+		const url = "https://maps.googleapis.com/maps/api/place/photo?"+params
 
 		return url
 	}
 
-	var promiseProcess = new Promise(function(resolve,reject){
+	const promiseProcess = new Promise(function(resolve,reject){
 
-		var self = this
+		const self = this
 
-		var params = param({
+		const params = param({
 			key: key.token,
 			placeid: placeId,
 			language: "ja"
 		})
 
-		var options = {
+		const options = {
 			url: "https://maps.googleapis.com/maps/api/place/details/json?"+params,
 			json: true
 		}
 
 		request.get(options,function(err,response,body){
 			if(!err && response.statusCode == SUCCESS_STATUS_CODE){
-				var results = body.result;
+				const results = body.result;
 				
-				var photosArray = []
+				let photosArray = []
 				if(results.photos.length > 0){
 					results.photos.map(function(photo){
 						photosArray.push(photoReferenceToImageUrl(photo.photo_reference))
 					})
 				}
 
-				var shopDetailObject = {
+				const shopDetailObject = {
 					name: results.name,
 					address: results.vicinity,
 					tel: results.formatted_phone_number ? results.formatted_phone_number : null,
@@ -140,21 +137,21 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 	 *	@param { string }	photo_reference
 	 *	@return { string } url
 	 */
-	var photoReferenceToImageUrl = function(photo_reference){
-		var params = param({
+	const photoReferenceToImageUrl = function(photo_reference){
+		const params = param({
 			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
 			key: key.token
 		})
 
-		var url = "https://maps.googleapis.com/maps/api/place/photo?"+params
+		const url = "https://maps.googleapis.com/maps/api/place/photo?"+params
 
 		return url
 	}
 
-	var self = this;
+	const self = this;
 
-	var params = param({
+	const params = param({
 		location: latlng,
 		radius: searchRadius,
 		types: "food",
@@ -162,14 +159,14 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 		key: key.token
 	});
 
-	var options = {
+	const options = {
 		url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"+params,
 		json: true
 	};
 
 	request.get(options,function(err,response,body){
 		if(!err && response.statusCode == SUCCESS_STATUS_CODE){
-			var results = []
+			let results = []
 			body.results.map(function(item){
 				if(item.rating && item.photos && item.opening_hours){
 
@@ -198,7 +195,7 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
  *	@param { array } results
  */
 GoogleMapApiService.prototype.getDirections = function(resolve,results){
-	var self = this
+	const self = this
 
 	gm.directions({
 		origin: results[0],
@@ -208,20 +205,22 @@ GoogleMapApiService.prototype.getDirections = function(resolve,results){
 	},function(err,response){
 		if(err) console.log(err);
 
-		var AsyncGetPlace = {
+		const AsyncGetPlace = {
 			getPlace: self.getPlace
 		}
 
 		var
 			stepsArray = [],
-			tmpArray = response.json.routes[0].legs[0].steps
-			for(var i = 0; i < tmpArray.length; i++){
+			tmpArray = response.json.routes[0].legs[0].steps;
+
+			for(let i = 0; i < tmpArray.length; i++){
 				var ll = tmpArray[i].end_location
 				stepsArray.push([ll.lat,ll.lng].join(","))
 			}
 
 			async.map(stepsArray,AsyncGetPlace.getPlace,function(err,results){
 				if(err) console.log(err);
+				console.log(results)
 				resolve(results)
 			})
 	})
@@ -234,14 +233,14 @@ GoogleMapApiService.prototype.getDirections = function(resolve,results){
  *	@param { function } callback 
  */
 GoogleMapApiService.prototype.getOriginLatlng = function(callback){
-	var self = this
+	const self = this
 
 	gm.geocode({
 		address: placeNameOrigin,
 		language: "ja"
 	},function(err,response){
 		if (err) console.log(err);
-		var latlng = response.json.results[0].geometry.location
+		let latlng = response.json.results[0].geometry.location
 		latlng = new Array(latlng.lat,latlng.lng)
 		console.log(`[GET] origin: ${latlng}`)
 		callback(null,latlng);
@@ -262,7 +261,7 @@ GoogleMapApiService.prototype.getDestinationLatlng = function(callback){
 		language: "ja"
 	},function(err,response){
 		if (err) console.log(err);
-		var latlng = response.json.results[0].geometry.location
+		let latlng = response.json.results[0].geometry.location
 		latlng = new Array(latlng.lat,latlng.lng)
 		console.log(`[GET] destination: ${latlng}`)
 		callback(null,latlng);
