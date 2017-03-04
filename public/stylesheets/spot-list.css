@@ -128,11 +128,24 @@ body {
 	padding-bottom: 0.2rem;
 	color: #000;
 }
-.spot-bottom-flex {
+.spot-bottom-box {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: bottom;
 	padding-top: 0.5rem;
+}
+.spot-bottom-left {
+	/*display: flex;*/
+}
+.spot-business-hours {
+	width: 100%;
+}
+.rating {
+	width: 100%;
+}
+.rating i {
+	font-size: 1.1rem;
+	margin-right: 5px;
 }
 .add-routes-button {
 	display: block;
