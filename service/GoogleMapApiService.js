@@ -176,7 +176,8 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 						placeId: item.place_id,
 						image: photoReferenceToImageUrl(item.photos[0].photo_reference),
 						openNow: item.opening_hours.open_now,
-						genre: "food"
+						genre: "food",
+						sortId: null
 					})
 
 				}
@@ -220,7 +221,6 @@ GoogleMapApiService.prototype.getDirections = function(resolve,results){
 
 			async.map(stepsArray,AsyncGetPlace.getPlace,function(err,results){
 				if(err) console.log(err);
-				console.log(results)
 				resolve(results)
 			})
 	})

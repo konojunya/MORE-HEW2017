@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 const gma = require("../service/GoogleMapApiService")
 
-const SEARCH_RADIUS = 10;
+const SEARCH_RADIUS = 50;
 const MINIMAN_NEED_SHOPLIST_LENGHT = 10;
-const MAX_SEARCH_REQUEST_RADIUS = 400;
+const MAX_SEARCH_REQUEST_RADIUS = 500;
 
 function responseShopList(res,origin,destination,radius){
 	let promiseProcess = gma.init(origin,destination,radius);
@@ -17,6 +17,11 @@ function responseShopList(res,origin,destination,radius){
 		for(var i in data){
 			Array.prototype.push.apply(shopListArray,data[i])
 		}
+
+		let shopSortId = 1;
+		shopListArray.map(function(shop){
+			shop.sortId = shopSortId++;
+		})
 
 		if(shopListArray.length < MINIMAN_NEED_SHOPLIST_LENGHT){
 			console.log("半径"+radius+"m")
