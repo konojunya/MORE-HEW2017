@@ -49,10 +49,12 @@
 									{{shop.shopName}}
 								</div>
 							</a>
-							<div class="spot-bottom-flex">
-								<div class="spot-business-hours">
-									本日 9:00〜17:00営業
+							<div class="spot-bottom-box">
+								<div class="spot-bottom-left">
+									<div class="spot-business-hours" v-if="shop.openNow" v-html="shop.openNow"></div>
+									<div class="rating" v-html="shop.rating"></div>
 								</div>
+								
 								<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.lat" v-bind:data-lng="shop.lng">
 									ルートに追加
 								</button>
@@ -339,20 +341,36 @@
 
 			function renderView(shopListForVue){
 				console.log(shopListForVue)
+				for (i in shopListForVue) {
+					var openMsg = openNow(shopListForVue[i].openNow)
+					shopListForVue[i].openNow = openMsg
+					var rating = makeRating(shopListForVue[i].rating)
+					shopListForVue[i].rating = rating
+				}
 				Vue.nextTick(function(){
 					vm.shopList = shopListForVue
 				});
-				// 	var yelloStar = ~~shopListForVue.rating
-				// 	var blackStar = 5- ~~(shopListForVue.rating)
+			}
 
-				// 	var rating = []
-				// 	for(var i = 0; i < yelloStar; i++){
-				// 		rating.push("*")
-				// 	}
-				// 	for(var i = 0; i < blackStar; i++){
-				// 		rating.push(".")
-				// 	}
-				// 	console.log(rating.join(""))
+			function openNow(bool){
+				if (bool) {
+					return '現在営業中'
+				}
+				return '営業時間外'
+			}
+
+			function makeRating(rating){
+				var yelloStar = ~~rating
+				var blackStar = 5- ~~(rating)
+
+				var rating = []
+				for(var i = 0; i < yelloStar; i++){
+					rating.push('<i class="fa fa-star" aria-hidden="true"></i>')
+				}
+				for(var i = 0; i < blackStar; i++){
+					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
+				}
+				return rating.join("")
 			}
 
 			function addRouteNaviFrom(spotName){
