@@ -19,6 +19,7 @@ function GoogleMapApiService(){
 		walk: "walking",
 		drive: "driving"
 	}
+	this.originAndDestinationLatLng = []
 }
 
 /**
@@ -40,12 +41,23 @@ GoogleMapApiService.prototype.init = function(origin,destination,radius){
 			self.getDestinationLatlng
 		],function(err, results){
 			if (err) reject(err);
+			self.originAndDestinationLatLng = results
 			self.getDirections(resolve,results);
 		})
 
 	})
 
 	return promiseProcess
+}
+
+/**
+ *	getOriginAndDestinationLatLng
+ *	位置情報を返す
+ *
+ *	@return { Array } originAndDestinationLatLng
+ */
+GoogleMapApiService.prototype.getOriginAndDestinationLatLng = function(){
+	return this.originAndDestinationLatLng;
 }
 
 /**

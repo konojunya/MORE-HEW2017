@@ -23,15 +23,34 @@ function responseShopList(res,origin,destination,radius){
 			shop.sortId = shopSortId++;
 		})
 
+		const latlng = gma.getOriginAndDestinationLatLng()
+		const originLatLng = latlng[0];
+		const destinationLatLng = latlng[1];
+
+		const place = {
+			origin: {
+				placeName: origin,
+				lat: originLatLng[0],
+				lng: originLatLng[1]
+			},
+			destination: {
+				placeName: destination,
+				lat: destinationLatLng[0],
+				lng: destinationLatLng[1]
+			}
+		}
+
 		if(shopListArray.length < MINIMAN_NEED_SHOPLIST_LENGHT){
 			console.log("半径"+radius+"m")
 			console.log(shopListArray.length+"個のデータが見つかりました。\n");
+
 			if(radius < MAX_SEARCH_REQUEST_RADIUS){
 				radius += SEARCH_RADIUS;
 				responseShopList(res,origin,destination,radius);
 			}else{
 				res.json({
 					shopList: [],
+					place: place,
 					statusCode: 404,
 					errMessage: "お店が見つかりませんでした。"
 				})
@@ -39,6 +58,7 @@ function responseShopList(res,origin,destination,radius){
 		}else{
 			res.json({
 				shopList: shopListArray,
+				place: place,
 				statusCode: 200,
 				errMessage: null
 			})
