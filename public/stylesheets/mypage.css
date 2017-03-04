@@ -68,7 +68,7 @@
     margin-right: 5px;
 }
 .profile-content .walking-history {
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
 }
 .profile-content .title {
     /*border-bottom: 1px solid #757575;*/
@@ -100,13 +100,18 @@
 }
 .profile-content .category {
     background-color: #fff;
-    height: 30vh;
+    height: 35vh;
     margin-bottom: 20vh;
+    padding: 0.5rem;
+}
+.profile-content .category .title {
+    /*margin: 1rem 0.5rem 0;*/
+    border-bottom: 1px solid #757575;
 }
 .profile-content .category .category-flex {
     display: flex;
     padding-top: 1rem;
-    padding-left: 0.5rem;
+    /*padding-left: 0.5rem;*/
 }
 .profile-content .category .category-left {
     width: 45%;
