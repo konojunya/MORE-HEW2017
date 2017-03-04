@@ -53,34 +53,7 @@
 								<div class="spot-business-hours">
 									本日 9:00〜17:00営業
 								</div>
-								<button class="add-routes-button" v-bind:data-id="shop.placeId">
-									ルートに追加
-								</button>
-							</div>
-						</div>
-					</li>
-
-					<li class="spot">
-						<div class="spot-top">
-							<a href="spot/detail">
-								<div class="spot-image"></div>
-							</a>
-						</div>
-
-						<div class="spot-bottom">
-							<div class="spot-genre">
-								ジャンル:
-							</div>
-							<a href="spot/detail">
-								<div class="spot-title">
-									
-								</div>
-							</a>
-							<div class="spot-bottom-flex">
-								<div class="spot-business-hours">
-									本日 9:00〜17:00営業
-								</div>
-								<button class="add-routes-button">
+								<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.lat" v-bind:data-lng="shop.lng">
 									ルートに追加
 								</button>
 							</div>
@@ -214,25 +187,28 @@
 
 			$('.spot-container').on('click', '.add-routes-button', function(){
 				// console.log($(this).data('id'))
-				// var id = 
-				// var placeId = $(this).data('id')
-				// var lat = 
-				// var lng = 
-				if ($('.add-routes-button').hasClass('isAdded')) {
+				// console.log($(this).data('sortid'))
+				var data =  document.querySelector('.add-routes-button')
+				console.log(data.dataset)
+				var id = data.dataset.id
+				var placeId = data.dataset.id
+				var lat = data.dataset.lat
+				var lng = data.dataset.lng
+				if ($(this).hasClass('isAdded')) {
 					mapManager.removeRoute(id)
-					$('.add-routes-button').css('background-color', '#FFF')
-					$('.add-routes-button').css('color', '#16A6B6')
-					$('.add-routes-button').text('ルートに追加')
-					$('.add-routes-button').removeClass('isAdded')
+					$(this).css('background-color', '#FFF')
+					$(this).css('color', '#16A6B6')
+					$(this).text('ルートに追加')
+					$(this).removeClass('isAdded')
 				} else {
-					// mapManager.setRoute(id,placeId,lat,lng)
-					mapManager.setRoute(1,'abcd','河原町駅',35.003751,135.7687486)
-					mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0036537,135.7744845)
-					mapManager.setRoute(3,'abcd','八坂神社',35.0036559,135.7785534)
-					$('.add-routes-button').css('background-color', '#16A6B6')
-					$('.add-routes-button').css('color', '#FFF')
-					$('.add-routes-button').text('追加済み')
-					$('.add-routes-button').addClass('isAdded')
+					mapManager.setRoute(id,placeId,lat,lng)
+					// mapManager.setRoute(1,'abcd','河原町駅',35.003751,135.7687486)
+					// mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0036537,135.7744845)
+					// mapManager.setRoute(3,'abcd','八坂神社',35.0036559,135.7785534)
+					$(this).css('background-color', '#16A6B6')
+					$(this).css('color', '#FFF')
+					$(this).text('追加済み')
+					$(this).addClass('isAdded')
 				}
 
 				// mapManager.setRoute(1,'abcd','河原町駅',35.0004487,135.7617562)
@@ -333,27 +309,32 @@
 					origin: decodeURIComponent(params.origin),
 					destination: decodeURIComponent(params.destination)
 				})
-				// console.log("ajax...")
+				console.log("ajax...")
 
-				// $('.loading').show();
+				$('.loading').show();
 
-				// $.ajax({
-				// 	url: "/api",
-				// 	type: "GET",
-				// 	data: {
-				// 		origin: decodeURIComponent(params.origin),
-				// 		destination: decodeURIComponent(params.destination)
-				// 	}
-				// })
-				// .done(function(data){
-				// 	$('.loading').hide();
+				$.ajax({
+					url: "/api",
+					type: "GET",
+					data: {
+						origin: decodeURIComponent(params.origin),
+						destination: decodeURIComponent(params.destination)
+					}
+				})
+				.done(function(data){
+					$('.loading').hide();
 					
-				// 	if(data.shopList.length > 0){
-				// 		shopListManager.setList(data.shopList)
-				// 		shopListManager.isCache = true
-				// 	}
-				// 	renderView(data.shopList)
-				// })
+					if(data.shopList.length > 0){
+						shopListManager.setList(data.shopList)
+						shopListManager.isCache = true
+					}
+					renderView(data.shopList)
+					var place = data.place
+					var origin = place.origin
+					var destination = place.destination
+					mapManager.setRoute('1',null,origin.placeName,origin.lat,origin.lng)
+					mapManager.setRoute('100',null,destination.placeName,destination.lat,destination.lng)
+				})
 			}
 
 			function renderView(shopListForVue){
