@@ -182,8 +182,11 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 			body.results.map(function(item){
 				if(item.rating && item.photos && item.opening_hours){
 
+					console.log(item)
+
 					results.push({
 						shopName: item.name,
+						location: item.geometry.location,
 						rating: item.rating,
 						placeId: item.place_id,
 						image: photoReferenceToImageUrl(item.photos[0].photo_reference),

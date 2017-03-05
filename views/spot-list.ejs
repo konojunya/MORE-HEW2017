@@ -313,7 +313,7 @@
 
 			var place = shopListManager.getPlace()
 
-			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination) && shopListManager.isCache){
+			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
 				var shopList = shopListManager.getList()
 				renderView(shopList)
 			}else{
@@ -321,7 +321,6 @@
 					origin: decodeURIComponent(params.origin),
 					destination: decodeURIComponent(params.destination)
 				})
-				// console.log("ajax...")
 
 				$('.loading').show();
 
@@ -338,7 +337,6 @@
 					
 					if(data.shopList.length > 0){
 						shopListManager.setList(data.shopList)
-						shopListManager.isCache = true
 					}
 					renderView(data.shopList)
 				})
