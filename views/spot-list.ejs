@@ -99,7 +99,6 @@
 
 		</div><!-- tab-box -->
 	</div>
-	
 
 	<!-- fix-navigation -->
 	<div class="fix-navi-button">
@@ -190,12 +189,17 @@
 			$('.spot-container').on('click', '.add-routes-button', function(){
 				// console.log($(this).data('id'))
 				// console.log($(this).data('sortid'))
-				var data =  document.querySelector('.add-routes-button')
-				console.log(data.dataset)
-				var id = data.dataset.id
-				var placeId = data.dataset.id
-				var lat = data.dataset.lat
-				var lng = data.dataset.lng
+				// var data =  document.querySelector('.add-routes-button')
+				// console.log(data.dataset)
+				// var id = data.dataset.sortid
+				// var placeId = data.dataset.id
+				// var lat = data.dataset.lat
+				// var lng = data.dataset.lng
+				var id = $(this).data('sortid')
+				var placeId = $(this).data('id')
+				var lat = $(this).data('lat')
+				var lng = $(this).data('lng')
+				console.log(id,placeId,lat,lng)
 				if ($(this).hasClass('isAdded')) {
 					mapManager.removeRoute(id)
 					$(this).css('background-color', '#FFF')
@@ -329,13 +333,16 @@
 					if(data.shopList.length > 0){
 						shopListManager.setList(data.shopList)
 						shopListManager.isCache = true
+						renderView(data.shopList)
 					}
-					renderView(data.shopList)
+					$('.spot-container').prepend('<div class="spot-container-count"></div>')
+					$('.spot-container-count').text('検索結果:'+data.shopList.length+'件')
 					var place = data.place
 					var origin = place.origin
 					var destination = place.destination
-					mapManager.setRoute('1',null,origin.placeName,origin.lat,origin.lng)
+					mapManager.setRoute('0',null,origin.placeName,origin.lat,origin.lng)
 					mapManager.setRoute('100',null,destination.placeName,destination.lat,destination.lng)
+					
 				})
 			}
 
