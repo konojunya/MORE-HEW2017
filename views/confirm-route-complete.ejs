@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>ルートが完成しました | 頼道</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/flickity.min.css">
+    <link rel="stylesheet" href="/stylesheets/common.css">
+    <link rel="stylesheet" href="/stylesheets/confirm-route-complete.css">
+</head>
+<body>
+    <header id="header">
+        
+    </header>
+    
+    <div class="tab-box-container">
+        <div class="main-container">
+            <h1 class="title">ルートが作成されました</h1>
+            <!-- <div id="n"></div>
+            <div id="x"></div>
+            <div id="y"></div> -->
+
+            <div class="button-container">
+                <button class="add-calender button">カレンダーに追加する</button>
+                <button class="share-line button">LINEで共有する</button>
+            </div>
+            
+            <div id="map">
+                <div class="map-error-message">
+                    ネットワークに<br>
+                    接続されていません。
+                </div>
+            </div>
+            <div class="route-navi"></div>
+        </div>
+    </div>
+    
+
+    <!-- fix-navigation -->
+    <div class="fix-navi-button">
+        <div class="sideShowBtn">
+            <span class="first"></span>
+            <span class="second"></span>
+            <span class="third"></span>
+        </div>
+    </div>
+
+    <ul class="fix-navi">
+        <li class="fix-navi-list fix-navi-home">
+            <a href="/">
+                <div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">ホーム</div>
+            </a>
+        </li>
+        <li class="fix-navi-list fix-navi-mypage">
+            <a href="/mypage">
+                <div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">マイページ</div>
+            </a>
+        </li>
+        <li class="fix-navi-list fix-navi-fav">
+            <a href="#">
+                <div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">気になるスポット</div>
+            </a>
+        </li>
+    </ul>
+    <!-- /fix-navigation -->
+
+    <div class="loading">
+        <div class="loading-content">
+            <div class="loading-icon">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+    <script src="/js/gmaps.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/TweenMax.min.js"></script>
+    <script src="/js/MapManager.js"></script>
+    <script>
+        (function($){
+            // var map;
+            // map = new GMaps({
+            //     div: '#map',
+            //     lat: 35.003751,
+            //     lng: 135.7687486,
+            //     zoom: 14
+            // })
+            // GMaps.geolocate({
+            //     success: function(position) {
+            //         map.setCenter(position.coords.latitude, position.coords.longitude);
+            //         console.log(position.coords.latitude)
+            //         console.log(position.coords.longitude)
+            //         mapManager.addMarker(position.coords.latitude, position.coords.longitude,'titel','/images/via-1.png','content')
+            //     },
+            //     error: function(error) {
+            //         alert('Geolocation failed: '+error.message);
+            //     },
+            //     not_supported: function() {
+            //         alert("Your browser does not support geolocation");
+            //     },
+            //     always: function() {
+            //         alert("Done!");
+            //     }
+            // });
+
+            // mapManagerのroutes[]にsetする
+            var latLngArr = mapManager.makeLatLngArr()
+            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+            mapManager.initMapArray(center.lat,center.lng,14)
+            mapManager.renderRoute()
+
+            $('.share-line').on('click', function(){
+                $('.loading').show()
+                var uuid = makeUuid()
+                var json = mapManager.routes
+                $.ajax({
+                    url: '/api/share',
+                    type: 'POST',
+                    data: {
+                        uuid: uuid,
+                        route: json
+                    }
+                })
+                .done(function(data){
+                    $('.loading').hide()
+                    console.log(data)
+
+                })
+                .fail(function(err){
+                    $('.loading').hide()
+                    console.log(err)
+
+                })
+            })
+
+            function makeUuid() {
+                var uuid = "", i, random;
+                for (i = 0; i < 32; i++) {
+                    random = Math.random() * 16 | 0;
+
+                    if (i == 8 || i == 12 || i == 16 || i == 20) {
+                        uuid += "-"
+                    }
+                    uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
+                }
+                return uuid;
+            }
+
+            $('.fix-navi-button').on('touchend',onClickNaviButton)
+
+            /**
+             * fix-naviのアニメーションのキック
+             *
+             * @param { bool } bool
+             */
+            function onClickNaviButton() {
+                if($(this).hasClass('opened')){
+                    noScroll(false)
+                    endAnimation()
+                    $(this).removeClass('opened')
+                }else{
+                    noScroll(true)
+                    startAnimation()
+                    $(this).addClass('opened')
+                }
+
+            }
+
+            /**
+             * フラグがtrueならスクロールを止める
+             *
+             * @param { bool } bool
+             */
+            function noScroll(bool){
+                if (bool) {
+                    $('.tab-box-container').on('touchmove.noScroll', function(e) {
+                        e.preventDefault();
+                    });
+                } else {
+                    $('.tab-box-container').off('.noScroll');
+                }
+            }
+
+
+            /**
+             * 斜めにするアニメーション
+             * ボタンのアニメーション
+             */
+            function startAnimation(){
+                TweenMax.to('.main-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+                TweenMax.to('.tab-box-container',0.7,{height: '120vh',transform: 'rotateZ(30deg)',ease: Circ.easeInOut})
+                setTimeout(function(){
+                    $(".sideShowBtn .first").css("transform","rotate(45deg)");
+                    $(".sideShowBtn .first").animate({
+                        top: "12px"
+                    },0)
+                    $(".sideShowBtn .second").css("opacity","0");
+                    $(".sideShowBtn .third").css("transform","rotate(-45deg)");
+                    $(".sideShowBtn .third").animate({
+                        top: "12px"
+                    },0)
+                },100)
+            }
+
+            /**
+             * 斜めにするアニメーションを元に戻す
+             * ボタンのアニメーションを元に戻す
+             */
+            function endAnimation(){
+                TweenMax.to('.main-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
+                TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
+                setTimeout(function(){
+                    $(".sideShowBtn .first").css("transform","rotate(0deg)");
+                    $(".sideShowBtn .first").animate({
+                        top: "5px"
+                    },0)
+                    $(".sideShowBtn .second").css("opacity","1");
+                    $(".sideShowBtn .third").css("transform","rotate(0deg)");
+                    $(".sideShowBtn .third").animate({
+                        top: "19px"
+                    },0)
+                },100)
+            }
+
+
+            // var count = 1;
+            // var currentWindow = null;
+            // var map;
+            // var marker;
+            // var sampleMarker;
+            // var geoOptions = {
+            //     enableHighAccuracy : true, //精度を高める
+            //     timeout : 6000, //タイムアウトは6秒
+            //     maximumAge : 0 //キャッシュはさせない
+            // }
+     
+            // //現在位置の取得
+            // if (navigator.geolocation) {
+            //     navigator.geolocation.watchPosition( //watchPositionとすることで定期的に現在地を取得
+            //     function (pos) {
+            //         //取得状況
+            //         $('#n').html((count++) + "回目");
+            //         $('#x').html(pos.coords.latitude);
+            //         $('#y').html(pos.coords.longitude);
+     
+            //         var mapData = { 'x':pos.coords.latitude, 'y':pos.coords.longitude, 'balloon':'現在位置' };
+            //         var latlng = new google.maps.LatLng(mapData.x, mapData.y);
+            //         if( !map ){ //初回のみマップ生成
+            //             var myOptions = { zoom: 14, center: latlng, mapTypeId: google.maps.MapTypeId.ROADMAP };
+            //             map = new google.maps.Map(document.getElementById("map"), myOptions);
+            //         }
+            //         if( marker ){ //現在地マーカーが設置されている場合は消去
+            //             marker.setMap(null);
+            //         }
+            //         if( !sampleMarker ){ //初回のみ目的地マーカーを設置
+            //             sampleMarker = { 'x':'34.687315', 'y':'135.526201', 'balloon':'大阪城' };
+            //             makeMarker2( sampleMarker );
+            //         }
+            //         makeMarker( mapData ); //現在地マーカーを設置
+            //     },
+            //     function (error) {
+            //         var msg;
+            //         switch( error.code ){
+            //             case 1: msg = "位置情報の利用が許可されていません"; break;
+            //             case 2: msg = "位置が判定できません"; break;
+            //             case 3: msg = "タイムアウトしました"; break;
+            //         }
+            //         console.log(msg);
+            //     });
+            // } else {
+            //     console.log("本ブラウザではGeolocationが使えません");
+            // }
+     
+            // //マーカー作成
+            // function makeMarker( mapData ){
+            //     marker = new google.maps.Marker({
+            //         position : new google.maps.LatLng(mapData.x,mapData.y), 
+            //         map: map, 
+            //         icon: '/images/start.png'
+            //     });
+     
+            //     var infoWindow = new google.maps.InfoWindow();
+            //     google.maps.event.addListener(marker, 'click', function() {
+            //         if (currentWindow) {
+            //             currentWindow.close();
+            //         }
+            //         infoWindow.setContent(mapData.balloon);
+            //         infoWindow.open(map,marker);
+            //         currentWindow = infoWindow;
+            //     });
+            // }
+     
+            // //マーカー作成
+            // function makeMarker2( mapData ){
+            //     var marker2 = new google.maps.Marker({
+            //         position : new google.maps.LatLng(mapData.x,mapData.y), 
+            //         map: map,
+            //         icon: "/images/goal.png"
+            //     });
+     
+            //     var infoWindow = new google.maps.InfoWindow();
+            //     google.maps.event.addListener(marker2, 'click', function() {
+            //         if (currentWindow) {
+            //             currentWindow.close();
+            //         }
+            //         infoWindow.setContent(mapData.balloon);
+            //         infoWindow.open(map,marker2);
+            //         currentWindow = infoWindow;
+            //     });
+            // }
+        })(jQuery)
+    </script>
+</body>
+</html>

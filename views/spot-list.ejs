@@ -91,12 +91,6 @@
 				</div>
 			</div>
 
-			<div class="loading">
-				<div class="loading-icon">
-					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-				</div>
-			</div>
-
 		</div><!-- tab-box -->
 	</div>
 
@@ -130,6 +124,14 @@
 		</li>
 	</ul>
 	<!-- /fix-navigation -->
+
+	<div class="loading">
+		<div class="loading-content">
+			<div class="loading-icon">
+				<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+			</div>
+		</div>
+	</div>
 
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
@@ -221,6 +223,34 @@
 				// mapManager.setRoute(4,'abcd','清水寺',34.9948622,135.7847918)
 				// mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0017614,135.7751592)
 				// mapManager.setRoute(3,'abcd','八坂神社',35.0025211,135.7750301)
+			})
+
+			$('.confirm-route-button').on('click', function(){
+				$('.loading').show()
+				$('.loading').css('backgroundColor','rgba(0,0,0,0.3)')
+				$('.loading-content').css('color','#fff')
+				$('.loading-icon i').css('color','#fff')
+				$('.loading-icon').after('<div class="loading-message">ルートのデータを<br>作成しています</div>')
+				var userId = '1'
+				// $.ajax({
+				// 	url: "/api/save",
+				// 	type: "GET",
+				// 	data: {
+				// 		userId: userId,
+				// 		routes: mapManager.routes
+				// 	}
+				// })
+				// .done(function(data){
+				// 	$('.loading').hide()
+				// 	console.log(data)
+				// })
+				// .fail(function(err){
+				// 	$('.loading').hide()
+				// 	console.log(err)
+				// })
+				setTimeout(function(){
+					window.location.href = '/confirm'
+				},3000)
 			})
 
 			/**
