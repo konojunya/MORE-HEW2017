@@ -76,11 +76,16 @@ body {
 	margin-left: 0.3rem;
 	font-size: 0.9rem;
 	outline: none;
+	border: 0;
 	width: 100%;
+	-webkit-appearance: none;
 }
 
 .spot-container {
 	min-height: 90vh;
+}
+.spot-container-count {
+	padding-bottom: 0.5rem;
 }
 .spot {
 	width: 100%;
@@ -105,7 +110,7 @@ body {
 	height: 200px;
 	-webkit-background-size: cover;
 	background-size: cover;
-	background-position: bottom;
+	background-position: center;
 	background-repeat: no-repeat;
 }
 
