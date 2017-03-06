@@ -40,7 +40,7 @@
 
 						<li v-for='shop in shopList' v-bind:data-id="shop.placeId">
 							<div class="spot-top">
-								<div class="spot-image transition-key" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}" v-bind:data-id="shop.placeId"></div>
+								<div class="spot-image transition-key" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId"></div>
 							</div>
 
 							<div class="spot-bottom">
@@ -170,7 +170,8 @@
 
 			$(".spots").on("click",".transition-key",function(){
 				var place_id = $(this).data("id");
-				window.location.href = "/spot/"+place_id
+				var sort_id = $(this).data("sortid");
+				window.location.href = "/spot/"+place_id+"?"+sort_id
 			})
 
 			$('.switching-navi li').on('click', function(){

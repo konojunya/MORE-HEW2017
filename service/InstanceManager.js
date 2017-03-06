@@ -3,6 +3,8 @@ function InstanceManager(){
   var self = this;
 
   this.tokens = [
+    "AIzaSyA7L9syGzXuTlU5r-12mchgAXNjYkv29Tc",
+    "AIzaSyDXr7l8Dv52_1D6gX_yjgEk570XwabVk70",
     "AIzaSyDhQ8B0YVVulhZnqE-YQmLbkQmEsfLEmEc",
     "AIzaSyBI_pc9oRoG3XeVhqDmwGvxfcWVD2zyfjI",
     "AIzaSyCYOaGay2t6nyg0IN5VN9N1nvo4RlMSy9E",
