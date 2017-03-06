@@ -14,7 +14,7 @@ router.get('/mypage', function(req, res, next) {
 router.get('/spot', function(req, res, next) {
   res.render('spot-list');
 });
-router.get('/spot/detail', function(req, res, next) {
+router.get('/spot/:id', function(req, res, next) {
   res.render('spot-detail');
 });
 router.get('/confirm', function(req, res, next) {

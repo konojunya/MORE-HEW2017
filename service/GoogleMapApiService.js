@@ -121,7 +121,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 					reviews: results.reviews,
 					website: results.website ? results.website : null,
 					gmapUrl: results.url,
-					image: photosArray.length > 0 ? photosArray : []
+					images: photosArray.length > 0 ? photosArray : []
 				}
 
 				resolve(shopDetailObject)

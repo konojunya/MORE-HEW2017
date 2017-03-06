@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
-	<title>の詳細ページ | 頼道</title>
+	<title>詳細ページ</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/stylesheets/flickity.min.css">
 	<link rel="stylesheet" href="/stylesheets/common.css">
@@ -42,18 +42,14 @@
 		<div class="spot-content">
 			<div class="spot-title">
 				<i class="fa fa-map-marker" aria-hidden="true"></i>
-				茶寮都路里 祇園本店
+				{{shop.name}}
 			</div>
 			<div class="spot-address">
 				<div class="title">
 					<span>Address</span><span class="span-right">住所</span>
 				</div>
-				<div class="spot-address-top">
-					〒605-0074
-				</div>
 				<div class="spot-address-bottom">
-					京都府京都市東山区四条通祇園町南側573-3<br>
-					祇園辻利本店2・3F
+					{{shop.address}}
 				</div>
 			</div>
 			<div class="spot-tel">
@@ -132,6 +128,46 @@
 	<script src="/js/vue.min.js"></script>
 	<script>
 		(function($){
+
+			var placeId = "ChIJa1zKJO3mAGARCWweqvokh_k"
+
+			var vm = initVue()
+			fetchShopDetail();
+
+			function fetchShopDetail(){
+
+				$.ajax({
+					url: "/api/detail",
+					type: "GET",
+					data: {
+						placeid: placeId
+					}
+				})
+				.done(function(data){
+					renderView(data.shopDetail)
+				})
+
+			}
+
+			function initVue(){
+				var vm = new Vue({
+					el: ".spot-detail-container",
+					data: {
+						shop: {}
+					}
+				})
+
+				return vm
+			}
+
+			function renderView(shopDetailForVue){
+				console.log(shopDetailForVue)
+				Vue.nextTick(function(){
+					vm.shop = shopDetailForVue
+				});
+			}
+
+
 			$('.main-view ul').flickity({
 				autoPlay: true,
 				wrapAround: true,
