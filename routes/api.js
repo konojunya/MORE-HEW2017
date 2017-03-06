@@ -91,13 +91,13 @@ router.get("/detail",function(req,res){
 
 })
 
-router.get("/route/save",function(req,res){
+router.post("/route/save",function(req,res){
 
 	const jsonData = req.body.routes;
 	const userName = req.body.userId;
 
 	var id = (Date.now()+Math.floor(Math.random()*999999)).toString(36);
-	var routeId = username+"-"+id;
+	var routeId = userName+"-"+id;
 
 	fs.writeFile("users/"+routeId+'.json', JSON.stringify(jsonData, null, '    '));
 
@@ -107,7 +107,7 @@ router.get("/route/save",function(req,res){
 
 router.get("/route/read",function(req,res){
 
-	var id = req.body.routeId;
+	var id = req.query.routeId;
 
 	fs.readdir("users",function(err,files){
 		if(err) throw new Error(err);
@@ -125,11 +125,13 @@ router.get("/route/read",function(req,res){
 			if(file.replace(/.json$/,"") == id){
 				fileCheck = true;
 				var obj = JSON.parse(fs.readFileSync("users/"+file, 'utf8'));
-				res.render('share-view',obj);
+				res.json(JSON.parse(obj))
 			}
 		})
 
-		if(!fileCheck){ res.render('not-found'); }
+		if(!fileCheck){
+			res.json({ routes: "" })
+		}
 
 	});
 

@@ -244,32 +244,30 @@
 				$('.loading-content').css('color','#fff')
 				$('.loading-icon i').css('color','#fff')
 				$('.loading-icon').after('<div class="loading-message">ルートのデータを<br>作成しています</div>')
-				var routeId = makeUuid()
-				var userId = '1'
-				var routes = mapManager.routes
-				console.log(routeId)
+				var nickname = 'konojunya'
+				var routes = mapManager.getRoute()
 				console.log(routes)
-				// $.ajax({
-				// 	url: "/api/save",
-				// 	type: "GET",
-				// 	data: {
-				// 		routeId: routeId,
-				// 		userId: userId,
-				// 		routes: routes
-				// 	}
-				// })
-				// .done(function(data){
-				// 	$('.loading').hide()
-				// 	console.log(data)
-				// })
-				// .fail(function(err){
-				// 	$('.loading').hide()
-				// 	console.log(err)
-				// })
+				$.ajax({
+					url: "/api/route/save",
+					type: "POST",
+					data: {
+						userId: nickname,
+						routes: JSON.stringify(routes)
+					}
+				})
+				.done(function(data){
+					window.location.href = "/confirm?routeId="+data.routeId
+				})
+				.fail(function(err){
+					console.log(err)
+				})
+				.always(function(){
+					$('.loading').hide()
+				})
 
-				setTimeout(function(){
-					window.location.href = '/confirm?'+routeId
-				},3000)
+				// setTimeout(function(){
+				// 	window.location.href = '/confirm?'+routeId
+				// },3000)
 			})
 
 			function makeUuid() {

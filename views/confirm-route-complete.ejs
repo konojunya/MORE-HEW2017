@@ -86,33 +86,30 @@
     <script>
         (function($){
 
-            // $.ajax({
-            //     url: '/api/get',
-            //     type: 'GET',
-            //     data: {
-            //         routeId: routeId
-            //     }
-            // })
-            // .done(function(data){
-            //     $('.loading').hide()
-            //     console.log(data)
-            //     var userId = data.userId
-            //     var routes = data.routes
-            //     for (i in routes) {
-            //         var routeData = {
-            //             id: routes[i].id,
-            //             placeId: routes[i].placeId,
-            //             lat: routes[i].lat,
-            //             lng: routes[i].lng
-            //         }
-            //         mapManager.setRouteShare(routeData)
-            //     }
-            //     mapManager.renderRoute()
-            // })
-            // .fail(function(err){
-            //     $('.loading').hide()
-            //     console.log(err)
-            // })
+            $.ajax({
+                url: '/api/route/read',
+                type: 'GET',
+                data: {
+                    routeId: window.location.search.replace(/\?routeId\=/,"")
+                }
+            })
+            .done(function(data){
+                $('.loading').hide()
+                for(var i in data){
+                    var routeData = {
+                        id: data[i].id,
+                        placeId: data[i].placeId,
+                        lat: data[i].lat,
+                        lng: data[i].lng
+                    }
+                    mapManager.setRouteShare(routeData)
+                }
+                mapManager.renderRoute()
+            })
+            .fail(function(err){
+                $('.loading').hide()
+                console.log(err)
+            })
 
             var routeData = {
                 id: '1',
