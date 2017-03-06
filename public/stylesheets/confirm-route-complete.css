@@ -87,6 +87,12 @@ body {
     height: 25px;
     margin-right: 5px;
 }
+.map-spot-title p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1rem;
+}
 .map-spot-title-container .icon {
     position: absolute;
     top: 50%;

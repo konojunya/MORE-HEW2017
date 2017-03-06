@@ -40,7 +40,7 @@
 
 						<li v-for='shop in shopList' v-bind:data-id="shop.placeId">
 							<div class="spot-top">
-								<div class="spot-image transition-key" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}" v-bind:data-id="shop.placeId"></div>
+								<div class="spot-image transition-key" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId"></div>
 							</div>
 
 							<div class="spot-bottom">
@@ -56,7 +56,7 @@
 										<div class="rating" v-html="shop.ratingView"></div>
 									</div>
 									
-									<button v-if="shop.selected" class="add-routes-button isAdded" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
+									<button v-if="shop.added" class="add-routes-button isAdded" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
 										追加済み
 									</button>
 									<button v-else class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
@@ -170,7 +170,8 @@
 
 			$(".spots").on("click",".transition-key",function(){
 				var place_id = $(this).data("id");
-				window.location.href = "/spot/"+place_id
+				var sort_id = $(this).data("sortid");
+				window.location.href = "/spot/"+place_id+"?"+sort_id
 			})
 
 			$('.switching-navi li').on('click', function(){
@@ -352,9 +353,10 @@
 
 			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination) && !shopListManager.getShopData()){
 				var data = shopListManager.getShopData()
-				renderView(data.shopList)
+				checkRouteAdded(data.shopList)
 				renderMap(data)
 			}else{
+				mapManager.destorySessionRoutes()
 				shopListManager.setPlace({
 					origin: decodeURIComponent(params.origin),
 					destination: decodeURIComponent(params.destination)
@@ -372,8 +374,6 @@
 					timeout: 10000
 				})
 				.done(function(data){
-
-					checkRouteAdded(data.shopList);
 					
 					if(data.shopList.length > 0){
 						shopListManager.setShopData(data);
@@ -433,9 +433,15 @@
 			function checkRouteAdded(list){
 				var sessionRoutes = mapManager.getSessionRoutes();
 				for(var i in list){
+					list[i]["added"] = false
 					sessionRoutes.map(function(r){
-						list[i]["selected"] = (r == list[i].placeId)
+						if((r == list[i].placeId)){
+							list[i]["added"] = true
+						}
 					})
+					if (list[i]["added"]) {
+						mapManager.setRoute(list[i].sortId,list[i].placeId,list[i].shopName,list[i].location.lat,list[i].location.lng)
+					}
 				}
 				renderView(list);
 			}
