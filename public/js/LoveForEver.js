@@ -43,12 +43,15 @@
 
   /**
    *  takeLove
-   *  愛をいただく（loveをゲットする）
+   *  愛を返す
    *
-   *  @return { array } girlFirends
+   *  @return { object } girlFriends
    */
   LoveForEver.prototype.takeLove = function(){
-    return this.girlFriends;
+    var gf = this.receive()
+    this.girlFriends = gf;
+
+    return this.girlFriends
   }
 
   /**

@@ -91,6 +91,24 @@ router.get("/detail",function(req,res){
 
 })
 
+router.post("/mypage/shops",function(req,res){
+	const placeObj = req.body;
+	var array = Object.keys(placeObj);
+
+	const promiseProcess = gma.getMypageShopData(array);
+
+	promiseProcess
+	.then(function(data){
+		res.json({
+			shops: data
+		})
+	})
+	.catch(function(err){
+		console.log(err);
+	})
+
+})
+
 router.post("/route/save",function(req,res){
 
 	const jsonData = req.body.routes;

@@ -145,6 +145,125 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 }
 
 /**
+ *	getMypageShopDetail
+ *	お店の詳細画面を取得
+ *
+ *	@param { string } placeId
+ */
+GoogleMapApiService.prototype.getMypageShopDetail = function(placeId,callback){
+
+	var repository = im.getRepository()
+
+	/**
+	 *	photoReferenceToImageUrl
+	 *
+	 *	@param { string }	photo_reference
+	 *	@return { string } url
+	 */
+	const photoReferenceToImageUrl = function(photo_reference){
+		const params = param({
+			maxwidth: PHOTO_MAX_WIDTH,
+			photoreference: photo_reference,
+			key: repository.token
+		})
+
+		const url = "https://maps.googleapis.com/maps/api/place/photo?"+params
+
+		return url
+	}
+
+	const self = this
+
+	const params = param({
+		key: repository.token,
+		placeid: placeId,
+		language: "ja"
+	})
+
+	const options = {
+		url: "https://maps.googleapis.com/maps/api/place/details/json?"+params,
+		json: true
+	}
+
+	request.get(options,function(err,response,body){
+		if(!err && response.statusCode == SUCCESS_STATUS_CODE){
+			const results = body.result;
+
+			if(!results){
+				callback(null,{})
+				return;
+			}
+			
+			let photosArray = []
+			if(results.photos.length > 0){
+				results.photos.map(function(photo){
+					photosArray.push(photoReferenceToImageUrl(photo.photo_reference))
+				})
+			}
+
+			const shopDetailObject = {
+				name: results.name,
+				tel: results.formatted_phone_number ? results.formatted_phone_number : null,
+				placeId: results.place_id
+			}
+
+			callback(null,shopDetailObject)
+
+		}
+	})
+
+}
+
+
+
+/**
+ *	getMypageShopData
+ *	マイページのお店情報を取得
+ *
+ *	@param { string } placeId
+ */
+GoogleMapApiService.prototype.getMypageShopData = function(placeIdArray){
+
+	var repository = im.getRepository()
+
+	var self = this
+
+	/**
+	 *	photoReferenceToImageUrl
+	 *
+	 *	@param { string }	photo_reference
+	 *	@return { string } url
+	 */
+	const photoReferenceToImageUrl = function(photo_reference){
+		const params = param({
+			maxwidth: PHOTO_MAX_WIDTH,
+			photoreference: photo_reference,
+			key: repository.token
+		})
+
+		const url = "https://maps.googleapis.com/maps/api/place/photo?"+params
+
+		return url
+	}
+
+	const promiseProcess = new Promise(function(resolve,reject){
+
+		const AsyncGetPlace = {
+			getDetail: self.getMypageShopDetail
+		}
+
+		async.map(placeIdArray,AsyncGetPlace.getDetail,function(err,results){
+			if(err) console.log(err);
+			resolve(results)
+		})
+
+	})
+
+	return promiseProcess
+
+}
+
+/**
  *	getPlace
  *	位置情報からお店の情報を取得する
  *

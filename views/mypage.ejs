@@ -33,7 +33,7 @@
                     <div class="map-cover"></div>
                 </div>
                 <div class="category">
-                    <div class="title">行ったことのあるスポット</div>
+                    <h2 class="title">行ったことのあるスポット</h2>
                     <div class="category-flex">
                         <div class="category-left">
                             <div class="category-title">カテゴリー</div>
@@ -47,6 +47,16 @@
             </div>
             
         </div>
+
+        <div class="love-wrapper">
+            <h2 class="love-spot">お気に入りのスポット</h2>
+            <ul class="loveList">
+                <li v-for="shop in shops" v-bind:data-id="shop.placeId">
+                    <p class="title">{{shop.name}}</p>
+                    <p class="tel">{{shop.tel}}</p>
+                </li>
+            </ul>            
+        </div>
         
         
 
@@ -58,8 +68,70 @@
     <script src="/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
     <script src="/js/MapManager.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/LoveForEver.js"></script>
     <script>
         (function($){
+
+            fetchUserMypage()
+            var vm = initVue()
+
+            $(".loveList").on("click","li",function(){
+                var placeId = $(this).data("id");
+                window.location.href = "/spot/"+placeId
+            })
+
+            function initVue(){
+                var vm = new Vue({
+                    el: ".love-wrapper",
+                    data: {
+                        shops: []
+                    }
+                })
+
+                return vm
+            }
+
+            function fetchUserMypage(){
+
+                var tl = loveForEver.takeLove()
+                for(var key in tl){
+                    if(!tl[key] || key == "undefined") delete tl[key];
+                }
+
+                $.ajax({
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    url: "/api/mypage/shops",
+                    type: "POST",
+                    data: JSON.stringify(tl)
+                })
+                .done(function(data){
+                    console.log(data.shops)
+                    var array = [];
+                    data.shops.map(function(shop){
+                        if(Object.keys(shop).length){
+                            array.push(shop)
+                        }
+                    })
+                    array.push({
+                        name: "ポール・ボキューズ ベーカリー",
+                        tel: "06-6348-0582",
+                        placeId: "ChIJx34odI3mAGAR3UuVJbrFEFU"
+                    })
+                    renderView(array)
+                })
+            }
+
+            function renderView(array){
+                Vue.nextTick(function(){
+                    vm.shops = array
+                });
+            }
+
+
+
             var testPos = {
                 origin: {
                     lat: 35.0004487,
