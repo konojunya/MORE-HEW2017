@@ -119,6 +119,8 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 					})
 				}
 
+				console.log(results)
+
 				const shopDetailObject = {
 					name: results.name,
 					address: results.vicinity,
@@ -128,7 +130,9 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 					reviews: results.reviews,
 					website: results.website ? results.website : null,
 					gmapUrl: results.url,
-					images: photosArray.length > 0 ? photosArray : []
+					images: photosArray.length > 0 ? photosArray : [],
+					location: results.geometry.location,
+					placeId: results.place_id
 				}
 
 				resolve(shopDetailObject)
