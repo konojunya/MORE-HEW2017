@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
-    <title>ルートが完成しました | 頼道</title>
+    <title>共有されたルート | 頼道</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/stylesheets/flickity.min.css">
     <link rel="stylesheet" href="/stylesheets/common.css">
     <link rel="stylesheet" href="/stylesheets/confirm-route-complete.css">
 </head>
@@ -17,15 +16,6 @@
     
     <div class="tab-box-container">
         <div class="main-container">
-            <h1 class="title">ルートが作成されました</h1>
-            <!-- <div id="n"></div>
-            <div id="x"></div>
-            <div id="y"></div> -->
-
-            <div class="button-container">
-                <button class="add-calender button">カレンダーに追加する</button>
-                <button class="share-line button">LINEで共有する</button>
-            </div>
             
             <div id="map">
                 <div class="map-error-message">
@@ -86,66 +76,11 @@
     <script>
         (function($){
 
-            // $.ajax({
-            //     url: '/api/get',
-            //     type: 'GET',
-            //     data: {
-            //         routeId: routeId
-            //     }
-            // })
-            // .done(function(data){
-            //     $('.loading').hide()
-            //     console.log(data)
-            //     var userId = data.userId
-            //     var routes = data.routes
-            //     for (i in routes) {
-            //         var routeData = {
-            //             id: routes[i].id,
-            //             placeId: routes[i].placeId,
-            //             lat: routes[i].lat,
-            //             lng: routes[i].lng
-            //         }
-            //         mapManager.setRouteShare(routeData)
-            //     }
-            //     mapManager.renderRoute()
-            // })
-            // .fail(function(err){
-            //     $('.loading').hide()
-            //     console.log(err)
-            // })
-
-            var routeData = {
-                id: '1',
-                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
-                lat: 34.7041131,
-                lng: 135.4948306
-            }
-            mapManager.setRouteShare(routeData)
-
-            // var map;
-            // map = new GMaps({
-            //     div: '#map',
-            //     lat: 35.003751,
-            //     lng: 135.7687486,
-            //     zoom: 14
-            // })
-            // GMaps.geolocate({
-            //     success: function(position) {
-            //         map.setCenter(position.coords.latitude, position.coords.longitude);
-            //         console.log(position.coords.latitude)
-            //         console.log(position.coords.longitude)
-            //         mapManager.addMarker(position.coords.latitude, position.coords.longitude,'titel','/images/via-1.png','content')
-            //     },
-            //     error: function(error) {
-            //         alert('Geolocation failed: '+error.message);
-            //     },
-            //     not_supported: function() {
-            //         alert("Your browser does not support geolocation");
-            //     },
-            //     always: function() {
-            //         alert("Done!");
-            //     }
-            // });
+            // mapManagerのroutes[]にsetする
+            var latLngArr = mapManager.makeLatLngArr()
+            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+            mapManager.initMapArray(center.lat,center.lng,14)
+            mapManager.renderRoute()
 
             $('.share-line').on('click', function(){
                 $('.loading').show()
@@ -202,7 +137,7 @@
             function makeUuid() {
                 var uuid = ""
                 uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
-                return uuid
+                return uuid;
             }
 
             $('.fix-navi-button').on('touchend',onClickNaviButton)
@@ -280,93 +215,6 @@
                     },0)
                 },100)
             }
-
-
-            // var count = 1;
-            // var currentWindow = null;
-            // var map;
-            // var marker;
-            // var sampleMarker;
-            // var geoOptions = {
-            //     enableHighAccuracy : true, //精度を高める
-            //     timeout : 6000, //タイムアウトは6秒
-            //     maximumAge : 0 //キャッシュはさせない
-            // }
-     
-            // //現在位置の取得
-            // if (navigator.geolocation) {
-            //     navigator.geolocation.watchPosition( //watchPositionとすることで定期的に現在地を取得
-            //     function (pos) {
-            //         //取得状況
-            //         $('#n').html((count++) + "回目");
-            //         $('#x').html(pos.coords.latitude);
-            //         $('#y').html(pos.coords.longitude);
-     
-            //         var mapData = { 'x':pos.coords.latitude, 'y':pos.coords.longitude, 'balloon':'現在位置' };
-            //         var latlng = new google.maps.LatLng(mapData.x, mapData.y);
-            //         if( !map ){ //初回のみマップ生成
-            //             var myOptions = { zoom: 14, center: latlng, mapTypeId: google.maps.MapTypeId.ROADMAP };
-            //             map = new google.maps.Map(document.getElementById("map"), myOptions);
-            //         }
-            //         if( marker ){ //現在地マーカーが設置されている場合は消去
-            //             marker.setMap(null);
-            //         }
-            //         if( !sampleMarker ){ //初回のみ目的地マーカーを設置
-            //             sampleMarker = { 'x':'34.687315', 'y':'135.526201', 'balloon':'大阪城' };
-            //             makeMarker2( sampleMarker );
-            //         }
-            //         makeMarker( mapData ); //現在地マーカーを設置
-            //     },
-            //     function (error) {
-            //         var msg;
-            //         switch( error.code ){
-            //             case 1: msg = "位置情報の利用が許可されていません"; break;
-            //             case 2: msg = "位置が判定できません"; break;
-            //             case 3: msg = "タイムアウトしました"; break;
-            //         }
-            //         console.log(msg);
-            //     });
-            // } else {
-            //     console.log("本ブラウザではGeolocationが使えません");
-            // }
-     
-            // //マーカー作成
-            // function makeMarker( mapData ){
-            //     marker = new google.maps.Marker({
-            //         position : new google.maps.LatLng(mapData.x,mapData.y), 
-            //         map: map, 
-            //         icon: '/images/start.png'
-            //     });
-     
-            //     var infoWindow = new google.maps.InfoWindow();
-            //     google.maps.event.addListener(marker, 'click', function() {
-            //         if (currentWindow) {
-            //             currentWindow.close();
-            //         }
-            //         infoWindow.setContent(mapData.balloon);
-            //         infoWindow.open(map,marker);
-            //         currentWindow = infoWindow;
-            //     });
-            // }
-     
-            // //マーカー作成
-            // function makeMarker2( mapData ){
-            //     var marker2 = new google.maps.Marker({
-            //         position : new google.maps.LatLng(mapData.x,mapData.y), 
-            //         map: map,
-            //         icon: "/images/goal.png"
-            //     });
-     
-            //     var infoWindow = new google.maps.InfoWindow();
-            //     google.maps.event.addListener(marker2, 'click', function() {
-            //         if (currentWindow) {
-            //             currentWindow.close();
-            //         }
-            //         infoWindow.setContent(mapData.balloon);
-            //         infoWindow.open(map,marker2);
-            //         currentWindow = infoWindow;
-            //     });
-            // }
         })(jQuery)
     </script>
 </body>

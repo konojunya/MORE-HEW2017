@@ -114,6 +114,16 @@ MapManager.prototype.setRoute = function(id,placeId,placeName,lat,lng){
     this.routes.push(route)
 }
 
+MapManager.prototype.setRouteShare = function(routeData){
+    var route = {
+        id: routeData.id,
+        placeId: routeData.placeId,
+        lat: routeData.lat,
+        lng: routeData.lng
+    }
+    this.routes.push(route)
+}
+
 MapManager.prototype.removeRoute = function(id){
     var self = this
     var targetId = id;

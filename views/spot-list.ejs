@@ -231,13 +231,18 @@
 				$('.loading-content').css('color','#fff')
 				$('.loading-icon i').css('color','#fff')
 				$('.loading-icon').after('<div class="loading-message">ルートのデータを<br>作成しています</div>')
+				var routeId = makeUuid()
 				var userId = '1'
+				var routes = mapManager.routes
+				console.log(routeId)
+				console.log(routes)
 				// $.ajax({
 				// 	url: "/api/save",
 				// 	type: "GET",
 				// 	data: {
+				// 		routeId: routeId,
 				// 		userId: userId,
-				// 		routes: mapManager.routes
+				// 		routes: routes
 				// 	}
 				// })
 				// .done(function(data){
@@ -248,10 +253,17 @@
 				// 	$('.loading').hide()
 				// 	console.log(err)
 				// })
+
 				setTimeout(function(){
-					window.location.href = '/confirm'
+					window.location.href = '/confirm?'+routeId
 				},3000)
 			})
+
+			function makeUuid() {
+                var uuid = ""
+                uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
+                return uuid
+            }
 
 			/**
 		     * fix-naviのアニメーションのキック

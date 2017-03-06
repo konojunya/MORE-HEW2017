@@ -40,16 +40,13 @@ router.get("/share/:id",function(req,res){
 			if(file.replace(/.json$/,"") == id){
 				fileCheck = true
 				var obj = JSON.parse(fs.readFileSync("store/"+file, 'utf8'));
-				res.json({
-					json: obj
-				})
+				res.render('share-view',obj)
+
 			}
 		})
 
 		if(!fileCheck){
-			res.json({
-				json: {}
-			})
+			// res.render('share-view',)
 		}
 
 	})
