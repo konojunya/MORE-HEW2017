@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>共有されたルート | 頼道</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/common.css">
+    <link rel="stylesheet" href="/stylesheets/confirm-route-complete.css">
+</head>
+<body>
+    <header id="header">
+        
+    </header>
+    
+    <div class="tab-box-container">
+        <div class="main-container">
+            
+            <div id="map">
+                <div class="map-error-message">
+                    ネットワークに<br>
+                    接続されていません。
+                </div>
+            </div>
+            <div class="route-navi"></div>
+        </div>
+    </div>
+    
+
+    <!-- fix-navigation -->
+    <div class="fix-navi-button">
+        <div class="sideShowBtn">
+            <span class="first"></span>
+            <span class="second"></span>
+            <span class="third"></span>
+        </div>
+    </div>
+
+    <ul class="fix-navi">
+        <li class="fix-navi-list fix-navi-home">
+            <a href="/">
+                <div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">ホーム</div>
+            </a>
+        </li>
+        <li class="fix-navi-list fix-navi-mypage">
+            <a href="/mypage">
+                <div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">マイページ</div>
+            </a>
+        </li>
+        <li class="fix-navi-list fix-navi-fav">
+            <a href="#">
+                <div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">気になるスポット</div>
+            </a>
+        </li>
+    </ul>
+    <!-- /fix-navigation -->
+
+    <div class="loading">
+        <div class="loading-content">
+            <div class="loading-icon">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+    <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+    <script src="/js/gmaps.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/TweenMax.min.js"></script>
+    <script src="/js/MapManager.js"></script>
+    <script>
+        (function($){
+
+            var json = obj
+
+            var routeData = {
+                id: '1',
+                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+                lat: 34.7041131,
+                lng: 135.4948306
+            }
+            mapManager.setRouteShare(routeData)
+
+        })(jQuery)
+    </script>
+</body>
+</html>

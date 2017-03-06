@@ -209,6 +209,12 @@ body {
 	height: 30px;
 	line-height: 30px;
 }
+.map-spot-title p {
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1rem;
+}
 .map-spot-title img {
 	display: block;
 	height: 25px;

@@ -114,6 +114,16 @@ MapManager.prototype.setRoute = function(id,placeId,placeName,lat,lng){
     this.routes.push(route)
 }
 
+MapManager.prototype.setRouteShare = function(routeData){
+    var route = {
+        id: routeData.id,
+        placeId: routeData.placeId,
+        lat: routeData.lat,
+        lng: routeData.lng
+    }
+    this.routes.push(route)
+}
+
 MapManager.prototype.removeRoute = function(id){
     var self = this
     var targetId = id;
@@ -163,15 +173,15 @@ MapManager.prototype.renderRoute = function(){
 }
 
 MapManager.prototype.addRouteNaviFrom = function(spotName){
-    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-from">発</div><div class="map-spot-title first"><img src="/images/start.png">'+spotName+'</div></div>')
+    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-from">発</div><div class="map-spot-title first"><img src="/images/start.png"><p>'+spotName+'</p></div></div>')
 }
 
 MapManager.prototype.addRouteNaviVia = function(spotName){
-    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-via"></div><div class="map-spot-title after"><img src="/images/via.png">'+spotName+'</div></div>')
+    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-via"></div><div class="map-spot-title after"><img src="/images/via.png"><p>'+spotName+'</p></div></div>')
 }
 
 MapManager.prototype.addRouteNaviTo = function(spotName){
-    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-to">着</div><div class="map-spot-title after last"><img src="/images/goal.png">'+spotName+'</div></div>')
+    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-to">着</div><div class="map-spot-title after last"><img src="/images/goal.png"><p>'+spotName+'</p></div></div>')
 }
 
 window.mapManager = new MapManager()
