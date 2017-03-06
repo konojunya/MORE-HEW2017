@@ -90,6 +90,7 @@
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/flickity.pkgd.min.js"></script>
 	<script src="/js/vue.min.js"></script>
+	<script src="/js/MapManager.js"></script>
 	<script>
 		(function($){
 
@@ -174,22 +175,21 @@
 			}
 
 			$('.spot-detail-container').on('click', '.add-routes-button', function(){
-				console.log(shopDetail)
-				// var id = shopDetail.sortid
-				// var placeId = shopDetail.id
-				// var lat = shopDetail.lat
-				// var lng = shopDetail.lng
-				// var placeName = shopDetail.placename
+				var id = shopDetail.sortid
+				var placeId = shopDetail.id
+				var lat = shopDetail.lat
+				var lng = shopDetail.lng
+				var placeName = shopDetail.placename
 
-				// console.log(id,placeId,lat,lng)
+				console.log(id,placeId,lat,lng)
 				if ($(this).hasClass('isAdded')) {
-					// mapManager.removeRoute(id)
+					mapManager.removeRoute(id)
 					$(this).css('background', 'none')
 					$(this).css('color', '#FFF')
 					$(this).text('ルートに追加')
 					$(this).removeClass('isAdded')
 				} else {
-					// mapManager.setRoute(id,placeId,placeName,lat,lng)
+					mapManager.setRoute(id,placeId,placeName,lat,lng)
 					$(this).css('background-color', '#FFF')
 					$(this).css('color', '#F5857D')
 					$(this).text('追加済み')
