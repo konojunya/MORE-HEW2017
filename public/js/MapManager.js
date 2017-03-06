@@ -3,6 +3,7 @@ function MapManager(){
     this.strokeColor = '#16A6B6';
     this.strokeOpacity = 0.8;
     this.strokeWeight = 5;
+    this.routes = []
 }
 
 MapManager.prototype.initMap = function(origin,destination,zoom){
@@ -25,8 +26,26 @@ MapManager.prototype.initMapArray = function(lat,lng,zoom){
         div: "#map",//id名
         lat: lat,
         lng: lng,
+        mapTypeControl: false,
+        scrollwheel: false,
         zoom: zoom//縮尺
     })
+}
+
+MapManager.prototype.makeLatLngArr = function(){
+    var latArr = []
+    var lngArr = []
+    for (var i = 0; i < this.routes.length; i++) {
+        latArr.push(this.routes[i].lat)
+        lngArr.push(this.routes[i].lng)
+    }
+
+    var latLngArr = {
+        latArr: latArr,
+        lngArr: lngArr
+    }
+
+    return latLngArr
 }
 
 MapManager.prototype.drawRoute = function(originLat,originLng, destinationLat,destinationLng){
@@ -40,11 +59,12 @@ MapManager.prototype.drawRoute = function(originLat,originLng, destinationLat,de
     })
 }
 
-MapManager.prototype.addMarker = function(lat,lng,title,content){
+MapManager.prototype.addMarker = function(lat,lng,title,icon,content){
     this.map.addMarker({
         lat: lat,
         lng: lng,
         title: title,
+        icon: icon,
         infoWindow: {
             content: content
         }
@@ -81,6 +101,77 @@ MapManager.prototype.calcCenterPositionArray = function(latArr,lngArr){
     }
 
     return center
+}
+
+MapManager.prototype.setRoute = function(id,placeId,placeName,lat,lng){
+    var route = {
+        id: id,
+        placeId: placeId,
+        placeName: placeName,
+        lat: lat,
+        lng: lng
+    }
+    this.routes.push(route)
+}
+
+MapManager.prototype.removeRoute = function(id){
+    var self = this
+    var targetId = id;
+    self.routes.some(function(v, i){
+        if (v.id==targetId) self.routes.splice(i,1);
+    });
+}
+
+MapManager.prototype.renderRoute = function(){
+    var self = this
+    this.routes = this.routes.sort()
+    this.routes = this.routes.sort(
+        function(a,b){
+            var aId = a['id'];
+            var bId = b['id'];
+            if( aId < bId ) return -1;
+            if( aId > bId ) return 1;
+            return 0;
+        }
+    )  
+    for (var i = 0; i < this.routes.length; i++) {
+        if (i == 0) {
+            self.drawRoute(
+                this.routes[i].lat,
+                this.routes[i].lng,
+                this.routes[i+1].lat,
+                this.routes[i+1].lng
+            )
+            self.addMarker(this.routes[i].lat,this.routes[i].lng,'title','/images/start.png','content')
+            self.addRouteNaviFrom(this.routes[i].placeName)
+        }
+        else if (i != this.routes.length-1) {
+            self.drawRoute(
+                this.routes[i].lat,
+                this.routes[i].lng,
+                this.routes[i+1].lat,
+                this.routes[i+1].lng
+            )
+            self.addMarker(this.routes[i].lat,this.routes[i].lng,'title','/images/via.png','content')
+            self.addRouteNaviVia(this.routes[i].placeName)
+        }
+        else {
+            self.addMarker(this.routes[i].lat,this.routes[i].lng,'title','/images/goal.png','content')
+            self.addRouteNaviTo(this.routes[i].placeName)
+        }
+    }
+}
+
+MapManager.prototype.addRouteNaviFrom = function(spotName){
+    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-from">発</div><div class="map-spot-title first"><img src="/images/start.png">'+spotName+'</div></div>')
+}
+
+MapManager.prototype.addRouteNaviVia = function(spotName){
+    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-via"></div><div class="map-spot-title after"><img src="/images/via.png">'+spotName+'</div></div>')
+}
+
+MapManager.prototype.addRouteNaviTo = function(spotName){
+    $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-to">着</div><div class="map-spot-title after last"><img src="/images/goal.png">'+spotName+'</div></div>')
 }
 
 window.mapManager = new MapManager()

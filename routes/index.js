@@ -17,6 +17,9 @@ router.get('/spot', function(req, res, next) {
 router.get('/spot/detail', function(req, res, next) {
   res.render('spot-detail');
 });
+router.get('/confirm', function(req, res, next) {
+  res.render('confirm-route-complete');
+});
 router.get("/share/:id",function(req,res){
 
 	var id = req.params.id

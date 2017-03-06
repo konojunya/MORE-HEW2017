@@ -28,21 +28,24 @@
                 <div class="profile-region"><i class="fa fa-map-marker" aria-hidden="true"></i>東淀川・大阪</div>
             </div>
             <div class="walking-history">
-                <div class="title">ルート</div>
-                <div id="map"></div>
-            </div>
-            <div class="category">
-                <div class="title">
-                    ジャンル
+                <div class="map-container">
+                    <div id="map"></div>
+                    <div class="map-cover"></div>
                 </div>
-                <div class="category-flex">
-                    <div class="category-left"></div>
-                    <div class="category-right">
-                        <canvas id="myChart" width="200" height="200"></canvas>
-                        <div id="js-legend" class="chart-legend"></div>
+                <div class="category">
+                    <div class="title">行ったことのあるスポット</div>
+                    <div class="category-flex">
+                        <div class="category-left">
+                            <div class="category-title">カテゴリー</div>
+                        </div>
+                        <div class="category-right">
+                            <canvas id="myChart" width="200" height="200"></canvas>
+                            <div id="js-legend" class="chart-legend"></div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
         </div>
         
         
@@ -118,6 +121,7 @@
                     history[i].lat,
                     history[i].lng,
                     history[i].title,
+                    '/images/via-1.png',
                     history[i].content
                     // '<img src="/images/kiyomizu.png" alt="" width="100">'
                 )
@@ -128,7 +132,7 @@
             var myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ["観光地", "カフェ", "お食事処", "hoge"],
+                    labels: ["観光地", "カフェ", "お食事処", "おみやげ"],
                     datasets: [{
                         // backgroundColor: [
                         //     "#f1c40f",
@@ -144,7 +148,7 @@
                             "#36A2EB",
                             "#FFCE56"
                         ],
-                        data: [3, 1, 1, 0.5]
+                        data: [3, 1, 1, 0]
                     }]
                 },
                 options: {

@@ -49,11 +49,13 @@
 									{{shop.shopName}}
 								</div>
 							</a>
-							<div class="spot-bottom-flex">
-								<div class="spot-business-hours">
-									本日 9:00〜17:00営業
+							<div class="spot-bottom-box">
+								<div class="spot-bottom-left">
+									<div class="spot-business-hours" v-if="shop.openNow" v-html="shop.openNow"></div>
+									<div class="rating" v-html="shop.rating"></div>
 								</div>
-								<button class="add-routes-button" data-id="{{shop.placeId}}">
+								
+								<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.lat" v-bind:data-lng="shop.lng">
 									ルートに追加
 								</button>
 							</div>
@@ -71,7 +73,7 @@
 					</div>
 				</div>
 				<div class="route-navi">
-					<div class="map-spot-title-container">
+					<!-- <div class="map-spot-title-container">
 						<div class="icon map-spot-from">発</div>
 						<div class="map-spot-title first">河原町駅</div>
 					</div>
@@ -80,28 +82,17 @@
 						<div class="map-spot-title after">茶寮都路里 祇園本店</div>
 					</div>
 					<div class="map-spot-title-container">
-						<div class="icon map-spot-via"></div>
-						<div class="map-spot-title after">茶寮都路里 祇園本店</div>
-					</div>
-					<div class="map-spot-title-container">
 						<div class="icon map-spot-to">着</div>
 						<div class="map-spot-title after last">清水寺</div>
-					</div>
+					</div> -->
 				</div>
 				<div class="confirm-route">
 					<button class="confirm-route-button">このルートで決定</button>
 				</div>
 			</div>
 
-			<div class="loading">
-				<div class="loading-icon">
-					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-				</div>
-			</div>
-
 		</div><!-- tab-box -->
 	</div>
-	
 
 	<!-- fix-navigation -->
 	<div class="fix-navi-button">
@@ -133,6 +124,14 @@
 		</li>
 	</ul>
 	<!-- /fix-navigation -->
+
+	<div class="loading">
+		<div class="loading-content">
+			<div class="loading-icon">
+				<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+			</div>
+		</div>
+	</div>
 
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
@@ -176,58 +175,83 @@
 							$('.tab-content1').removeClass('active')
 							$('.tab-content2').addClass('active')
 
-							var testPos = {
-								origin: {
-									lat: 35.0004487,
-									lng: 135.7617562
-								},
-								destination: {
-									lat: 35.0017614,
-									lng: 135.7751592
-								}
-							}
+							$('.map-spot-title-container').remove();
 
-							// var center = mapManager.calcCenterPositionArray(latArr,lngArr)            
-       //      				mapManager.initMapArray(center.lat,center.lng,14)
-
-							mapManager.initMap(testPos.origin,testPos.destination,14)
-							mapManager.drawRoute(testPos.origin.lat,testPos.origin.lng,testPos.destination.lat,testPos.destination.lng)
-
-							mapManager.addMarker(testPos.origin.lat,testPos.origin.lng,"名古屋駅","出発地点:名古屋駅")
-				            mapManager.addMarker(testPos.destination.lat,testPos.destination.lng,"名古屋城","経由地点:名古屋城")
-
-				            // mapManager.drawRoute(35.183766,136.900294, 35.1878217, 136.9012824)
-							testPos = {
-								origin: {
-									lat: 35.0017614,
-									lng: 135.7751592
-								},
-								destination: {
-									lat: 34.9948622,
-									lng: 135.7847918
-								}
-							}
-							mapManager.drawRoute(testPos.origin.lat,testPos.origin.lng,testPos.destination.lat,testPos.destination.lng)
-							mapManager.addMarker(testPos.destination.lat,testPos.destination.lng,"名古屋城","到着地点:名古屋城")
-
-				            
-				            // mapManager.addMarker(35.1878217,136.9012824,"名古屋公園","経由地点:名古屋公園")
+							var latLngArr = mapManager.makeLatLngArr()
+							var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+							mapManager.initMapArray(center.lat,center.lng,14)
+							mapManager.renderRoute()
 							break;
 					}
 				}
 			});
 
 			$('.fix-navi-button').on('touchend',onClickNaviButton)
-			$('.add-routes-button').on('touchstart', function(){
-				$(this).css('background-color', '#16A6B6')
-				$(this).css('color', '#FFF')
-			})
-			$('.add-routes-button').on('touchend', function(){
-				$(this).css('background-color', '#FFF')
-				$(this).css('color', '#16A6B6')
-				// ルート追加処理を書く
+
+			$('.spot-container').on('click', '.add-routes-button', function(){
+				// console.log($(this).data('id'))
+				// console.log($(this).data('sortid'))
+				// var data =  document.querySelector('.add-routes-button')
+				// console.log(data.dataset)
+				// var id = data.dataset.sortid
+				// var placeId = data.dataset.id
+				// var lat = data.dataset.lat
+				// var lng = data.dataset.lng
+				var id = $(this).data('sortid')
+				var placeId = $(this).data('id')
+				var lat = $(this).data('lat')
+				var lng = $(this).data('lng')
+				console.log(id,placeId,lat,lng)
+				if ($(this).hasClass('isAdded')) {
+					mapManager.removeRoute(id)
+					$(this).css('background-color', '#FFF')
+					$(this).css('color', '#16A6B6')
+					$(this).text('ルートに追加')
+					$(this).removeClass('isAdded')
+				} else {
+					mapManager.setRoute(id,placeId,lat,lng)
+					// mapManager.setRoute(1,'abcd','河原町駅',35.003751,135.7687486)
+					// mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0036537,135.7744845)
+					// mapManager.setRoute(3,'abcd','八坂神社',35.0036559,135.7785534)
+					$(this).css('background-color', '#16A6B6')
+					$(this).css('color', '#FFF')
+					$(this).text('追加済み')
+					$(this).addClass('isAdded')
+				}
+
+				// mapManager.setRoute(1,'abcd','河原町駅',35.0004487,135.7617562)
+				// mapManager.setRoute(4,'abcd','清水寺',34.9948622,135.7847918)
+				// mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0017614,135.7751592)
+				// mapManager.setRoute(3,'abcd','八坂神社',35.0025211,135.7750301)
 			})
 
+			$('.confirm-route-button').on('click', function(){
+				$('.loading').show()
+				$('.loading').css('backgroundColor','rgba(0,0,0,0.3)')
+				$('.loading-content').css('color','#fff')
+				$('.loading-icon i').css('color','#fff')
+				$('.loading-icon').after('<div class="loading-message">ルートのデータを<br>作成しています</div>')
+				var userId = '1'
+				// $.ajax({
+				// 	url: "/api/save",
+				// 	type: "GET",
+				// 	data: {
+				// 		userId: userId,
+				// 		routes: mapManager.routes
+				// 	}
+				// })
+				// .done(function(data){
+				// 	$('.loading').hide()
+				// 	console.log(data)
+				// })
+				// .fail(function(err){
+				// 	$('.loading').hide()
+				// 	console.log(err)
+				// })
+				setTimeout(function(){
+					window.location.href = '/confirm'
+				},3000)
+			})
 
 			/**
 		     * fix-naviのアニメーションのキック
@@ -336,28 +360,63 @@
 					$('.loading').hide();
 					
 					if(data.shopList.length > 0){
-						shopListManager.setList(data.shopList)
+						shopListManager.setList(data.shopList);
 					}
-					renderView(data.shopList)
+					$('.spot-container').prepend('<div class="spot-container-count"></div>')
+					$('.spot-container-count').text('検索結果:'+data.shopList.length+'件')
+					var place = data.place
+					var origin = place.origin
+					var destination = place.destination
+					mapManager.setRoute('0',null,origin.placeName,origin.lat,origin.lng)
+					mapManager.setRoute('100',null,destination.placeName,destination.lat,destination.lng)
+					
 				})
 			}
 
 			function renderView(shopListForVue){
 				console.log(shopListForVue)
+				for (i in shopListForVue) {
+					var openMsg = openNow(shopListForVue[i].openNow)
+					shopListForVue[i].openNow = openMsg
+					var rating = makeRating(shopListForVue[i].rating)
+					shopListForVue[i].rating = rating
+				}
 				Vue.nextTick(function(){
 					vm.shopList = shopListForVue
 				});
-				// 	var yelloStar = ~~shopListForVue.rating
-				// 	var blackStar = 5- ~~(shopListForVue.rating)
+			}
 
-				// 	var rating = []
-				// 	for(var i = 0; i < yelloStar; i++){
-				// 		rating.push("*")
-				// 	}
-				// 	for(var i = 0; i < blackStar; i++){
-				// 		rating.push(".")
-				// 	}
-				// 	console.log(rating.join(""))
+			function openNow(bool){
+				if (bool) {
+					return '現在営業中'
+				}
+				return '営業時間外'
+			}
+
+			function makeRating(rating){
+				var yelloStar = ~~rating
+				var blackStar = 5- ~~(rating)
+
+				var rating = []
+				for(var i = 0; i < yelloStar; i++){
+					rating.push('<i class="fa fa-star" aria-hidden="true"></i>')
+				}
+				for(var i = 0; i < blackStar; i++){
+					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
+				}
+				return rating.join("")
+			}
+
+			function addRouteNaviFrom(spotName){
+				$('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-from">発</div><div class="map-spot-title first">'+spotName+'</div></div>')
+			}
+
+			function addRouteNaviVia(spotName){
+				$('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-via"></div><div class="map-spot-title after">'+spotName+'</div></div>')
+			}
+
+			function addRouteNaviTo(spotName){
+				$('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-to">着</div><div class="map-spot-title after last">'+spotName+'</div></div>')
 			}
 
 		})(jQuery)

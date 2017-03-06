@@ -76,11 +76,16 @@ body {
 	margin-left: 0.3rem;
 	font-size: 0.9rem;
 	outline: none;
+	border: 0;
 	width: 100%;
+	-webkit-appearance: none;
 }
 
 .spot-container {
 	min-height: 90vh;
+}
+.spot-container-count {
+	padding-bottom: 0.5rem;
 }
 .spot {
 	width: 100%;
@@ -105,7 +110,7 @@ body {
 	height: 200px;
 	-webkit-background-size: cover;
 	background-size: cover;
-	background-position: bottom;
+	background-position: center;
 	background-repeat: no-repeat;
 }
 
@@ -128,11 +133,24 @@ body {
 	padding-bottom: 0.2rem;
 	color: #000;
 }
-.spot-bottom-flex {
+.spot-bottom-box {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: bottom;
 	padding-top: 0.5rem;
+}
+.spot-bottom-left {
+	/*display: flex;*/
+}
+.spot-business-hours {
+	width: 100%;
+}
+.rating {
+	width: 100%;
+}
+.rating i {
+	font-size: 1.1rem;
+	margin-right: 5px;
 }
 .add-routes-button {
 	display: block;
@@ -158,8 +176,8 @@ body {
 	position: relative;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 50vh;
+	min-width: 100%;
+	min-height: 50vh;
 	margin: 0 auto;
 	background-color: #999;
 }
@@ -183,11 +201,18 @@ body {
 	left: 0;
 }
 .map-spot-title {
+	display: flex;
+	align-items: center;
 	font-size: 1rem;
 	padding-left: 3.5rem;
 	background-color: #EBEBEB;
 	height: 30px;
 	line-height: 30px;
+}
+.map-spot-title img {
+	display: block;
+	height: 25px;
+	margin-right: 5px;
 }
 .map-spot-title-container .icon {
 	position: absolute;
@@ -255,17 +280,22 @@ body {
 .loading {
 	display: none;
 	position: fixed;
-	top: 0;
+	bottom: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	z-index: 9999;
 }
-.loading-icon {
+.loading-content {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translateY(-50%) translateX(-50%);
+	text-align: center;
 }
 .loading-icon i {
 	color: rgba(0,0,0,0.38);
+}
+.loading-message {
+	padding-top: 1rem;
 }
