@@ -52,7 +52,7 @@
 							<div class="spot-bottom-box">
 								<div class="spot-bottom-left">
 									<div class="spot-business-hours" v-if="shop.openNow" v-html="shop.openNow"></div>
-									<div class="rating" v-html="shop.rating"></div>
+									<div class="rating" v-html="shop.ratingView"></div>
 								</div>
 								
 								<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
@@ -350,7 +350,7 @@
 
 			var place = shopListManager.getPlace()
 
-			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
+			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination) && !shopListManager.getShopData()){
 				var data = shopListManager.getShopData()
 				renderView(data.shopList)
 				renderMap(data)
@@ -376,7 +376,6 @@
 					renderView(data.shopList);
 					
 					if(data.shopList.length > 0){
-						console.log(data.shopList.length)
 						shopListManager.setShopData(data);
 					}
 					renderMap(data)
@@ -399,7 +398,7 @@
 					var openMsg = openNow(shopListForVue[i].openNow)
 					shopListForVue[i].openNow = openMsg
 					var rating = makeRating(shopListForVue[i].rating)
-					shopListForVue[i].rating = rating
+					shopListForVue[i]["ratingView"] = rating
 				}
 				Vue.nextTick(function(){
 					vm.shopList = shopListForVue
