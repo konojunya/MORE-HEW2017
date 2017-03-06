@@ -56,7 +56,7 @@
 										<div class="rating" v-html="shop.ratingView"></div>
 									</div>
 									
-									<button v-if="shop.selected" class="add-routes-button isAdded" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
+									<button v-if="shop.added" class="add-routes-button isAdded" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
 										追加済み
 									</button>
 									<button v-else class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
@@ -434,8 +434,11 @@
 				var sessionRoutes = mapManager.getSessionRoutes();
 				for(var i in list){
 					sessionRoutes.map(function(r){
-						list[i]["selected"] = (r == list[i].placeId)
+						return (r == list[i].placeId)
 					})
+					if (list[i]["added"]) {
+						mapManager.setRoute(list[i].sortId,list[i].placeId,list[i].shopName,list[i].location.lat,list[i].location.lng)
+					}
 				}
 				renderView(list);
 			}
