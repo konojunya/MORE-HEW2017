@@ -55,7 +55,7 @@
 									<div class="rating" v-html="shop.rating"></div>
 								</div>
 								
-								<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.lat" v-bind:data-lng="shop.lng">
+								<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
 									ルートに追加
 								</button>
 							</div>
@@ -201,6 +201,7 @@
 				var placeId = $(this).data('id')
 				var lat = $(this).data('lat')
 				var lng = $(this).data('lng')
+				var placeName = $(this).data('placename')
 				console.log(id,placeId,lat,lng)
 				if ($(this).hasClass('isAdded')) {
 					mapManager.removeRoute(id)
@@ -209,7 +210,7 @@
 					$(this).text('ルートに追加')
 					$(this).removeClass('isAdded')
 				} else {
-					mapManager.setRoute(id,placeId,lat,lng)
+					mapManager.setRoute(id,placeId,placeName,lat,lng)
 					// mapManager.setRoute(1,'abcd','河原町駅',35.003751,135.7687486)
 					// mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0036537,135.7744845)
 					// mapManager.setRoute(3,'abcd','八坂神社',35.0036559,135.7785534)
@@ -350,8 +351,9 @@
 			var place = shopListManager.getPlace()
 
 			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
-				var shopList = shopListManager.getList()
-				renderView(shopList)
+				var data = shopListManager.getShopData()
+				renderView(data.shopList)
+				renderMap(data)
 			}else{
 				shopListManager.setPlace({
 					origin: decodeURIComponent(params.origin),
@@ -374,20 +376,25 @@
 					renderView(data.shopList);
 					
 					if(data.shopList.length > 0){
-						shopListManager.setList(data.shopList);
+						console.log(data.shopList.length)
+						shopListManager.setShopData(data);
 					}
-					$('.spot-container').prepend('<div class="spot-container-count"></div>')
-					$('.spot-container-count').text('検索結果:'+data.shopList.length+'件')
-					var place = data.place
-					var origin = place.origin
-					var destination = place.destination
-					mapManager.setRoute('0',null,origin.placeName,origin.lat,origin.lng)
-					mapManager.setRoute('100',null,destination.placeName,destination.lat,destination.lng)
-					
+					renderMap(data)
 				})
 			}
 
+			function renderMap(data){
+				$('.spot-container').prepend('<div class="spot-container-count"></div>')
+				$('.spot-container-count').text('検索結果:'+data.shopList.length+'件')
+				var place = data.place
+				var origin = place.origin
+				var destination = place.destination
+				mapManager.setRoute('0',null,origin.placeName,origin.lat,origin.lng)
+				mapManager.setRoute('100',null,destination.placeName,destination.lat,destination.lng)
+			}
+
 			function renderView(shopListForVue){
+				console.log(shopListForVue)
 				for (i in shopListForVue) {
 					var openMsg = openNow(shopListForVue[i].openNow)
 					shopListForVue[i].openNow = openMsg
@@ -418,18 +425,6 @@
 					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
 				}
 				return rating.join("")
-			}
-
-			function addRouteNaviFrom(spotName){
-				$('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-from">発</div><div class="map-spot-title first">'+spotName+'</div></div>')
-			}
-
-			function addRouteNaviVia(spotName){
-				$('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-via"></div><div class="map-spot-title after">'+spotName+'</div></div>')
-			}
-
-			function addRouteNaviTo(spotName){
-				$('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-to">着</div><div class="map-spot-title after last">'+spotName+'</div></div>')
 			}
 
 		})(jQuery)

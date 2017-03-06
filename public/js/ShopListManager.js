@@ -6,10 +6,10 @@ function ShopListManager(){
 	this.shopList = []
 	this.isCache = false
 }
-ShopListManager.prototype.setList = function(shopList){
-	sessionStorage.setItem('shopList',JSON.stringify(shopList));
+ShopListManager.prototype.setShopData = function(data){
+	sessionStorage.setItem('shopList',JSON.stringify(data));
 }
-ShopListManager.prototype.getList = function(){
+ShopListManager.prototype.getShopData = function(){
 	var shopList = sessionStorage.getItem("shopList");
 	return JSON.parse(shopList)
 }

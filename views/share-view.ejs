@@ -76,145 +76,16 @@
     <script>
         (function($){
 
-            // mapManagerのroutes[]にsetする
-            var latLngArr = mapManager.makeLatLngArr()
-            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
-            mapManager.initMapArray(center.lat,center.lng,14)
-            mapManager.renderRoute()
+            var json = obj
 
-            $('.share-line').on('click', function(){
-                $('.loading').show()
-                var uuid = makeUuid()
-                // var json = mapManager.routes
-
-                var json = [
-                    {
-                        id: '0',
-                        lat: 34.7041131,
-                        lng: 135.4948306,
-                        placeId: null,
-                        placeName: 'グランフロント大阪'
-                    },
-                    {
-                        id: '100',
-                        lat: 34.7024854,
-                        lng: 135.4959506,
-                        placeId: null,
-                        placeName: '大阪駅'
-                    }
-                ]
-
-                var requestData = {
-                    uuid: uuid,
-                    route: json
-                }
-
-                $.ajax({
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    url: '/api/share',
-                    type: 'POST',
-                    data: JSON.stringify(requestData)
-                })
-                .done(function(data){
-                    $('.loading').hide()
-                    console.log(data)
-                    console.log(uuid)
-                    console.log(json)
-                    var lineUrl = 'http://line.me/R/msg/text/?'
-                    var localHostUrl = 'http://192.168.43.36:3000/share/'
-                    window.location.href = lineUrl+localHostUrl+uuid
-
-                })
-                .fail(function(err){
-                    $('.loading').hide()
-                    console.log(err)
-
-                })
-            })
-
-            function makeUuid() {
-                var uuid = ""
-                uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
-                return uuid;
+            var routeData = {
+                id: '1',
+                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+                lat: 34.7041131,
+                lng: 135.4948306
             }
+            mapManager.setRouteShare(routeData)
 
-            $('.fix-navi-button').on('touchend',onClickNaviButton)
-
-            /**
-             * fix-naviのアニメーションのキック
-             *
-             * @param { bool } bool
-             */
-            function onClickNaviButton() {
-                if($(this).hasClass('opened')){
-                    noScroll(false)
-                    endAnimation()
-                    $(this).removeClass('opened')
-                }else{
-                    noScroll(true)
-                    startAnimation()
-                    $(this).addClass('opened')
-                }
-
-            }
-
-            /**
-             * フラグがtrueならスクロールを止める
-             *
-             * @param { bool } bool
-             */
-            function noScroll(bool){
-                if (bool) {
-                    $('.tab-box-container').on('touchmove.noScroll', function(e) {
-                        e.preventDefault();
-                    });
-                } else {
-                    $('.tab-box-container').off('.noScroll');
-                }
-            }
-
-
-            /**
-             * 斜めにするアニメーション
-             * ボタンのアニメーション
-             */
-            function startAnimation(){
-                TweenMax.to('.main-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
-                TweenMax.to('.tab-box-container',0.7,{height: '120vh',transform: 'rotateZ(30deg)',ease: Circ.easeInOut})
-                setTimeout(function(){
-                    $(".sideShowBtn .first").css("transform","rotate(45deg)");
-                    $(".sideShowBtn .first").animate({
-                        top: "12px"
-                    },0)
-                    $(".sideShowBtn .second").css("opacity","0");
-                    $(".sideShowBtn .third").css("transform","rotate(-45deg)");
-                    $(".sideShowBtn .third").animate({
-                        top: "12px"
-                    },0)
-                },100)
-            }
-
-            /**
-             * 斜めにするアニメーションを元に戻す
-             * ボタンのアニメーションを元に戻す
-             */
-            function endAnimation(){
-                TweenMax.to('.main-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
-                TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
-                setTimeout(function(){
-                    $(".sideShowBtn .first").css("transform","rotate(0deg)");
-                    $(".sideShowBtn .first").animate({
-                        top: "5px"
-                    },0)
-                    $(".sideShowBtn .second").css("opacity","1");
-                    $(".sideShowBtn .third").css("transform","rotate(0deg)");
-                    $(".sideShowBtn .third").animate({
-                        top: "19px"
-                    },0)
-                },100)
-            }
         })(jQuery)
     </script>
 </body>

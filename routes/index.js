@@ -46,7 +46,7 @@ router.get("/share/:id",function(req,res){
 		})
 
 		if(!fileCheck){
-			// res.render('share-view',)
+			res.render('not-found')
 		}
 
 	})

@@ -1,0 +1,8 @@
+body {
+    background-color: #444466;
+}
+.main-container {
+    margin-top: 3rem;
+    min-height: 100vh;
+    background-color: #fff;
+}
