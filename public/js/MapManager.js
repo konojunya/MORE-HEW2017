@@ -31,22 +31,6 @@ MapManager.prototype.initMapArray = function(lat,lng,zoom){
         zoom: zoom,
         styles: [
           {
-            "elementType": "geometry",
-            "stylers": [
-              {
-                "color": "#f5f5f5"
-              }
-            ]
-          },
-          {
-            "elementType": "labels.icon",
-            "stylers": [
-              {
-                "visibility": "off"
-              }
-            ]
-          },
-          {
             "elementType": "labels.text.fill",
             "stylers": [
               {
@@ -144,38 +128,11 @@ MapManager.prototype.initMapArray = function(lat,lng,zoom){
             ]
           },
           {
-            "featureType": "road.local",
-            "elementType": "labels.text.fill",
-            "stylers": [
-              {
-                "color": "#9e9e9e"
-              }
-            ]
-          },
-          {
-            "featureType": "transit.line",
-            "elementType": "geometry",
-            "stylers": [
-              {
-                "color": "#e5e5e5"
-              }
-            ]
-          },
-          {
-            "featureType": "transit.station",
-            "elementType": "geometry",
-            "stylers": [
-              {
-                "color": "#eeeeee"
-              }
-            ]
-          },
-          {
             "featureType": "water",
             "elementType": "geometry",
             "stylers": [
               {
-                "color": "#c9c9c9"
+                "color": "#a3ccff"
               }
             ]
           },
@@ -272,6 +229,8 @@ MapManager.prototype.setRoute = function(id,placeId,placeName,lat,lng){
         lng: lng
     }
     this.routes.push(route)
+    sessionStorage.setItem('routes',JSON.stringify(this.routes))
+    // console.log(JSON.parse(sessionStorage.getItem('routes')))
 }
 
 MapManager.prototype.setRouteShare = function(routeData){

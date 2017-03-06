@@ -117,10 +117,24 @@
             var routeData = {
                 id: '1',
                 placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+                placeName: 'hoge1',
                 lat: 34.7041131,
                 lng: 135.4948306
             }
             mapManager.setRouteShare(routeData)
+            routeData = {
+                id: '2',
+                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+                placeName: 'hoge2',
+                lat: 34.7091131,
+                lng: 135.5048306
+            }
+            mapManager.setRouteShare(routeData)
+
+            var latLngArr = mapManager.makeLatLngArr()
+            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+            mapManager.initMapArray(center.lat,center.lng,14)
+            mapManager.renderRoute()
 
             // var map;
             // map = new GMaps({
@@ -147,27 +161,14 @@
             //     }
             // });
 
+            $('.add-calender').on('click', function(){
+                console.log('click')
+            })
+
             $('.share-line').on('click', function(){
                 $('.loading').show()
                 var uuid = makeUuid()
-                // var json = mapManager.routes
-
-                var json = [
-                    {
-                        id: '0',
-                        lat: 34.7041131,
-                        lng: 135.4948306,
-                        placeId: null,
-                        placeName: 'グランフロント大阪'
-                    },
-                    {
-                        id: '100',
-                        lat: 34.7024854,
-                        lng: 135.4959506,
-                        placeId: null,
-                        placeName: '大阪駅'
-                    }
-                ]
+                var json = mapManager.routes
 
                 var requestData = {
                     uuid: uuid,
@@ -281,92 +282,6 @@
                 },100)
             }
 
-
-            // var count = 1;
-            // var currentWindow = null;
-            // var map;
-            // var marker;
-            // var sampleMarker;
-            // var geoOptions = {
-            //     enableHighAccuracy : true, //精度を高める
-            //     timeout : 6000, //タイムアウトは6秒
-            //     maximumAge : 0 //キャッシュはさせない
-            // }
-     
-            // //現在位置の取得
-            // if (navigator.geolocation) {
-            //     navigator.geolocation.watchPosition( //watchPositionとすることで定期的に現在地を取得
-            //     function (pos) {
-            //         //取得状況
-            //         $('#n').html((count++) + "回目");
-            //         $('#x').html(pos.coords.latitude);
-            //         $('#y').html(pos.coords.longitude);
-     
-            //         var mapData = { 'x':pos.coords.latitude, 'y':pos.coords.longitude, 'balloon':'現在位置' };
-            //         var latlng = new google.maps.LatLng(mapData.x, mapData.y);
-            //         if( !map ){ //初回のみマップ生成
-            //             var myOptions = { zoom: 14, center: latlng, mapTypeId: google.maps.MapTypeId.ROADMAP };
-            //             map = new google.maps.Map(document.getElementById("map"), myOptions);
-            //         }
-            //         if( marker ){ //現在地マーカーが設置されている場合は消去
-            //             marker.setMap(null);
-            //         }
-            //         if( !sampleMarker ){ //初回のみ目的地マーカーを設置
-            //             sampleMarker = { 'x':'34.687315', 'y':'135.526201', 'balloon':'大阪城' };
-            //             makeMarker2( sampleMarker );
-            //         }
-            //         makeMarker( mapData ); //現在地マーカーを設置
-            //     },
-            //     function (error) {
-            //         var msg;
-            //         switch( error.code ){
-            //             case 1: msg = "位置情報の利用が許可されていません"; break;
-            //             case 2: msg = "位置が判定できません"; break;
-            //             case 3: msg = "タイムアウトしました"; break;
-            //         }
-            //         console.log(msg);
-            //     });
-            // } else {
-            //     console.log("本ブラウザではGeolocationが使えません");
-            // }
-     
-            // //マーカー作成
-            // function makeMarker( mapData ){
-            //     marker = new google.maps.Marker({
-            //         position : new google.maps.LatLng(mapData.x,mapData.y), 
-            //         map: map, 
-            //         icon: '/images/start.png'
-            //     });
-     
-            //     var infoWindow = new google.maps.InfoWindow();
-            //     google.maps.event.addListener(marker, 'click', function() {
-            //         if (currentWindow) {
-            //             currentWindow.close();
-            //         }
-            //         infoWindow.setContent(mapData.balloon);
-            //         infoWindow.open(map,marker);
-            //         currentWindow = infoWindow;
-            //     });
-            // }
-     
-            // //マーカー作成
-            // function makeMarker2( mapData ){
-            //     var marker2 = new google.maps.Marker({
-            //         position : new google.maps.LatLng(mapData.x,mapData.y), 
-            //         map: map,
-            //         icon: "/images/goal.png"
-            //     });
-     
-            //     var infoWindow = new google.maps.InfoWindow();
-            //     google.maps.event.addListener(marker2, 'click', function() {
-            //         if (currentWindow) {
-            //             currentWindow.close();
-            //         }
-            //         infoWindow.setContent(mapData.balloon);
-            //         infoWindow.open(map,marker2);
-            //         currentWindow = infoWindow;
-            //     });
-            // }
         })(jQuery)
     </script>
 </body>
