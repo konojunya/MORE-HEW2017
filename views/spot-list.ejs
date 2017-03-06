@@ -352,9 +352,10 @@
 
 			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination) && !shopListManager.getShopData()){
 				var data = shopListManager.getShopData()
-				renderView(data.shopList)
+				checkRouteAdded(data.shopList)
 				renderMap(data)
 			}else{
+				mapManager.destorySessionRoutes()
 				shopListManager.setPlace({
 					origin: decodeURIComponent(params.origin),
 					destination: decodeURIComponent(params.destination)
@@ -372,8 +373,6 @@
 					timeout: 10000
 				})
 				.done(function(data){
-
-					checkRouteAdded(data.shopList);
 					
 					if(data.shopList.length > 0){
 						shopListManager.setShopData(data);
