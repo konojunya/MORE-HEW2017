@@ -1,10 +1,7 @@
-const key = require("../.key")
 const param = require('jquery-param');
 const request = require("request");
 const async = require('async');
-const gm = require('@google/maps').createClient({
-  key: key.token
-});
+const im = require("./InstanceManager");
 
 let placeNameOrigin = placeNameDestination = null
 
@@ -14,7 +11,10 @@ const PHOTO_MAX_WIDTH = 400;
 const SUCCESS_STATUS_CODE = 200;
 
 function GoogleMapApiService(){
-	this.key = key.token
+
+	var repository = im.getRepository()
+
+	this.key = repository.token
 	this.travel_mode = {
 		walk: "walking",
 		drive: "driving"
@@ -68,6 +68,8 @@ GoogleMapApiService.prototype.getOriginAndDestinationLatLng = function(){
  */
 GoogleMapApiService.prototype.getShopDetail = function(placeId){
 
+	var repository = im.getRepository()
+
 	/**
 	 *	photoReferenceToImageUrl
 	 *
@@ -78,7 +80,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		const params = param({
 			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
-			key: key.token
+			key: repository.token
 		})
 
 		const url = "https://maps.googleapis.com/maps/api/place/photo?"+params
@@ -91,7 +93,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		const self = this
 
 		const params = param({
-			key: key.token,
+			key: repository.token,
 			placeid: placeId,
 			language: "ja"
 		})
@@ -102,8 +104,13 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		}
 
 		request.get(options,function(err,response,body){
-			if(!err && response.statusCode == SUCCESS_STATUS_CODE && body.result != null){
+			if(!err && response.statusCode == SUCCESS_STATUS_CODE){
 				const results = body.result;
+
+				if(!results){
+					resolve({})
+					return;
+				}
 				
 				let photosArray = []
 				if(results.photos.length > 0){
@@ -126,8 +133,6 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 
 				resolve(shopDetailObject)
 
-			}else{
-				resolve({})
 			}
 		})
 
@@ -145,6 +150,8 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
  */
 GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 
+	var repository = im.getRepository()
+
 	/**
 	 *	photoReferenceToImageUrl
 	 *
@@ -152,10 +159,11 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 	 *	@return { string } url
 	 */
 	const photoReferenceToImageUrl = function(photo_reference){
+
 		const params = param({
 			maxwidth: PHOTO_MAX_WIDTH,
 			photoreference: photo_reference,
-			key: key.token
+			key: repository.token
 		})
 
 		const url = "https://maps.googleapis.com/maps/api/place/photo?"+params
@@ -170,7 +178,7 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 		radius: searchRadius,
 		types: "food",
 		language: "ja",
-		key: key.token
+		key: repository.token
 	});
 
 	const options = {
@@ -213,7 +221,9 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 GoogleMapApiService.prototype.getDirections = function(resolve,results){
 	const self = this
 
-	gm.directions({
+	var repository = im.getRepository()
+
+	repository.instance.directions({
 		origin: results[0],
 		destination: results[1],
 		mode: self.travel_mode.walk,
@@ -250,7 +260,9 @@ GoogleMapApiService.prototype.getDirections = function(resolve,results){
 GoogleMapApiService.prototype.getOriginLatlng = function(callback){
 	const self = this
 
-	gm.geocode({
+	var repository = im.getRepository()
+
+	repository.instance.geocode({
 		address: placeNameOrigin,
 		language: "ja"
 	},function(err,response){
@@ -271,7 +283,9 @@ GoogleMapApiService.prototype.getOriginLatlng = function(callback){
 GoogleMapApiService.prototype.getDestinationLatlng = function(callback){
 	var self = this
 
-	gm.geocode({
+	var repository = im.getRepository()
+
+	repository.instance.geocode({
 		address: placeNameDestination,
 		language: "ja"
 	},function(err,response){

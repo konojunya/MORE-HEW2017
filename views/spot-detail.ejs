@@ -78,11 +78,7 @@
 							</div>
 							<div class="review-content-bottom">
 								<div class="review-rating">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
+									<p v-html="review.ratingView"></p>
 								</div>
 								<div class="review-name">
 									{{review.author_name}}
@@ -103,7 +99,7 @@
 
 			var shopDetail;
 
-			var placeId = "ChIJa1zKJO3mAGARCWweqvokh_k"
+			var placeId = window.location.pathname.replace(/\/spot\//,"")
 
 			var vm = initVue()
 			fetchShopDetail();
@@ -136,6 +132,11 @@
 			}
 
 			function renderView(shopDetailForVue){
+
+				for(var i in shopDetailForVue.reviews){
+					shopDetailForVue.reviews[i]["ratingView"] = makeRating(shopDetailForVue.reviews[i].rating)
+				}
+
 				Vue.nextTick(function(){
 					vm.shop = shopDetailForVue
 				});
@@ -192,6 +193,22 @@
 				// 	$(this).addClass('isAdded')
 				// }
 			})
+
+			function makeRating(rating){
+				var yelloStar = ~~rating
+				var blackStar = 5- ~~(rating)
+
+				var rating = []
+				for(var i = 0; i < yelloStar; i++){
+					rating.push('<i class="fa fa-star" aria-hidden="true"></i>')
+				}
+				for(var i = 0; i < blackStar; i++){
+					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
+				}
+				return rating.join("")
+			}
+
+
 		})(jQuery)
 	</script>
 </body>

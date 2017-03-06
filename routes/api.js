@@ -91,15 +91,59 @@ router.get("/detail",function(req,res){
 
 })
 
+router.get("/route/save",function(req,res){
+
+	const jsonData = req.body.routes;
+	const userName = req.body.userId;
+
+	var id = (Date.now()+Math.floor(Math.random()*999999)).toString(36);
+	var routeId = username+"-"+id;
+
+	fs.writeFile("users/"+routeId+'.json', JSON.stringify(jsonData, null, '    '));
+
+	res.json({ routeId: routeId });
+
+});
+
+router.get("/route/read",function(req,res){
+
+	var id = req.body.routeId;
+
+	fs.readdir("users",function(err,files){
+		if(err) throw new Error(err);
+
+		var fileCheck = false;
+		var fileList = [];
+
+		files.filter(function(file){
+			return /.*\.json$/.test(file);
+		}).forEach(function(file){
+			fileList.push(file);
+		});
+
+		fileList.map(function(file){
+			if(file.replace(/.json$/,"") == id){
+				fileCheck = true;
+				var obj = JSON.parse(fs.readFileSync("users/"+file, 'utf8'));
+				res.render('share-view',obj);
+			}
+		})
+
+		if(!fileCheck){ res.render('not-found'); }
+
+	});
+
+});
+
 router.post("/share",function(req,res){
 
 	const jsonData = req.body.route;
-	const uuid = req.body.uuid
+	const uuid = req.body.uuid;
 
 	fs.writeFile("store/"+uuid+'.json', JSON.stringify(jsonData, null, '    '));
 
 	res.json({
-		write: true
+		uuid: uuid
 	})
 
 })
