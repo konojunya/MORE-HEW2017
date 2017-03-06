@@ -102,7 +102,7 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		}
 
 		request.get(options,function(err,response,body){
-			if(!err && response.statusCode == SUCCESS_STATUS_CODE){
+			if(!err && response.statusCode == SUCCESS_STATUS_CODE && body.result != null){
 				const results = body.result;
 				
 				let photosArray = []
@@ -126,6 +126,8 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 
 				resolve(shopDetailObject)
 
+			}else{
+				resolve({})
 			}
 		})
 
@@ -181,8 +183,6 @@ GoogleMapApiService.prototype.getPlace = function(latlng,callback){
 			let results = []
 			body.results.map(function(item){
 				if(item.rating && item.photos && item.opening_hours){
-
-					console.log(item)
 
 					results.push({
 						shopName: item.name,

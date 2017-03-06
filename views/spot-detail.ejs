@@ -15,110 +15,82 @@
 		
 	</header>
 
-	<div class="main-view">
-		<ul>
-			<li class="image">
-				<img src="/images/59068506.jpg" alt="">
-			</li>
-			<li class="image">
-				<img src="/images/login_back.png" alt="">
-			</li>
-			<li class="image">
-				<img src="/images/kiyomizu.png" alt="">
-			</li>
-		</ul>
-	</div>
+	<div id="app">
 
-	<div class="page-dots-cover"></div>
-
-	<div class="spot-detail-container">
-		<div class="spot-detail-navi">
-			<button class="add-fav-spot"><i class="fa fa-3x fa-heart-o" aria-hidden="true"></i></button>
-			<button class="add-routes-button" data-id="{{shop.placeId}}">
-				ルートに追加
-			</button>
+		<div class="main-view">
+			<ul>
+				<li class="image" v-for="img in shop.images">
+					<img src="/images/placeholder.png" v-bind:data-flickity-lazyload="img" alt="">
+				</li>
+				
+ 				<!-- <li class="image" v-for="img in shop.images">
+					<img :src="img" alt="">
+				</li> -->
+			</ul>
 		</div>
 
-		<div class="spot-content">
-			<div class="spot-title">
-				<i class="fa fa-map-marker" aria-hidden="true"></i>
-				{{shop.name}}
-			</div>
-			<div class="spot-address">
-				<div class="title">
-					<span>Address</span><span class="span-right">住所</span>
-				</div>
-				<div class="spot-address-bottom">
-					{{shop.address}}
-				</div>
-			</div>
-			<div class="spot-tel">
-				<div class="title">
-					<span>Phone</span><span class="span-right">電話番号</span>
-				</div>
-				<i class="fa fa-phone" aria-hidden="true"></i>
-				075-561-2257
-			</div>
-			<div class="spot-business-hours">
-				<div class="title">
-					<span>Business Hours</span><span class="span-right">営業時間</span>
-				</div>
-				<ul>
-					<li>月曜日　9時00分～17時00分</li>
-					<li>火曜日　9時00分～17時00分</li>
-					<li>水曜日　9時00分～17時00分</li>
-					<li>木曜日　9時00分～17時00分</li>
-					<li>金曜日　9時00分～17時00分</li>
-					<li>土曜日　定休日</li>
-					<li>日曜日　定休日</li>
-				</ul>
-			</div>
-			<div class="spot-review">
-				<div class="title">
-					<span>Review</span><span class="span-right">レビュー</span>
-				</div>
-				<ul>
-					<li class="review-content">
-						<div class="review-text">
-							都路里へ行ったらパフェがオススメです。<br>
-							都路里の特選パフェや季節限定のパフェもあります。<br>
-							春は桜パフェがありました。<br>
-							白玉がピンク色で桜餅のフレーバー、見た目も味もとても良かったです。<br>
+		<div class="page-dots-cover"></div>
 
-							2階の喫茶店で1080円以上を注文すると30円の割引券が貰えます。私はいつも1階でお茶の葉を買うときに割引券を使います。抹茶入り玄米茶がお気に入りです。<br>
-							待ち時間が長いので余裕を持って行くのが良いと思います。<br>
-						</div>
-						<div class="review-content-bottom">
-							<div class="review-rating">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star" aria-hidden="true"></i>
+		<div class="spot-detail-container">
+			<div class="spot-detail-navi">
+				<button class="add-fav-spot"><i class="fa fa-3x fa-heart-o" aria-hidden="true"></i></button>
+				<button class="add-routes-button" data-id="{{shop.placeId}}">
+					ルートに追加
+				</button>
+			</div>
+
+			<div class="spot-content">
+				<div class="spot-title">
+					<i class="fa fa-map-marker" aria-hidden="true"></i>
+					{{shop.name}}
+				</div>
+				<div class="spot-address">
+					<div class="title">
+						<span>Address</span><span class="span-right">住所</span>
+					</div>
+					<div class="spot-address-bottom">
+						{{shop.address}}
+					</div>
+				</div>
+				<div class="spot-tel">
+					<div class="title">
+						<span>Phone</span><span class="span-right">電話番号</span>
+					</div>
+					<i class="fa fa-phone" aria-hidden="true"></i>
+					{{shop.tel}}
+				</div>
+				<div class="spot-business-hours">
+					<div class="title">
+						<span>Business Hours</span><span class="span-right">営業時間</span>
+					</div>
+					<ul>
+						<li v-for="hours in shop.openingHours">{{hours}}</li>
+					</ul>
+				</div>
+				<div class="spot-review">
+					<div class="title">
+						<span>Review</span><span class="span-right">レビュー</span>
+					</div>
+					<ul>
+						<li class="review-content" v-for="review in shop.reviews">
+							<div class="review-text">
+								{{review.text}}
 							</div>
-							<div class="review-name">
-								Etsuko Ueda
+							<div class="review-content-bottom">
+								<div class="review-rating">
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+								</div>
+								<div class="review-name">
+									{{review.author_name}}
+								</div>
 							</div>
-						</div>
-					</li>
-					<li class="review-content">
-						<div class="review-text">
-							抹茶ソフトクリームを頂きました。抹茶を味わうならお茶が一番ですね！店で頂いたお茶が美味しかったです！
-						</div>
-						<div class="review-content-bottom">
-							<div class="review-rating">
-								<i class="fa fa-star" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-								<i class="fa fa-star-o" aria-hidden="true"></i>
-							</div>
-							<div class="review-name">
-								Ken Osaka
-							</div>
-						</div>
-					</li>
-				</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -151,7 +123,7 @@
 
 			function initVue(){
 				var vm = new Vue({
-					el: ".spot-detail-container",
+					el: "#app",
 					data: {
 						shop: {}
 					}
@@ -161,18 +133,22 @@
 			}
 
 			function renderView(shopDetailForVue){
-				console.log(shopDetailForVue)
 				Vue.nextTick(function(){
 					vm.shop = shopDetailForVue
 				});
+				initFlickity()
 			}
 
-
-			$('.main-view ul').flickity({
-				autoPlay: true,
-				wrapAround: true,
-				prevNextButtons: false
-			});
+			function initFlickity(){
+				setTimeout(function(){
+					$('.main-view ul').flickity({
+						autoPlay: true,
+						wrapAround: true,
+						prevNextButtons: false,
+						lazyLoad: true
+					});
+				},0)
+			}
 
 			$('.add-fav-spot').on('touchend', function(){
 				favAnimation()

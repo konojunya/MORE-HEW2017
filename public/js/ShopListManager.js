@@ -22,4 +22,9 @@ ShopListManager.prototype.getPlace = function(){
 	return JSON.parse(placeName)
 }
 
+ShopListManager.prototype.destory = function(){
+	sessionStorage.removeItem("shopList")
+	sessionStorage.removeItem("placeName")
+}
+
 window.shopListManager = new ShopListManager()
