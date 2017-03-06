@@ -21,108 +21,110 @@
 		</ul>
 	</div>
 
-	<div class="search">
-		<i class="fa fa-search" aria-hidden="true"></i>
-		<input type="text" name="search" placeholder="絞り込み" id="search">
-	</div>
+	<div id="app">
+		<div class="search">
+			<i class="fa fa-search" aria-hidden="true"></i>
+			<input type="text" name="search" placeholder="絞り込み" id="search">
+		</div>
 
 
-	<div class="tab-box-container">
-		<div class="tab-box">
+		<div class="tab-box-container">
+			<div class="tab-box">
 
-			<div class="spot-container active tab-content1">
-				<ul>
+				<div class="spot-container active tab-content1">
+					<ul>
 
-					<li class="spot" v-for="shop in shopList">
-						<div class="spot-top">
-							<a href="spot/detail">
-								<div class="spot-image" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}"></div>
-							</a>
-						</div>
-
-						<div class="spot-bottom">
-							<div class="spot-genre">
-								ジャンル: {{shop.genre}}
+						<li class="spot" v-for='shop in shopList'>
+							<div class="spot-top">
+								<a href="spot/detail">
+									<div class="spot-image" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}"></div>
+								</a>
 							</div>
-							<a href="spot/detail">
-								<div class="spot-title">
-									{{shop.shopName}}
+
+							<div class="spot-bottom">
+								<div class="spot-genre">
+									ジャンル: {{shop.genre}}
 								</div>
-							</a>
-							<div class="spot-bottom-box">
-								<div class="spot-bottom-left">
-									<div class="spot-business-hours" v-if="shop.openNow" v-html="shop.openNow"></div>
-									<div class="rating" v-html="shop.rating"></div>
+								<a href="spot/detail">
+									<div class="spot-title">
+										{{shop.shopName}}
+									</div>
+								</a>
+								<div class="spot-bottom-box">
+									<div class="spot-bottom-left">
+										<div class="spot-business-hours" v-if="shop.openNow" v-html="shop.openNow"></div>
+										<div class="rating" v-html="shop.rating"></div>
+									</div>
+									
+									<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.lat" v-bind:data-lng="shop.lng">
+										ルートに追加
+									</button>
 								</div>
-								
-								<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.lat" v-bind:data-lng="shop.lng">
-									ルートに追加
-								</button>
 							</div>
+						</li>
+						
+					</ul>
+				</div>
+
+				<div class="map-container tab-content2">
+					<div id="map">
+						<div class="map-error-message">
+							ネットワークに<br>
+							接続されていません。
 						</div>
-					</li>
-					
-				</ul>
-			</div>
+					</div>
+					<div class="route-navi">
+						<!-- <div class="map-spot-title-container">
+							<div class="icon map-spot-from">発</div>
+							<div class="map-spot-title first">河原町駅</div>
+						</div>
+						<div class="map-spot-title-container">
+							<div class="icon map-spot-via"></div>
+							<div class="map-spot-title after">茶寮都路里 祇園本店</div>
+						</div>
+						<div class="map-spot-title-container">
+							<div class="icon map-spot-to">着</div>
+							<div class="map-spot-title after last">清水寺</div>
+						</div> -->
+					</div>
+					<div class="confirm-route">
+						<button class="confirm-route-button">このルートで決定</button>
+					</div>
+				</div>
 
-			<div class="map-container tab-content2">
-				<div id="map">
-					<div class="map-error-message">
-						ネットワークに<br>
-						接続されていません。
-					</div>
-				</div>
-				<div class="route-navi">
-					<!-- <div class="map-spot-title-container">
-						<div class="icon map-spot-from">発</div>
-						<div class="map-spot-title first">河原町駅</div>
-					</div>
-					<div class="map-spot-title-container">
-						<div class="icon map-spot-via"></div>
-						<div class="map-spot-title after">茶寮都路里 祇園本店</div>
-					</div>
-					<div class="map-spot-title-container">
-						<div class="icon map-spot-to">着</div>
-						<div class="map-spot-title after last">清水寺</div>
-					</div> -->
-				</div>
-				<div class="confirm-route">
-					<button class="confirm-route-button">このルートで決定</button>
-				</div>
-			</div>
+			</div><!-- tab-box -->
+		</div>
 
-		</div><!-- tab-box -->
+		<!-- fix-navigation -->
+		<div class="fix-navi-button">
+			<div class="sideShowBtn">
+		        <span class="first"></span>
+		        <span class="second"></span>
+		        <span class="third"></span>
+		    </div>
+		</div>
+
+		<ul class="fix-navi">
+			<li class="fix-navi-list fix-navi-home">
+				<a href="/">
+					<div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+					<div class="fix-navi-content">ホーム</div>
+				</a>
+			</li>
+			<li class="fix-navi-list fix-navi-mypage">
+				<a href="/mypage">
+					<div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+					<div class="fix-navi-content">マイページ</div>
+				</a>
+			</li>
+			<li class="fix-navi-list fix-navi-fav">
+				<a href="#">
+					<div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
+					<div class="fix-navi-content">気になるスポット</div>
+				</a>
+			</li>
+		</ul>
 	</div>
-
-	<!-- fix-navigation -->
-	<div class="fix-navi-button">
-		<div class="sideShowBtn">
-	        <span class="first"></span>
-	        <span class="second"></span>
-	        <span class="third"></span>
-	    </div>
-	</div>
-
-	<ul class="fix-navi">
-		<li class="fix-navi-list fix-navi-home">
-			<a href="/">
-				<div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
-				<div class="fix-navi-content">ホーム</div>
-			</a>
-		</li>
-		<li class="fix-navi-list fix-navi-mypage">
-			<a href="/mypage">
-				<div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
-				<div class="fix-navi-content">マイページ</div>
-			</a>
-		</li>
-		<li class="fix-navi-list fix-navi-fav">
-			<a href="#">
-				<div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
-				<div class="fix-navi-content">気になるスポット</div>
-			</a>
-		</li>
-	</ul>
 	<!-- /fix-navigation -->
 
 	<div class="loading">
@@ -148,7 +150,7 @@
 
 			function initVue(){
 				var vm = new Vue({
-					el: ".spot-container",
+					el: "#app",
 					data: {
 						shopList: []
 					}
