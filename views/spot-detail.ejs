@@ -178,19 +178,19 @@
 				// var placeName = shopDetail.placename
 
 				// console.log(id,placeId,lat,lng)
-				// if ($(this).hasClass('isAdded')) {
-				// 	mapManager.removeRoute(id)
-				// 	$(this).css('background-color', '#FFF')
-				// 	$(this).css('color', '#16A6B6')
-				// 	$(this).text('ルートに追加')
-				// 	$(this).removeClass('isAdded')
-				// } else {
-				// 	mapManager.setRoute(id,placeId,placeName,lat,lng)
-				// 	$(this).css('background-color', '#16A6B6')
-				// 	$(this).css('color', '#FFF')
-				// 	$(this).text('追加済み')
-				// 	$(this).addClass('isAdded')
-				// }
+				if ($(this).hasClass('isAdded')) {
+					// mapManager.removeRoute(id)
+					$(this).css('background', 'none')
+					$(this).css('color', '#FFF')
+					$(this).text('ルートに追加')
+					$(this).removeClass('isAdded')
+				} else {
+					// mapManager.setRoute(id,placeId,placeName,lat,lng)
+					$(this).css('background-color', '#FFF')
+					$(this).css('color', '#F5857D')
+					$(this).text('追加済み')
+					$(this).addClass('isAdded')
+				}
 			})
 
 			function makeRating(rating){

@@ -164,6 +164,13 @@
 				return vm
 			}
 
+			checkRouteAdded()
+			function checkRouteAdded(){
+				var sessionRoutes = getSessionRoutes()
+				console.log(sessionRoutes)
+			}
+			// sessionStorage.removeItem("routes")
+
 			$(".spots").on("click",".transition-key",function(){
 				var place_id = $(this).data("id");
 				window.location.href = "/spot/"+place_id
@@ -421,6 +428,10 @@
 					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
 				}
 				return rating.join("")
+			}
+
+			function getSessionRoutes(){
+				return JSON.parse(sessionStorage.getItem('routes'))
 			}
 
 		})(jQuery)

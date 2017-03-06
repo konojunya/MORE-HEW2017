@@ -230,7 +230,6 @@ MapManager.prototype.setRoute = function(id,placeId,placeName,lat,lng){
     }
     this.routes.push(route)
     sessionStorage.setItem('routes',JSON.stringify(this.routes))
-    // console.log(JSON.parse(sessionStorage.getItem('routes')))
 }
 
 MapManager.prototype.setRouteShare = function(routeData){
