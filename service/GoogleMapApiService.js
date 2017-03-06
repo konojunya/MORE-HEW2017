@@ -119,8 +119,6 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 					})
 				}
 
-				console.log(results)
-
 				const shopDetailObject = {
 					name: results.name,
 					address: results.vicinity,

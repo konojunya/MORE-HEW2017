@@ -56,7 +56,10 @@
 										<div class="rating" v-html="shop.ratingView"></div>
 									</div>
 									
-									<button class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
+									<button v-if="shop.selected" class="add-routes-button isAdded" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
+										追加済み
+									</button>
+									<button v-else class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
 										ルートに追加
 									</button>
 								</div>
@@ -164,13 +167,6 @@
 				return vm
 			}
 
-			checkRouteAdded()
-			function checkRouteAdded(){
-				var sessionRoutes = getSessionRoutes()
-				console.log(sessionRoutes)
-			}
-			// sessionStorage.removeItem("routes")
-
 			$(".spots").on("click",".transition-key",function(){
 				var place_id = $(this).data("id");
 				window.location.href = "/spot/"+place_id
@@ -213,17 +209,13 @@
 				var lat = $(this).data('lat')
 				var lng = $(this).data('lng')
 				var placeName = $(this).data('placename')
-				console.log(id,placeId,lat,lng)
 				if ($(this).hasClass('isAdded')) {
 					mapManager.removeRoute(id)
-					$(this).css('background-color', '#FFF')
-					$(this).css('color', '#16A6B6')
 					$(this).text('ルートに追加')
 					$(this).removeClass('isAdded')
 				} else {
-					mapManager.setRoute(id,placeId,placeName,lat,lng)
-					$(this).css('background-color', '#16A6B6')
-					$(this).css('color', '#FFF')
+					mapManager.setRoute(id,placeId,placeName,lat,lng);
+					mapManager.setSessionRoutes(placeId)
 					$(this).text('追加済み')
 					$(this).addClass('isAdded')
 				}
@@ -365,17 +357,20 @@
 					data: {
 						origin: decodeURIComponent(params.origin),
 						destination: decodeURIComponent(params.destination)
-					}
+					},
+					timeout: 10000
 				})
 				.done(function(data){
-					$('.loading').hide();
 
-					renderView(data.shopList);
+					checkRouteAdded(data.shopList);
 					
 					if(data.shopList.length > 0){
 						shopListManager.setShopData(data);
 					}
 					renderMap(data)
+				})
+				.fail(function(){
+					console.log("timeoutとかいろいろエラー")
 				})
 			}
 
@@ -390,7 +385,7 @@
 			}
 
 			function renderView(shopListForVue){
-				console.log(shopListForVue)
+				$('.loading').hide();
 				for (var i in shopListForVue) {
 					var openMsg = openNow(shopListForVue[i].openNow)
 					shopListForVue[i].openNow = openMsg
@@ -424,8 +419,14 @@
 				return rating.join("")
 			}
 
-			function getSessionRoutes(){
-				return JSON.parse(sessionStorage.getItem('routes'))
+			function checkRouteAdded(list){
+				var sessionRoutes = mapManager.getSessionRoutes();
+				for(var i in list){
+					sessionRoutes.map(function(r){
+						list[i]["selected"] = (r == list[i].placeId)
+					})
+				}
+				renderView(list);
 			}
 
 		})(jQuery)

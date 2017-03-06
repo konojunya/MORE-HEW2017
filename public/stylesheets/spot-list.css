@@ -320,3 +320,8 @@ li{
 .loading-message {
 	padding-top: 1rem;
 }
+
+.isAdded{
+	background-color: #16A6B6;
+	color: white;
+}

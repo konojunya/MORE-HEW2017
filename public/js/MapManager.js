@@ -3,7 +3,9 @@ function MapManager(){
     this.strokeColor = '#16A6B6';
     this.strokeOpacity = 0.8;
     this.strokeWeight = 5;
-    this.routes = []
+    this.routes = [];
+
+    this.addRoute = [];
 }
 
 MapManager.prototype.initMap = function(origin,destination,zoom){
@@ -229,7 +231,6 @@ MapManager.prototype.setRoute = function(id,placeId,placeName,lat,lng){
         lng: lng
     }
     this.routes.push(route)
-    sessionStorage.setItem('routes',JSON.stringify(this.routes))
 }
 
 MapManager.prototype.setRouteShare = function(routeData){
@@ -289,6 +290,19 @@ MapManager.prototype.renderRoute = function(){
             self.addRouteNaviTo(this.routes[i].placeName)
         }
     }
+}
+
+MapManager.prototype.setSessionRoutes = function(placeId){
+  this.addRoute.push(placeId);
+  sessionStorage.setItem('routes',JSON.stringify(this.addRoute));
+}
+
+MapManager.prototype.getSessionRoutes = function(){
+  return JSON.parse(sessionStorage.getItem('routes'));
+}
+
+MapManager.prototype.destorySessionRoutes = function(){
+  sessionStorage.removeItem('routes')
 }
 
 MapManager.prototype.getRoute = function(){
