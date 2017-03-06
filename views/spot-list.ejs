@@ -190,12 +190,14 @@
 						case 0:
 							$('.tab-content1').addClass('active')
 							$('.tab-content2').removeClass('active')
+							$('.confirm-route.fixed').show()
 							break;
 						case 1:
 							$('.tab-content1').removeClass('active')
 							$('.tab-content2').addClass('active')
 
 							$('.map-spot-title-container').remove();
+							$('.confirm-route.fixed').hide()
 
 							var latLngArr = mapManager.makeLatLngArr()
 							var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
