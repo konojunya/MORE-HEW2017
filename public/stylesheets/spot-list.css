@@ -2,6 +2,10 @@ body {
 	background-color: #444466;
 }
 
+li{
+	list-style: none;
+}
+
 .switching-navi {
 	position: fixed;
 	top: 3rem;
@@ -83,6 +87,9 @@ body {
 
 .spot-container {
 	min-height: 90vh;
+}
+.spot-container ul{
+	margin-bottom: 200px;
 }
 .spot-container-count {
 	padding-bottom: 0.5rem;
@@ -267,6 +274,7 @@ body {
 
 .confirm-route {
 	padding-top: 30px;
+	width: 100%;
 }
 .confirm-route-button {
 	display: block;
@@ -281,6 +289,13 @@ body {
 	line-height: 5vh;
 	color: #fff;
 	font-size: 1.4rem;
+}
+
+.confirm-route.fixed{
+	position: fixed;
+	top: 80%;
+	left: 0%;
+	display: none;
 }
 
 .loading {

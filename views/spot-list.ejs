@@ -8,6 +8,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/stylesheets/common.css">
 	<link rel="stylesheet" href="/stylesheets/spot-list.css">
+	<script>
+	var search = window.location.search
+	if(search == "") window.location.href = "/"
+	</script>
 </head>
 <body>
 	<header id="header">
@@ -32,26 +36,22 @@
 			<div class="tab-box">
 
 				<div class="spot-container active tab-content1">
-					<ul>
+					<ul class="spots">
 
-						<li class="spot" v-for='shop in shopList'>
+						<li v-for='shop in shopList' v-bind:data-id="shop.placeId">
 							<div class="spot-top">
-								<a href="spot/detail">
-									<div class="spot-image" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}"></div>
-								</a>
+								<div class="spot-image transition-key" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}" v-bind:data-id="shop.placeId"></div>
 							</div>
 
 							<div class="spot-bottom">
-								<div class="spot-genre">
+								<div class="spot-genre transition-key" v-bind:data-id="shop.placeId">
 									ジャンル: {{shop.genre}}
 								</div>
-								<a href="spot/detail">
-									<div class="spot-title">
-										{{shop.shopName}}
-									</div>
-								</a>
+								<div class="spot-title transition-key" v-bind:data-id="shop.placeId">
+									{{shop.shopName}}
+								</div>
 								<div class="spot-bottom-box">
-									<div class="spot-bottom-left">
+									<div class="spot-bottom-left transition-key" v-bind:data-id="shop.placeId">
 										<div class="spot-business-hours" v-if="shop.openNow" v-html="shop.openNow"></div>
 										<div class="rating" v-html="shop.ratingView"></div>
 									</div>
@@ -64,6 +64,11 @@
 						</li>
 						
 					</ul>
+
+					<div class="confirm-route fixed">
+						<button class="confirm-route-button">このルートで決定</button>
+					</div>
+
 				</div>
 
 				<div class="map-container tab-content2">
@@ -159,11 +164,16 @@
 				return vm
 			}
 
+			$(".spots").on("click",".transition-key",function(){
+				var place_id = $(this).data("id");
+				window.location.href = "/spot/"+place_id
+			})
+
 			$('.switching-navi li').on('click', function(){
 				if($('.fix-navi-button').hasClass('opened')){
 					noScroll(false)
 					endAnimation()
-		    		$('.fix-navi-button').removeClass('opened')
+					$('.fix-navi-button').removeClass('opened')
 				}
 				if($(this).not('active')){
 					$(this).addClass('active').siblings('li').removeClass('active')
@@ -263,10 +273,9 @@
 			})
 
 			function makeUuid() {
-                var uuid = ""
-                uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
-                return uuid
-            }
+				var uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
+				return uuid
+      }
 
 			/**
 		     * fix-naviのアニメーションのキック
@@ -402,6 +411,7 @@
 					var rating = makeRating(shopListForVue[i].rating)
 					shopListForVue[i]["ratingView"] = rating
 				}
+				$(".confirm-route.fixed").fadeIn()
 				Vue.nextTick(function(){
 					vm.shopList = shopListForVue
 				});

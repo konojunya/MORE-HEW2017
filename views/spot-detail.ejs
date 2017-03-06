@@ -101,7 +101,7 @@
 	<script>
 		(function($){
 
-			var placeId = "ChIJa1zKJO3mAGARCWweqvokh_k"
+			var placeId = window.location.pathname.replace(/\/spot\//,"")
 
 			var vm = initVue()
 			fetchShopDetail();
