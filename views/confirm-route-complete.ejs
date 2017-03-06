@@ -78,12 +78,50 @@
     </div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+    <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
     <script src="/js/gmaps.min.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/TweenMax.min.js"></script>
     <script src="/js/MapManager.js"></script>
     <script>
         (function($){
+
+            // $.ajax({
+            //     url: '/api/get',
+            //     type: 'GET',
+            //     data: {
+            //         routeId: routeId
+            //     }
+            // })
+            // .done(function(data){
+            //     $('.loading').hide()
+            //     console.log(data)
+            //     var userId = data.userId
+            //     var routes = data.routes
+            //     for (i in routes) {
+            //         var routeData = {
+            //             id: routes[i].id,
+            //             placeId: routes[i].placeId,
+            //             lat: routes[i].lat,
+            //             lng: routes[i].lng
+            //         }
+            //         mapManager.setRouteShare(routeData)
+            //     }
+            //     mapManager.renderRoute()
+            // })
+            // .fail(function(err){
+            //     $('.loading').hide()
+            //     console.log(err)
+            // })
+
+            var routeData = {
+                id: '1',
+                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+                lat: 34.7041131,
+                lng: 135.4948306
+            }
+            mapManager.setRouteShare(routeData)
+
             // var map;
             // map = new GMaps({
             //     div: '#map',
@@ -109,27 +147,49 @@
             //     }
             // });
 
-            // mapManagerのroutes[]にsetする
-            var latLngArr = mapManager.makeLatLngArr()
-            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
-            mapManager.initMapArray(center.lat,center.lng,14)
-            mapManager.renderRoute()
-
             $('.share-line').on('click', function(){
                 $('.loading').show()
                 var uuid = makeUuid()
-                var json = mapManager.routes
+                // var json = mapManager.routes
+
+                var json = [
+                    {
+                        id: '0',
+                        lat: 34.7041131,
+                        lng: 135.4948306,
+                        placeId: null,
+                        placeName: 'グランフロント大阪'
+                    },
+                    {
+                        id: '100',
+                        lat: 34.7024854,
+                        lng: 135.4959506,
+                        placeId: null,
+                        placeName: '大阪駅'
+                    }
+                ]
+
+                var requestData = {
+                    uuid: uuid,
+                    route: json
+                }
+
                 $.ajax({
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     url: '/api/share',
                     type: 'POST',
-                    data: {
-                        uuid: uuid,
-                        route: json
-                    }
+                    data: JSON.stringify(requestData)
                 })
                 .done(function(data){
                     $('.loading').hide()
                     console.log(data)
+                    console.log(uuid)
+                    console.log(json)
+                    var lineUrl = 'http://line.me/R/msg/text/?'
+                    var localHostUrl = 'http://192.168.43.36:3000/share/'
+                    window.location.href = lineUrl+localHostUrl+uuid
 
                 })
                 .fail(function(err){
@@ -140,16 +200,9 @@
             })
 
             function makeUuid() {
-                var uuid = "", i, random;
-                for (i = 0; i < 32; i++) {
-                    random = Math.random() * 16 | 0;
-
-                    if (i == 8 || i == 12 || i == 16 || i == 20) {
-                        uuid += "-"
-                    }
-                    uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
-                }
-                return uuid;
+                var uuid = ""
+                uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
+                return uuid
             }
 
             $('.fix-navi-button').on('touchend',onClickNaviButton)
