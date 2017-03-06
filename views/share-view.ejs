@@ -26,38 +26,6 @@
             <div class="route-navi"></div>
         </div>
     </div>
-    
-
-    <!-- fix-navigation -->
-    <div class="fix-navi-button">
-        <div class="sideShowBtn">
-            <span class="first"></span>
-            <span class="second"></span>
-            <span class="third"></span>
-        </div>
-    </div>
-
-    <ul class="fix-navi">
-        <li class="fix-navi-list fix-navi-home">
-            <a href="/">
-                <div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
-                <div class="fix-navi-content">ホーム</div>
-            </a>
-        </li>
-        <li class="fix-navi-list fix-navi-mypage">
-            <a href="/mypage">
-                <div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
-                <div class="fix-navi-content">マイページ</div>
-            </a>
-        </li>
-        <li class="fix-navi-list fix-navi-fav">
-            <a href="#">
-                <div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
-                <div class="fix-navi-content">気になるスポット</div>
-            </a>
-        </li>
-    </ul>
-    <!-- /fix-navigation -->
 
     <div class="loading">
         <div class="loading-content">
@@ -76,15 +44,42 @@
     <script>
         (function($){
 
-            var json = obj
+            // var json = obj
 
-            var routeData = {
-                id: '1',
-                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
-                lat: 34.7041131,
-                lng: 135.4948306
+            var routeData = [
+                    {
+                        id: '0',
+                        lat: 34.7041131,
+                        lng: 135.4948306,
+                        placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+                        placeName: '大阪駅'
+                    },
+                    {
+                        id: '2',
+                        lat: 34.7034864,
+                        lng: 135.4958706,
+                        placeId: null,
+                        placeName: '大阪駅'
+                    },
+                    {
+                        id: '100',
+                        lat: 34.7024854,
+                        lng: 135.4959506,
+                        placeId: null,
+                        placeName: '大阪駅'
+                    }
+                ]
+
+            for (i in routeData) {
+                console.log(routeData[i])
+                mapManager.setRouteShare(routeData[i])
             }
-            mapManager.setRouteShare(routeData)
+            var latLngArr = mapManager.makeLatLngArr()
+            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+            mapManager.initMapArray(center.lat,center.lng,14)
+            mapManager.renderRoute()
+
+            // mapManager.setRouteShare(routeData)
 
         })(jQuery)
     </script>
