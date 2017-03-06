@@ -370,6 +370,8 @@
 				})
 				.done(function(data){
 					$('.loading').hide();
+
+					renderView(data.shopList);
 					
 					if(data.shopList.length > 0){
 						shopListManager.setList(data.shopList);
@@ -386,7 +388,6 @@
 			}
 
 			function renderView(shopListForVue){
-				console.log(shopListForVue)
 				for (i in shopListForVue) {
 					var openMsg = openNow(shopListForVue[i].openNow)
 					shopListForVue[i].openNow = openMsg

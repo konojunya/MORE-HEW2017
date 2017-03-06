@@ -17,6 +17,7 @@
     "jquery-param": "^0.2.0",
     "morgan": "~1.7.0",
     "request": "^2.79.0",
-    "serve-favicon": "~2.3.2"
+    "serve-favicon": "~2.3.2",
+    "vue-flickity": "^1.0.7"
   }
 }
