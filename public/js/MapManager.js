@@ -118,6 +118,7 @@ MapManager.prototype.setRouteShare = function(routeData){
     var route = {
         id: routeData.id,
         placeId: routeData.placeId,
+        placeName: routeData.placeName,
         lat: routeData.lat,
         lng: routeData.lng
     }
