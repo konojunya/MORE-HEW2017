@@ -12,7 +12,7 @@
 </head>
 <body>
 	<header id="header">
-		
+		<i class="fa fa-angle-left fa-3x backbutton" aria-hidden="true"></i>
 	</header>
 
 	<div id="app">
@@ -99,6 +99,10 @@
 
 			var vm = initVue()
 			fetchShopDetail();
+
+			$(".backbutton").on("click",function(){
+				history.back()
+			})
 
 			function fetchShopDetail(){
 

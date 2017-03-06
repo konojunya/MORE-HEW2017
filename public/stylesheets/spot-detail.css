@@ -133,3 +133,12 @@
 .review-name {
     font-size: 0.8rem
 }
+
+.backbutton{
+    display: block;
+    margin: 0;
+    box-sizing: border-box;
+    line-height: 3rem;
+    padding: 0 10px;
+    color: white;
+}

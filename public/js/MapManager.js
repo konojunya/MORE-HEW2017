@@ -291,6 +291,10 @@ MapManager.prototype.renderRoute = function(){
     }
 }
 
+MapManager.prototype.getRoute = function(){
+  return this.routes
+}
+
 MapManager.prototype.addRouteNaviFrom = function(spotName){
     $('.route-navi').append('<div class="map-spot-title-container"><div class="icon map-spot-from">発</div><div class="map-spot-title first"><img src="/images/start.png"><p>'+spotName+'</p></div></div>')
 }

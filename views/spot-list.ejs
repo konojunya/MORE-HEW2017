@@ -235,34 +235,28 @@
 				$('.loading-content').css('color','#fff')
 				$('.loading-icon i').css('color','#fff')
 				$('.loading-icon').after('<div class="loading-message">ルートのデータを<br>作成しています</div>')
-				saveRoutes()
-			})
-
-			function saveRoutes() {
-				var userId = '1'
-				var routes = mapManager.routes
+        
+				var nickname = 'konojunya'
+				var routes = mapManager.getRoute()
 				console.log(routes)
-				// $.ajax({
-				// 	url: "/api/save",
-				// 	type: "GET",
-				// 	data: {
-				// 		userId: userId,
-				// 		routes: routes
-				// 	}
-				// })
-				// .done(function(data){
-				// 	$('.loading').hide()
-				// 	console.log(data.routeId)
-				// })
-				// .fail(function(err){
-				// 	$('.loading').hide()
-				// 	console.log(err)
-				// })
-
-				setTimeout(function(){
-					window.location.href = '/confirm?'+routeId
-				},3000)
-			}
+				$.ajax({
+					url: "/api/route/save",
+					type: "POST",
+					data: {
+						userId: nickname,
+						routes: JSON.stringify(routes)
+					}
+				})
+				.done(function(data){
+					window.location.href = "/confirm?routeId="+data.routeId
+				})
+				.fail(function(err){
+					console.log(err)
+				})
+				.always(function(){
+					$('.loading').hide()
+				})
+			})
 
 			function makeUuid() {
 				var uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
