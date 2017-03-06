@@ -99,11 +99,15 @@
                     var routeData = {
                         id: data[i].id,
                         placeId: data[i].placeId,
+                        placeName: data[i].placeName,
                         lat: data[i].lat,
                         lng: data[i].lng
                     }
                     mapManager.setRouteShare(routeData)
                 }
+                var latLngArr = mapManager.makeLatLngArr()
+                var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+                mapManager.initMapArray(center.lat,center.lng,14)
                 mapManager.renderRoute()
             })
             .fail(function(err){
@@ -111,27 +115,27 @@
                 console.log(err)
             });
 
-            var routeData = {
-                id: '1',
-                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
-                placeName: 'hoge1',
-                lat: 34.7041131,
-                lng: 135.4948306
-            }
-            mapManager.setRouteShare(routeData)
-            routeData = {
-                id: '2',
-                placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
-                placeName: 'hoge2',
-                lat: 34.7091131,
-                lng: 135.5048306
-            }
-            mapManager.setRouteShare(routeData)
+            // var routeData = {
+            //     id: '1',
+            //     placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+            //     placeName: 'hoge1',
+            //     lat: 34.7041131,
+            //     lng: 135.4948306
+            // }
+            // mapManager.setRouteShare(routeData)
+            // routeData = {
+            //     id: '2',
+            //     placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+            //     placeName: 'hoge2',
+            //     lat: 34.7091131,
+            //     lng: 135.5048306
+            // }
+            // mapManager.setRouteShare(routeData)
 
-            var latLngArr = mapManager.makeLatLngArr()
-            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
-            mapManager.initMapArray(center.lat,center.lng,14)
-            mapManager.renderRoute()
+            // var latLngArr = mapManager.makeLatLngArr()
+            // var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+            // mapManager.initMapArray(center.lat,center.lng,14)
+            // mapManager.renderRoute()
 
             // var map;
             // map = new GMaps({

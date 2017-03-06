@@ -19,7 +19,7 @@ body {
     left: 0;
     width: 100%;
     min-height: 100vh;
-    padding: 3rem 1rem 0;
+    padding: 3rem 1rem 5rem;
     z-index: 200;
 }
 .main-container .title {
