@@ -29,7 +29,7 @@
 
 		<div class="spot-detail-container">
 			<div class="spot-detail-navi">
-				<button class="add-fav-spot"><i class="fa fa-3x fa-heart-o" aria-hidden="true"></i></button>
+				<button class="add-fav-spot" v-bind:data-id="shop.placeId"><i class="fa fa-3x fa-heart-o" aria-hidden="true"></i></button>
 				<button class="add-routes-button" data-id="{{shop.placeId}}">
 					ルートに追加
 				</button>
@@ -90,6 +90,7 @@
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/flickity.pkgd.min.js"></script>
 	<script src="/js/vue.min.js"></script>
+	<script src="/js/LoveForEver.js"></script>
 	<script>
 		(function($){
 
@@ -149,7 +150,7 @@
 			function initFlickity(){
 				setTimeout(function(){
 					$('.main-view ul').flickity({
-						autoPlay: true,
+						autoPlay: false,
 						wrapAround: true,
 						prevNextButtons: false,
 						lazyLoad: true
@@ -158,15 +159,18 @@
 			}
 
 			$('.add-fav-spot').on('touchend', function(){
-				favAnimation()
+				var love = $(this).data("id");
+				favAnimation(love)
 			})
 
-			function favAnimation(){
+			function favAnimation(love){
 				if ($('.add-fav-spot').hasClass('isAdded')) {
+					loveForEver.brokenHeart(love);
 					$('.add-fav-spot').removeClass('isAdded')
 					$('.add-fav-spot i').removeClass('fa-heart')
 					$('.add-fav-spot i').addClass('fa-heart-o')
 				} else {
+					loveForEver.confession(love)
 					$('.add-fav-spot').addClass('isAdded')
 					$('.add-fav-spot i').removeClass('fa-heart-o')
 					$('.add-fav-spot i').addClass('fa-heart')
