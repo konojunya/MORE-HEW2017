@@ -93,6 +93,8 @@
 	<script>
 		(function($){
 
+			var shopDetail;
+
 			var placeId = window.location.pathname.replace(/\/spot\//,"")
 
 			var vm = initVue()
@@ -113,6 +115,7 @@
 				})
 				.done(function(data){
 					renderView(data.shopDetail)
+					shopDetail = data.shopDetail
 					if(!Object.keys(data.shopDetail).length){
 						window.location.reload()
 					}
@@ -169,6 +172,30 @@
 					$('.add-fav-spot i').addClass('fa-heart')
 				}
 			}
+
+			$('.spot-detail-container').on('click', '.add-routes-button', function(){
+				console.log(shopDetail)
+				// var id = shopDetail.sortid
+				// var placeId = shopDetail.id
+				// var lat = shopDetail.lat
+				// var lng = shopDetail.lng
+				// var placeName = shopDetail.placename
+
+				// console.log(id,placeId,lat,lng)
+				if ($(this).hasClass('isAdded')) {
+					// mapManager.removeRoute(id)
+					$(this).css('background', 'none')
+					$(this).css('color', '#FFF')
+					$(this).text('ルートに追加')
+					$(this).removeClass('isAdded')
+				} else {
+					// mapManager.setRoute(id,placeId,placeName,lat,lng)
+					$(this).css('background-color', '#FFF')
+					$(this).css('color', '#F5857D')
+					$(this).text('追加済み')
+					$(this).addClass('isAdded')
+				}
+			})
 
 			function makeRating(rating){
 				var yelloStar = ~~rating

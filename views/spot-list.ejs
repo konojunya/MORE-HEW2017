@@ -164,6 +164,13 @@
 				return vm
 			}
 
+			checkRouteAdded()
+			function checkRouteAdded(){
+				var sessionRoutes = getSessionRoutes()
+				console.log(sessionRoutes)
+			}
+			// sessionStorage.removeItem("routes")
+
 			$(".spots").on("click",".transition-key",function(){
 				var place_id = $(this).data("id");
 				window.location.href = "/spot/"+place_id
@@ -201,14 +208,6 @@
 			$('.fix-navi-button').on('touchend',onClickNaviButton)
 
 			$('.spot-container').on('click', '.add-routes-button', function(){
-				// console.log($(this).data('id'))
-				// console.log($(this).data('sortid'))
-				// var data =  document.querySelector('.add-routes-button')
-				// console.log(data.dataset)
-				// var id = data.dataset.sortid
-				// var placeId = data.dataset.id
-				// var lat = data.dataset.lat
-				// var lng = data.dataset.lng
 				var id = $(this).data('sortid')
 				var placeId = $(this).data('id')
 				var lat = $(this).data('lat')
@@ -223,19 +222,11 @@
 					$(this).removeClass('isAdded')
 				} else {
 					mapManager.setRoute(id,placeId,placeName,lat,lng)
-					// mapManager.setRoute(1,'abcd','河原町駅',35.003751,135.7687486)
-					// mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0036537,135.7744845)
-					// mapManager.setRoute(3,'abcd','八坂神社',35.0036559,135.7785534)
 					$(this).css('background-color', '#16A6B6')
 					$(this).css('color', '#FFF')
 					$(this).text('追加済み')
 					$(this).addClass('isAdded')
 				}
-
-				// mapManager.setRoute(1,'abcd','河原町駅',35.0004487,135.7617562)
-				// mapManager.setRoute(4,'abcd','清水寺',34.9948622,135.7847918)
-				// mapManager.setRoute(2,'abcd','茶寮都路里 祇園本店',35.0017614,135.7751592)
-				// mapManager.setRoute(3,'abcd','八坂神社',35.0025211,135.7750301)
 			})
 
 			$('.confirm-route-button').on('click', function(){
@@ -244,6 +235,7 @@
 				$('.loading-content').css('color','#fff')
 				$('.loading-icon i').css('color','#fff')
 				$('.loading-icon').after('<div class="loading-message">ルートのデータを<br>作成しています</div>')
+        
 				var nickname = 'konojunya'
 				var routes = mapManager.getRoute()
 				console.log(routes)
@@ -264,16 +256,12 @@
 				.always(function(){
 					$('.loading').hide()
 				})
-
-				// setTimeout(function(){
-				// 	window.location.href = '/confirm?'+routeId
-				// },3000)
 			})
 
 			function makeUuid() {
 				var uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
 				return uuid
-      }
+		    }
 
 			/**
 		     * fix-naviのアニメーションのキック
@@ -434,6 +422,10 @@
 					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
 				}
 				return rating.join("")
+			}
+
+			function getSessionRoutes(){
+				return JSON.parse(sessionStorage.getItem('routes'))
 			}
 
 		})(jQuery)
