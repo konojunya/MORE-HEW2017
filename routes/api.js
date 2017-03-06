@@ -41,9 +41,6 @@ function responseShopList(res,origin,destination,radius){
 		}
 
 		if(shopListArray.length < MINIMAN_NEED_SHOPLIST_LENGHT){
-			console.log("半径"+radius+"m")
-			console.log(shopListArray.length+"個のデータが見つかりました。\n");
-
 			if(radius < MAX_SEARCH_REQUEST_RADIUS){
 				radius += SEARCH_RADIUS;
 				responseShopList(res,origin,destination,radius);
