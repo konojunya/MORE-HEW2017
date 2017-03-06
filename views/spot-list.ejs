@@ -405,7 +405,7 @@
 
 			function renderView(shopListForVue){
 				console.log(shopListForVue)
-				for (i in shopListForVue) {
+				for (var i in shopListForVue) {
 					var openMsg = openNow(shopListForVue[i].openNow)
 					shopListForVue[i].openNow = openMsg
 					var rating = makeRating(shopListForVue[i].rating)
