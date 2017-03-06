@@ -65,10 +65,6 @@
 						
 					</ul>
 
-					<div class="confirm-route fixed">
-						<button class="confirm-route-button">このルートで決定</button>
-					</div>
-
 				</div>
 
 				<div class="map-container tab-content2">
@@ -98,6 +94,11 @@
 				</div>
 
 			</div><!-- tab-box -->
+
+		</div>
+
+		<div class="confirm-route fixed">
+			<button class="confirm-route-button">このルートで決定</button>
 		</div>
 
 		<!-- fix-navigation -->
@@ -301,9 +302,13 @@
 		     * ボタンのアニメーション
 		     */
 			function startAnimation(){
-				TweenMax.to('.spot-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
-				TweenMax.to('.map-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
-				TweenMax.to('.tab-box-container',0.7,{height: '120vh',transform: 'rotateZ(30deg)',ease: Circ.easeInOut})
+				$('.confirm-route.fixed').fadeOut(100)
+				setTimeout(function(){
+					TweenMax.to('.spot-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+					TweenMax.to('.map-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+					TweenMax.to('.tab-box-container',0.7,{height: '120vh',transform: 'rotateZ(30deg)',ease: Circ.easeInOut})
+				},150)
+				
 				setTimeout(function(){
 					$(".sideShowBtn .first").css("transform","rotate(45deg)");
 					$(".sideShowBtn .first").animate({
@@ -325,6 +330,10 @@
 				TweenMax.to('.spot-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
 				TweenMax.to('.map-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
 				TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
+				TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
+				setTimeout(function(){
+					$('.confirm-route.fixed').fadeIn(100)
+				},700)
 				setTimeout(function(){
 					$(".sideShowBtn .first").css("transform","rotate(0deg)");
 					$(".sideShowBtn .first").animate({

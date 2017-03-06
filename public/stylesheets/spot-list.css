@@ -296,6 +296,10 @@ li{
 	top: 80%;
 	left: 0%;
 	display: none;
+	z-index: 1000;
+}
+.confirm-route.fixed .confirm-route-button {
+	width: 60%;
 }
 
 .loading {
