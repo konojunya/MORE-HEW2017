@@ -294,12 +294,14 @@ li{
 .confirm-route.fixed{
 	position: fixed;
 	top: 80%;
-	left: 0%;
+	left: 50%;
+	width: 60%;
 	display: none;
+	transform: translateX(-50%);
 	z-index: 1000;
 }
 .confirm-route.fixed .confirm-route-button {
-	width: 60%;
+	width: 100%;
 }
 
 .loading {
