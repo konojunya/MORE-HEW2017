@@ -56,7 +56,8 @@ li{
 	background-color: #fff;
 }
 .tab-box .tab-content1,
-.tab-box .tab-content2 {
+.tab-box .tab-content2,
+.tab-box .tab-content3 {
   display: none;
 }
 .tab-box .active {
@@ -330,4 +331,15 @@ li{
 .isAdded{
 	background-color: #16A6B6;
 	color: white;
+}
+
+.tab-box .tab-content3 {
+	margin-top: 8rem;
+}
+.error-message {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	text-align: center;
+	transform: translateY(-50%);
 }
