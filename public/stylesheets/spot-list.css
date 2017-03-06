@@ -293,12 +293,12 @@ li{
 
 .confirm-route.fixed{
 	position: fixed;
-	top: 80%;
-	left: 50%;
-	width: 60%;
+	bottom: 0;
+	left: 0;
+	width: 100%;
 	display: none;
-	transform: translateX(-50%);
-	z-index: 1000;
+	/*transform: translateX(-50%);*/
+	z-index: 200;
 }
 .confirm-route.fixed .confirm-route-button {
 	width: 100%;
