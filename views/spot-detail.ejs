@@ -22,10 +22,6 @@
 				<li class="image" v-for="img in shop.images">
 					<img src="/images/placeholder.png" v-bind:data-flickity-lazyload="img" alt="">
 				</li>
-				
- 				<!-- <li class="image" v-for="img in shop.images">
-					<img :src="img" alt="">
-				</li> -->
 			</ul>
 		</div>
 
@@ -116,6 +112,9 @@
 				.done(function(data){
 					renderView(data.shopDetail)
 					shopDetail = data.shopDetail
+					if(!Object.keys(data.shopDetail).length){
+						window.location.reload()
+					}
 				})
 
 			}
