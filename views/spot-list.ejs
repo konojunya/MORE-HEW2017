@@ -433,8 +433,11 @@
 			function checkRouteAdded(list){
 				var sessionRoutes = mapManager.getSessionRoutes();
 				for(var i in list){
+					list[i]["added"] = false
 					sessionRoutes.map(function(r){
-						return (r == list[i].placeId)
+						if((r == list[i].placeId)){
+							list[i]["added"] = true
+						}
 					})
 					if (list[i]["added"]) {
 						mapManager.setRoute(list[i].sortId,list[i].placeId,list[i].shopName,list[i].location.lat,list[i].location.lng)
