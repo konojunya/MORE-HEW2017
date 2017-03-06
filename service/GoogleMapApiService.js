@@ -106,6 +106,11 @@ GoogleMapApiService.prototype.getShopDetail = function(placeId){
 		request.get(options,function(err,response,body){
 			if(!err && response.statusCode == SUCCESS_STATUS_CODE){
 				const results = body.result;
+
+				if(!results){
+					resolve({})
+					return;
+				}
 				
 				let photosArray = []
 				if(results.photos.length > 0){

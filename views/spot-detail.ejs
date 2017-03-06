@@ -78,7 +78,7 @@
 							</div>
 							<div class="review-content-bottom">
 								<div class="review-rating">
-									<p v-html="shop.ratingView"></p>
+									<p v-html="review.ratingView"></p>
 								</div>
 								<div class="review-name">
 									{{review.author_name}}
@@ -130,10 +130,9 @@
 
 			function renderView(shopDetailForVue){
 
-				shopDetailForVue.reviews.map(function(review){
-					var rating = makeRating(review.rating)
-					shopDetailForVue["ratingView"] = rating
-				})
+				for(var i in shopDetailForVue.reviews){
+					shopDetailForVue.reviews[i]["ratingView"] = makeRating(shopDetailForVue.reviews[i].rating)
+				}
 
 				Vue.nextTick(function(){
 					vm.shop = shopDetailForVue
