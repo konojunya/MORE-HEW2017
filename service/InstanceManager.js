@@ -16,7 +16,8 @@ function InstanceManager(){
     "AIzaSyAi2LsBm-rhr4m0D4yZLZUUS0sMX_9qI_o",
     "AIzaSyCL216rW4db6SLeue9ZhTQrrBb1tD6K8w0",
     "AIzaSyAeWZ8CgAe_mkdogNik7mmh8T5wxYhFR2E",
-    "AIzaSyATOzV3-r2qlJMlCq5T46zLPwE9gKVps5k"
+    "AIzaSyATOzV3-r2qlJMlCq5T46zLPwE9gKVps5k",
+    "AIzaSyBlSfLaIxASe0yufegQwXXEKWnT2YGijok"
   ];
 
   this.select = 0;

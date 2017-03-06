@@ -206,6 +206,22 @@
             $('.fix-navi-button').on('touchend',onClickNaviButton)
 
             /**
+             *  generateAddGoogleCalendarUrl
+             *  googleカレンダーに追加するためのURLを生成する
+             */
+            function generateAddGoogleCalendarUrl(title,location,date){
+                var url = "http://www.google.com/calendar/event?"
+                var params = $.param({
+                    action: "TEMPLATE",
+                    text: title,
+                    location: location,
+                    dates: String(date.day.split("-").join(""))+"T"+String(date.startTime)+"/"+String(date.day.split("-").join(""))+"T"+String(date.endTime)
+                });
+
+                return url+params
+            }
+
+            /**
              * fix-naviのアニメーションのキック
              *
              * @param { bool } bool
