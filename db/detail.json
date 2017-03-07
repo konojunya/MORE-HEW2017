@@ -1,0 +1,123 @@
+{
+    "shopDetail": {
+        "address": "大阪市 北区梅田3丁目2-136", 
+        "gmapUrl": "https://maps.google.com/?cid=14327226926929837676", 
+        "images": [
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAGwdqFoxqeeVWM8IVMpgAX9ni3Vf897Z1ZGmQBML2WRKPhYac9r4TprgtVkDiSn0tkRlzEPgdh1GiCfE3C5hnyxmDnlxaF48fb0J6btAv1BWrMPpuuIsF-Neptly4ii7iKlUGK-14mM5ciCv2oCC2dqKHNu6klAbUI7WQR2Ii1TDEhCMERc59oeTEw9ZFip9SHwDGhTMF_fNutBKyAiC4TVjzTzGAd2O-g&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAFAR5I5pdA0d9Zm5e3N8yBggyJR6sIHQ8qb-jufa_i056LmnN5l5Pxr9JFL9AVV-wp7cvCVY2NvOrtLPJxs0u2aKn1DOkeVxRpAwgdsDGPUKV0dzCCJBprPDISjNEhDV5VoJl4A6r86QbUWiAMdZ4zWT5-mNRpVz2oEg1aGTvPDeEhD7RC1bxt_Hvn6QrMD13D-_GhTFvvV0AsvTxrAQ6HW4hYnB71paUA&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAPzKd1vx9mwXzcnPk8-OywLahQF30ktxiCAw8coyVUhP0Ees0rBtEs3HG26ICFUUzEHfH_AuuLoSQJkE6eIdCuGBljIpGxa37xgjqBpba_xcgea5hq12tvdEI5xb5DZ5GSxsHOCNJsUZfpNy4v2B0hSffy1VoLp1wDnKTy2owb_XEhBFMfHcX2oBEXo2kME-Gw5wGhRvkb9pCZh2CITgupjOW_UaLBgRhQ&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAK4Ah9Im1PInjiHhVrezoB_czEhRmu6gc3u8ZAJc2LgpPAKaWkeogIjTd2x0L1tMPtUFRpggYl3iEru8CfzIrlF4pWrbxujrHofurXu_AgsdVfcuiNwOwHDwXqsrzBbTuc7u4-wEq2wolM2FM1l_vNCsEL_HwoNjEl4cDSeF__qoEhCvdlzl9UgrCJQX8IgUS-DGGhR-K67EGb08XV-1pkAUff765K7OsA&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAFCPuZnyQ7DBZhEZuDfjfWRoUPmZfvQ8U5EWtzPNWQV4gJckvaAxGOSA8P0vCxihYoURPMeogGvtqLnS7BPuBh1kANnFWkZynm3r8at0y4GgDOtv1giv4KA3PI0jROn9Ie5VF6-kQblE6GxSbphMzdV_-MkL2cO0NMwXxjICpp3gEhCnMqCV5mc5VmdbbpzKUMZmGhRX7gerhSx35QYTJhaoeQi1RSLTOA&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAKURq1ATjUtU55c-qty2OdOgR2XcjTVebIaTU-xEvMyPih6Nf4nbQb0Q7i0IJ8daVBiDKHiwhldjhJaPiZCCvYii1JFvN70x9_ba41is-2_NAzV8fHnOq96NKHCSoraWJ_EaUggNtr0nxAGqR5OHtFwvIM2tBD8pK8s0OxEo2vptEhDfGrIXFA5bc5cZnVcp8PdxGhQ4fAULI4zVTj4j3ifYu9IaK5SQhg&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAJYHCtYjCRjwG9HZJZwyEuFl_Sjyjec9lU-slbty4uJ9vKEzJkw0nhvBFP8412LUIrazIW1NFBW8X9eMsSbL5ncNDCU94r1s-rBUqml8QL8LON1GAFwZI7zhvt52hXKvJpWFPFlTYSy9tiaAVKkre5JJJs2XBEodZK2lMjs-EhEMEhCS9LOZPLvdUCPGa7Z_m3XoGhQuf4Ko-4AIfPBeHeYMQVlnKyHweA&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAIx5zDdak_o-O2BPZCRzvhdOlAHstnSb71riVEufOfJoodrcS_BcCeZmxhawku_p7dQAcjIahIt3H52yrMgqbeuAa66HMPFRDpcew1s9eLjMWzAKJ58-vPBfhZB9cY6mcGggYd9ICctXOfPl7A94bm4WrQ3fXxwzpH1BBD331pz-EhAOC9e1om6s8aOpcs-ElrSPGhTpZBOMYHhnXw4HrqxdQ9d0BCEcFg&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg", 
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAADQ0cOjjaTe24UsFYRC4Wjy_vSVoz86YmDQGQWGGu_E4o6jsliskI8DfG_P9cwlyIi2dRgLrK2T235RsDA82u-Vh_lwcOey1XPXnGCRSi5Fkelej2rUbFOGvlU5sPHqF7TktAQrSRKBS5T7B4WBG24XpRE01C1DEvihTLWmjuN3cEhBzdtG3CVZ7FQXvWTbyPgDhGhQyq2XrYQNwrC4ucdrvRlkrK5Mi6w&key=AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg"
+        ], 
+        "location": {
+            "lat": 34.7007374, 
+            "lng": 135.4934579
+        }, 
+        "name": "ドトールコーヒーショップ ＪＲ大阪駅梅三小路店", 
+        "openingHours": [
+            "月曜日: 7時00分～22時00分", 
+            "火曜日: 7時00分～22時00分", 
+            "水曜日: 7時00分～22時00分", 
+            "木曜日: 7時00分～22時00分", 
+            "金曜日: 7時00分～22時00分", 
+            "土曜日: 7時00分～22時00分", 
+            "日曜日: 7時00分～21時00分"
+        ], 
+        "placeId": "ChIJ_1Nl9ozmAGARbH4QLPuI1MY", 
+        "rate": 4, 
+        "reviews": [
+            {
+                "aspects": [
+                    {
+                        "rating": 1, 
+                        "type": "overall"
+                    }
+                ], 
+                "author_name": "main 近藤", 
+                "author_url": "https://www.google.com/maps/contrib/110040177496873081233/reviews", 
+                "language": "ja", 
+                "profile_photo_url": "//lh3.googleusercontent.com/-ArRlD2Kwedg/AAAAAAAAAAI/AAAAAAAAAAA/AAomvV0T9Uxf8E96c1TahBLylDxyWGPZZQ/s128/photo.jpg", 
+                "rating": 3, 
+                "relative_time_description": "2 か月前", 
+                "text": "普通のドトールですが立地から常に混んでおり、2名以上で行くと席の確保が難しいです。休憩時間に一人で本を読んでいるようなお客さんが多く、半分は回転が遅い感じです。
+近隣に安くで座って飲める喫茶店がないので、時間調整の場所として利用しています。", 
+                "time": 1482286022
+            }, 
+            {
+                "aspects": [
+                    {
+                        "rating": 1, 
+                        "type": "overall"
+                    }
+                ], 
+                "author_name": "村上俊太郎", 
+                "author_url": "https://www.google.com/maps/contrib/114273181833961425925/reviews", 
+                "language": "ja", 
+                "profile_photo_url": "//lh6.googleusercontent.com/-CjeJHuc_Itk/AAAAAAAAAAI/AAAAAAAAAAA/AAomvV06rztBRnAKedmcPr7EkupBZ3I2iw/s128/photo.jpg", 
+                "rating": 3, 
+                "relative_time_description": "1 か月前", 
+                "text": "長時間座っている方か多い様に感じます。なかなか座れません。", 
+                "time": 1483765822
+            }, 
+            {
+                "aspects": [
+                    {
+                        "rating": 2, 
+                        "type": "overall"
+                    }
+                ], 
+                "author_name": "やねうらお", 
+                "author_url": "https://www.google.com/maps/contrib/112999432134807512422/reviews", 
+                "language": "ja", 
+                "profile_photo_url": "//lh4.googleusercontent.com/-ABtmWXQETX4/AAAAAAAAAAI/AAAAAAAAACo/7VA5yPMM_0A/s128/photo.jpg", 
+                "rating": 4, 
+                "relative_time_description": "8 か月前", 
+                "text": "安定のドトール！
+よく行きます！
+店内は綺麗で落ち着きますね！
+店員さんの接客もいい！
+アイスカフェオレよく飲みます！
+美味しい！", 
+                "time": 1465560724
+            }, 
+            {
+                "aspects": [
+                    {
+                        "rating": 3, 
+                        "type": "overall"
+                    }
+                ], 
+                "author_name": "yoshinori harada", 
+                "author_url": "https://www.google.com/maps/contrib/108389422814183389221/reviews", 
+                "language": "ja", 
+                "profile_photo_url": "//lh6.googleusercontent.com/-bsAlqdCEI0o/AAAAAAAAAAI/AAAAAAAAAAA/AAomvV2TfykRJrnj3oiQVGYYIzQPOPZlfA/s128/photo.jpg", 
+                "rating": 5, 
+                "relative_time_description": "1 週間前", 
+                "text": "電車の音がしますが、それなりに落ち着いているので、居心地の良いです。", 
+                "time": 1488155750
+            }, 
+            {
+                "aspects": [
+                    {
+                        "rating": 1, 
+                        "type": "overall"
+                    }
+                ], 
+                "author_name": "kellogg mrs", 
+                "author_url": "https://www.google.com/maps/contrib/105944403901685965909/reviews", 
+                "language": "ja", 
+                "profile_photo_url": "//lh3.googleusercontent.com/-OqybraLplXU/AAAAAAAAAAI/AAAAAAAAAB4/NMhHy7H-SLE/s128/photo.jpg", 
+                "rating": 3, 
+                "relative_time_description": "3 か月前", 
+                "text": "至って普通のドトール。高速バス待ちにどうぞ。", 
+                "time": 1479898745
+            }
+        ], 
+        "tel": "06-6345-5539", 
+        "website": "https://www.doutor.co.jp/"
+    }
+}

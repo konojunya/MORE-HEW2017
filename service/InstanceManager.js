@@ -4,7 +4,7 @@ function InstanceManager(){
 
   this.tokens = [
     "AIzaSyChf2iU9Y2AqpNjnMlsSGXemXmRg26WWbU",
-    "AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg"
+    "AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg",
     "AIzaSyA7L9syGzXuTlU5r-12mchgAXNjYkv29Tc",
     "AIzaSyDXr7l8Dv52_1D6gX_yjgEk570XwabVk70",
     "AIzaSyDhQ8B0YVVulhZnqE-YQmLbkQmEsfLEmEc",
