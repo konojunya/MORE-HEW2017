@@ -97,6 +97,7 @@
 				</div>
 
 			</div><!-- tab-box -->
+			<div class="tab-content3"></div>
 
 		</div>
 
@@ -381,6 +382,9 @@
 					renderMap(data)
 				})
 				.fail(function(){
+					$('.loading').hide();
+					$('.tab-content3').append('<div class="error-message"></div>')
+					$('.error-message').text('接続がタイムアウトになりました。')
 					console.log("timeoutとかいろいろエラー")
 				})
 			}
