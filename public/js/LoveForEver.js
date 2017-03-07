@@ -36,22 +36,27 @@
     var gf = this.receive()
 
     this.girlFriends = gf;
-    this.girlFriends[love] = true;
+    love.isLove = true
+    this.girlFriends[love.id] = love;
 
     this.deposit()
   }
 
   /**
-   *  takeLove
-   *  愛を返す
+   *  checkYourLove
+   *  愛しているか確認する
    *
-   *  @return { object } girlFriends
+   *  @return { boolean } isLove
    */
-  LoveForEver.prototype.takeLove = function(){
+  LoveForEver.prototype.checkYourLove = function(id){
     var gf = this.receive()
-    this.girlFriends = gf;
 
-    return this.girlFriends
+    var isLove = false
+    var gfArray = Object.keys(gf);
+    gfArray.map(function(love){
+      if(love == id) isLove = true
+    })
+    return isLove
   }
 
   /**
@@ -67,8 +72,8 @@
     this.girlFriends = gf;
 
     for(var girl in this.girlFriends){
-      if(this.girlFriends[girl]){
-        array.push(girl)
+      if(this.girlFriends[girl].isLove){
+        array.push(this.girlFriends[girl])
       }
     }
 
@@ -85,7 +90,8 @@
     var gf = this.receive()
 
     this.girlFriends = gf;
-    this.girlFriends[love] = false
+    love.isLove = false
+    this.girlFriends[love.id] = love
 
     this.deposit()
   }

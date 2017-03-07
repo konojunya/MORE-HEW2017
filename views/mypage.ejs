@@ -51,7 +51,7 @@
         <div class="love-wrapper">
             <h2 class="love-spot">お気に入りのスポット</h2>
             <ul class="loveList">
-                <li v-for="shop in shops" v-bind:data-id="shop.placeId">
+                <li v-for="shop in shops" v-bind:data-id="shop.id">
                     <p class="title">{{shop.name}}</p>
                     <p class="tel">{{shop.tel}}</p>
                 </li>
@@ -73,7 +73,7 @@
     <script>
         (function($){
 
-            fetchUserMypage()
+            setLoveHistory()
             var vm = initVue()
 
             $(".loveList").on("click","li",function(){
@@ -92,36 +92,9 @@
                 return vm
             }
 
-            function fetchUserMypage(){
-
-                var tl = loveForEver.takeLove()
-                for(var key in tl){
-                    if(!tl[key] || key == "undefined") delete tl[key];
-                }
-
-                $.ajax({
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    url: "/api/mypage/shops",
-                    type: "POST",
-                    data: JSON.stringify(tl)
-                })
-                .done(function(data){
-                    console.log(data.shops)
-                    var array = [];
-                    data.shops.map(function(shop){
-                        if(Object.keys(shop).length){
-                            array.push(shop)
-                        }
-                    })
-                    array.push({
-                        name: "ポール・ボキューズ ベーカリー",
-                        tel: "06-6348-0582",
-                        placeId: "ChIJx34odI3mAGAR3UuVJbrFEFU"
-                    })
-                    renderView(array)
-                })
+            function setLoveHistory(){
+                var tl = loveForEver.giveMeTrueLove()
+                renderView(tl)
             }
 
             function renderView(array){

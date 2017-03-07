@@ -29,7 +29,7 @@
 
 		<div class="spot-detail-container">
 			<div class="spot-detail-navi">
-				<button class="add-fav-spot" v-bind:data-id="shop.placeId"><i class="fa fa-3x fa-heart-o" aria-hidden="true"></i></button>
+				<button class="add-fav-spot" v-bind:data-id="shop.placeId" v-bind:data-name="shop.name" v-bind:data-tel="shop.tel"><i class="fa fa-3x fa-heart-o" aria-hidden="true"></i></button>
 				<button v-if="shop.added" class="add-routes-button isAdded">
 					追加済み
 				</button>
@@ -99,7 +99,7 @@
 		(function($){
 
 			var shopDetail;
-			var DEV_MODE = splitParams().dev === undefined ? true : (splitParams().dev == "true");
+			var DEV_MODE = splitParams().dev === undefined ? false : (splitParams().dev == "true");
 
 			var placeId = window.location.pathname.replace(/\/spot\//,"");
 
@@ -125,6 +125,15 @@
 					// renderView(data.shopDetail)
 					checkRouteAdded(data.shopDetail)
 					shopDetail = data.shopDetail
+
+					var isLove = loveForEver.checkYourLove(shopDetail.placeId);
+					console.log(isLove)
+					if(isLove){
+						$('.add-fav-spot').addClass('isLiked')
+						$('.add-fav-spot i').removeClass('fa-heart-o')
+						$('.add-fav-spot i').addClass('fa-heart')
+					}
+
 					if(!Object.keys(data.shopDetail).length){
 						window.location.reload()
 					}
@@ -177,7 +186,12 @@
 			}
 
 			$('.add-fav-spot').on('touchend', function(){
-				var love = $(this).data("id");
+				var love = {
+					id: $(this).data("id"),
+					name: $(this).data("name"),
+					tel: $(this).data("tel"),
+					isLove: null
+				}
 				favAnimation(love)
 			})
 
