@@ -142,3 +142,8 @@
     padding: 0 10px;
     color: white;
 }
+
+.isAdded {
+    background-color: #FFF;
+    color: #F5857D;
+}

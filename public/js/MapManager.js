@@ -292,8 +292,21 @@ MapManager.prototype.renderRoute = function(){
     }
 }
 
+MapManager.prototype.initAddRoute = function(){
+  this.addRoute = this.getSessionRoutes()
+}
+
 MapManager.prototype.setSessionRoutes = function(placeId){
-  this.addRoute.push(placeId);
+  var routes = this.addRoute
+  var flg = false
+  for (var i in routes) {
+    if (routes[i] == placeId) {
+        flg = true
+    }
+  }
+  if (!flg) {
+    this.addRoute.push(placeId);
+  }
   sessionStorage.setItem('routes',JSON.stringify(this.addRoute));
 }
 
@@ -308,6 +321,16 @@ MapManager.prototype.getSessionRoutes = function(){
   if(!routes) routes = [];
 
   return routes
+}
+
+MapManager.prototype.removeSessionRoutes = function(placeId){
+  var routes = this.getSessionRoutes()
+  for (var i = 0; i < routes.length; i++){
+    if (routes[i] == placeId){
+      routes.splice(i, 1)
+    }
+  }
+  sessionStorage.setItem('routes',JSON.stringify(routes));
 }
 
 MapManager.prototype.destorySessionRoutes = function(){

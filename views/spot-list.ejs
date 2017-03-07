@@ -77,20 +77,7 @@
 							接続されていません。
 						</div>
 					</div>
-					<div class="route-navi">
-						<!-- <div class="map-spot-title-container">
-							<div class="icon map-spot-from">発</div>
-							<div class="map-spot-title first">河原町駅</div>
-						</div>
-						<div class="map-spot-title-container">
-							<div class="icon map-spot-via"></div>
-							<div class="map-spot-title after">茶寮都路里 祇園本店</div>
-						</div>
-						<div class="map-spot-title-container">
-							<div class="icon map-spot-to">着</div>
-							<div class="map-spot-title after last">清水寺</div>
-						</div> -->
-					</div>
+					<div class="route-navi"></div>
 					<div class="confirm-route">
 						<button class="confirm-route-button">このルートで決定</button>
 					</div>
@@ -174,7 +161,7 @@
 			$(".spots").on("click",".transition-key",function(){
 				var place_id = $(this).data("id");
 				var sort_id = $(this).data("sortid");
-				window.location.href = "/spot/"+place_id+"?"+sort_id
+				window.location.href = "/spot/"+place_id+"?sort_id="+sort_id
 			})
 
 			$('.switching-navi li').on('click', function(){
@@ -218,6 +205,8 @@
 				var placeName = $(this).data('placename')
 				if ($(this).hasClass('isAdded')) {
 					mapManager.removeRoute(id)
+					console.log(placeId)
+					mapManager.removeSessionRoutes(placeId)
 					$(this).text('ルートに追加')
 					$(this).removeClass('isAdded')
 				} else {
@@ -353,6 +342,8 @@
 			}
 
 			var place = shopListManager.getPlace()
+
+			mapManager.initAddRoute()
 
 			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
 				var data = shopListManager.getShopData()
