@@ -1,3 +1,6 @@
+#app{
+    display: none;
+}
 .main-view {
     margin-top: 3rem;
 	width: 100%;
@@ -149,4 +152,36 @@
 }
 .isLiked{
     color: #F5857D;
+}
+
+.can-not-get{
+    width: 100%;
+    height: calc(100% - 3rem);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    display: none;
+}
+.can-not-get p{
+    width: 100%;
+    position: fixed;
+    top: 50%;
+    left: 0%;
+    font-size: 1.2rem;
+    color: rgba(0,0,0,0.87);
+    text-align: center;
+    transform: translateY(-50%);
+}
+.can-not-get .reload{
+    width: 60%;
+    position: fixed;
+    top: 65%;
+    left: 20%;
+    font-size: 1.2rem;
+    color: rgb(255,255,255);
+    background-color: #f5857d;
+    text-align: center;
+    transform: translateY(-50%);
+    padding: 10px;
 }

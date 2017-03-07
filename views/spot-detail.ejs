@@ -90,6 +90,15 @@
 		</div>
 	</div>
 
+	<div class="can-not-get">
+		<p>
+			通信に失敗しました。<br/>
+			<br/>
+			APIのリクエスト制限の可能性があります。
+		</p>
+		<div class="reload" onClick="location.reload()">再試行</div>
+	</div>
+
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/flickity.pkgd.min.js"></script>
 	<script src="/js/vue.min.js"></script>
@@ -122,23 +131,28 @@
 					}
 				})
 				.done(function(data){
-					// renderView(data.shopDetail)
 					checkRouteAdded(data.shopDetail)
 					shopDetail = data.shopDetail
 
 					var isLove = loveForEver.checkYourLove(shopDetail.placeId);
-					console.log(isLove)
 					if(isLove){
 						$('.add-fav-spot').addClass('isLiked')
 						$('.add-fav-spot i').removeClass('fa-heart-o')
 						$('.add-fav-spot i').addClass('fa-heart')
 					}
 
-					if(!Object.keys(data.shopDetail).length){
-						window.location.reload()
+					console.log(Object.keys(data.shopDetail).length)
+					if(Object.keys(data.shopDetail).length <= 2){
+						canNotGetView()
+					}else{
+						$("#app").fadeIn()
 					}
 				})
 
+			}
+
+			function canNotGetView(){
+				$(".can-not-get").fadeIn();
 			}
 
 			function initVue(){
