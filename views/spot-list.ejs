@@ -156,6 +156,8 @@
 	<script>
 		(function($){
 
+			var DEV_MODE = true;
+
 			var vm = initVue()
 
 			function initVue(){
@@ -354,7 +356,6 @@
 
 			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
 				var data = shopListManager.getShopData()
-				// renderView(data.shopList)
 				checkRouteAdded(data.shopList)
 				renderMap(data)
 				console.log('キャッシュ')
@@ -368,8 +369,10 @@
 
 				$('.loading').show();
 
+				var url = DEV_MODE ? "/dev" : "/api"
+
 				$.ajax({
-					url: "/api",
+					url: url,
 					type: "GET",
 					data: {
 						origin: decodeURIComponent(params.origin),

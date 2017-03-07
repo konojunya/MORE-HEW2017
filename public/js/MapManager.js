@@ -297,8 +297,17 @@ MapManager.prototype.setSessionRoutes = function(placeId){
   sessionStorage.setItem('routes',JSON.stringify(this.addRoute));
 }
 
+/**
+ *  getSessionRoutes
+ *  セッションからrouteを取得
+ *
+ *  @return { array }  routes
+ */
 MapManager.prototype.getSessionRoutes = function(){
-  return JSON.parse(sessionStorage.getItem('routes'));
+  var routes = JSON.parse(sessionStorage.getItem('routes'))
+  if(!routes) routes = [];
+
+  return routes
 }
 
 MapManager.prototype.destorySessionRoutes = function(){

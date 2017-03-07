@@ -96,6 +96,7 @@
 		(function($){
 
 			var shopDetail;
+			var DEV_MODE = true;
 
 			var placeId = window.location.pathname.replace(/\/spot\//,"")
 
@@ -108,8 +109,10 @@
 
 			function fetchShopDetail(){
 
+				var url = DEV_MODE ? "/dev/detail" : "/api/detail"
+
 				$.ajax({
-					url: "/api/detail",
+					url: url,
 					type: "GET",
 					data: {
 						placeid: placeId
