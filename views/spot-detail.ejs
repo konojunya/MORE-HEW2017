@@ -155,6 +155,16 @@
 				initFlickity()
 			}
 
+			function splitParams(){
+				var params = new Object;
+				var pair=location.search.substring(1).split('&');
+				for(var i=0;pair[i];i++) {
+				    var kv = pair[i].split('=');
+				    params[kv[0]]=kv[1];
+				}
+				return params
+			}
+
 			function initFlickity(){
 				setTimeout(function(){
 					$('.main-view ul').flickity({
@@ -172,14 +182,14 @@
 			})
 
 			function favAnimation(love){
-				if ($('.add-fav-spot').hasClass('isAdded')) {
+				if ($('.add-fav-spot').hasClass('isLiked')) {
 					loveForEver.brokenHeart(love);
-					$('.add-fav-spot').removeClass('isAdded')
+					$('.add-fav-spot').removeClass('isLiked')
 					$('.add-fav-spot i').removeClass('fa-heart')
 					$('.add-fav-spot i').addClass('fa-heart-o')
 				} else {
 					loveForEver.confession(love)
-					$('.add-fav-spot').addClass('isAdded')
+					$('.add-fav-spot').addClass('isLiked')
 					$('.add-fav-spot i').removeClass('fa-heart-o')
 					$('.add-fav-spot i').addClass('fa-heart')
 				}

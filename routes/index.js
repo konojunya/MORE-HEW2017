@@ -29,6 +29,7 @@ router.get("/share/:id",function(req,res){
 
 		var fileCheck = false
 		var fileList = []
+    var obj = []
 
 		files.filter(function(file){
 			return /.*\.json$/.test(file);
@@ -39,11 +40,10 @@ router.get("/share/:id",function(req,res){
 		fileList.map(function(file){
 			if(file.replace(/.json$/,"") == id){
 				fileCheck = true
-				var obj = JSON.parse(fs.readFileSync("store/"+file, 'utf8'));
-				res.render('share-view',obj)
-
+        obj = JSON.parse(fs.readFileSync("store/"+file, 'utf8'));
 			}
 		})
+    res.render('share-view',{data: obj});
 
 		if(!fileCheck){
 			res.render('not-found')

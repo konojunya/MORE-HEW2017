@@ -44,34 +44,9 @@
     <script>
         (function($){
 
-            // var json = obj
-
-            var routeData = [
-                    {
-                        id: '0',
-                        lat: 34.7041131,
-                        lng: 135.4948306,
-                        placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
-                        placeName: '大阪駅'
-                    },
-                    {
-                        id: '2',
-                        lat: 34.7034864,
-                        lng: 135.4958706,
-                        placeId: null,
-                        placeName: '大阪駅'
-                    },
-                    {
-                        id: '100',
-                        lat: 34.7024854,
-                        lng: 135.4959506,
-                        placeId: null,
-                        placeName: '大阪駅'
-                    }
-                ]
+            var routeData = <%- JSON.stringify(data) %>
 
             for (i in routeData) {
-                console.log(routeData[i])
                 mapManager.setRouteShare(routeData[i])
             }
             var latLngArr = mapManager.makeLatLngArr()

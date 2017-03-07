@@ -95,6 +95,7 @@
             })
             .done(function(data){
                 $('.loading').hide()
+                console.log(data)
                 for(var i in data){
                     var routeData = {
                         id: data[i].id,
@@ -112,7 +113,7 @@
             })
             .fail(function(err){
                 $('.loading').hide()
-                console.log(err)
+                window.location.reload()
             });
 
             // var routeData = {

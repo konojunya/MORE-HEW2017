@@ -143,7 +143,10 @@
     color: white;
 }
 
-.isAdded {
+.isAdded{
     background-color: #FFF;
+    color: #F5857D;
+}
+.isLiked{
     color: #F5857D;
 }

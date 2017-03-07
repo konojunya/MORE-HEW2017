@@ -403,6 +403,7 @@
 			}
 
 			function renderView(shopListForVue){
+				$(".spots").fadeIn()
 				$('.loading').hide();
 				for (var i in shopListForVue) {
 					var openMsg = openNow(shopListForVue[i].openNow)

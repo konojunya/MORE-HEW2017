@@ -24,13 +24,6 @@
                 <i class="fa fa-plus" aria-hidden="true"></i>経由する場所を追加
             </p>
         </div>
-        <!-- <div class="search-via search-via1 search-form-flex">
-            <label for="via1">経由1</label>
-            <input type="text" name="via1" id="via1" placeholder="経由地点を入力">
-            <div class="remove-via-button">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-        </div> -->
 		<div class="search-to search-form-flex">
 			<label for="to">到着</label>
 			<input type="text" name="to" id="to" placeholder="到着地点を入力">
@@ -40,8 +33,12 @@
 		</div>
 	</div>
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/MapManager.js"></script>
     <script>
         (function($){
+
+            mapManager.destorySessionRoutes()
+
             var throttle = 1;
             $('.add-via-button').on('click', function(){
                 if (throttle == 1) {

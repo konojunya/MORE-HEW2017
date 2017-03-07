@@ -5,7 +5,9 @@ body {
 li{
 	list-style: none;
 }
-
+.spots{
+	display: none;
+}
 .switching-navi {
 	position: fixed;
 	top: 3rem;
