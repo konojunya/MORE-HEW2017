@@ -96,9 +96,9 @@
 		(function($){
 
 			var shopDetail;
-			var DEV_MODE = true;
+			var DEV_MODE = splitParams().dev === undefined ? true : (splitParams().dev == "true");
 
-			var placeId = window.location.pathname.replace(/\/spot\//,"")
+			var placeId = window.location.pathname.replace(/\/spot\//,"");
 
 			var vm = initVue()
 			fetchShopDetail();

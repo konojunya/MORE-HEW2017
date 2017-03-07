@@ -156,7 +156,7 @@
 	<script>
 		(function($){
 
-			var DEV_MODE = true;
+			var DEV_MODE = splitParams().dev === undefined ? true : (splitParams().dev == "true");
 
 			var vm = initVue()
 
@@ -345,12 +345,16 @@
 	    		},100)
 			}
 
-			var params = new Object;
-			var pair=location.search.substring(1).split('&');
-			for(var i=0;pair[i];i++) {
-			    var kv = pair[i].split('=');
-			    params[kv[0]]=kv[1];
+			function splitParams(){
+				var params = new Object;
+				var pair=location.search.substring(1).split('&');
+				for(var i=0;pair[i];i++) {
+				    var kv = pair[i].split('=');
+				    params[kv[0]]=kv[1];
+				}
+				return params
 			}
+			var params = splitParams()
 
 			var place = shopListManager.getPlace()
 
