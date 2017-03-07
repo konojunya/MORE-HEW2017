@@ -3,25 +3,16 @@ function InstanceManager(){
   var self = this;
 
   this.tokens = [
-    "AIzaSyChf2iU9Y2AqpNjnMlsSGXemXmRg26WWbU",
-    "AIzaSyBea9H4jLFHALMMb_ioU-mq0guJhsPQdIg"
-    "AIzaSyA7L9syGzXuTlU5r-12mchgAXNjYkv29Tc",
-    "AIzaSyDXr7l8Dv52_1D6gX_yjgEk570XwabVk70",
-    "AIzaSyDhQ8B0YVVulhZnqE-YQmLbkQmEsfLEmEc",
-    "AIzaSyBI_pc9oRoG3XeVhqDmwGvxfcWVD2zyfjI",
-    "AIzaSyCYOaGay2t6nyg0IN5VN9N1nvo4RlMSy9E",
-    "AIzaSyCTwgNdzXcJcIqjN7AIZ-3SR90kPyKAXA0",
-    "AIzaSyCP8MtiFScWqq1SsGcbWMisFv6YHpy0oH0",
-    "AIzaSyBrJj5uP46yt89zo2eZ18DCmEYBhc4rbww",
-    "AIzaSyAfjVd_1jLeojzli5a5A8euN2Pe1kO4euo",
-    "AIzaSyALFJwn1dGUHcTgL1ACh_n1TuIfx0HkK3M",
-    "AIzaSyAfjVd_1jLeojzli5a5A8euN2Pe1kO4euo",
-    "AIzaSyBO7bStAAZkviDTPNesjhoJMFITk8u6lZg",
-    "AIzaSyAi2LsBm-rhr4m0D4yZLZUUS0sMX_9qI_o",
-    "AIzaSyCL216rW4db6SLeue9ZhTQrrBb1tD6K8w0",
-    "AIzaSyAeWZ8CgAe_mkdogNik7mmh8T5wxYhFR2E",
-    "AIzaSyATOzV3-r2qlJMlCq5T46zLPwE9gKVps5k",
-    "AIzaSyBlSfLaIxASe0yufegQwXXEKWnT2YGijok"
+    "AIzaSyBqLdw_HT4tO8Bfsy9LFJiHeUE7gW9ZfHM",
+    "AIzaSyCOutJcsD0eu_9Hya12l0GONYEJecKsL0o",
+    "AIzaSyAEwAkLiBjmDYIraPVu780EPooAC5D8DGY",
+    "AIzaSyAWZwvZnogxXTN63qgWvvzt3nk-JnlceWY",
+    "AIzaSyAWnGsKwffWpM_Ta7VOftZJoj9TFI4nZ7k",
+    "AIzaSyAi4VWCTD-MgoNV3JtNZIM_8yYHIZFo5MQ",
+    "AIzaSyDJ3iBFHo1WFUi7u6x8CksYwOu-Q4HnZW4",
+    "AIzaSyBnvJz7AAmZgMu_mNX7VTQDiQRQV12qzKA",
+    "AIzaSyBAl7IZXRfKJqZPTtAtaBWu6LS7i9P-Yl0",
+    "AIzaSyDTJaM8PsRUER2vnOZ2rdgV_s8Xk1Db3tQ"
   ];
 
   this.select = 0;

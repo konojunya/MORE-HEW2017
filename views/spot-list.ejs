@@ -352,11 +352,14 @@
 
 			var place = shopListManager.getPlace()
 
-			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination) && !shopListManager.getShopData()){
+			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
 				var data = shopListManager.getShopData()
+				// renderView(data.shopList)
 				checkRouteAdded(data.shopList)
 				renderMap(data)
+				console.log('キャッシュ')
 			}else{
+				console.log('新規')
 				mapManager.destorySessionRoutes()
 				shopListManager.setPlace({
 					origin: decodeURIComponent(params.origin),
@@ -375,17 +378,19 @@
 					timeout: 10000
 				})
 				.done(function(data){
+
+					renderView(data.shopList)
 					
 					if(data.shopList.length > 0){
 						shopListManager.setShopData(data);
 					}
 					renderMap(data)
 				})
-				.fail(function(){
+				.fail(function(err){
 					$('.loading').hide();
 					$('.tab-content3').append('<div class="error-message"></div>')
 					$('.error-message').text('接続がタイムアウトになりました。')
-					console.log("timeoutとかいろいろエラー")
+					console.log(err)
 				})
 			}
 
