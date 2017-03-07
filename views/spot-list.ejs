@@ -20,8 +20,8 @@
 
 	<div class="switching-navi">
 		<ul>
-			<li class="switching-navi-spot active">スポット一覧</li>
-			<li class="switching-navi-map">マップ表示</li>
+			<li class="switching-navi-spot active" data-id="list">スポット一覧</li>
+			<li class="switching-navi-map" data-id="map">マップ表示</li>
 		</ul>
 	</div>
 
@@ -35,7 +35,7 @@
 		<div class="tab-box-container">
 			<div class="tab-box">
 
-				<div class="spot-container active tab-content1">
+				<div class="spot-container active tab-content1" data-id="list">
 					<ul class="spots">
 
 						<li v-for='shop in shopList' v-bind:data-id="shop.placeId">
@@ -70,7 +70,7 @@
 
 				</div>
 
-				<div class="map-container tab-content2">
+				<div class="map-container tab-content2" data-id="map">
 					<div id="map">
 						<div class="map-error-message">
 							ネットワークに<br>
@@ -171,20 +171,20 @@
 					$('.fix-navi-button').removeClass('opened')
 				}
 				if($(this).not('active')){
-					$(this).addClass('active').siblings('li').removeClass('active')
-					var index = $('.switching-navi li').index(this)
+					$(this).addClass('active').siblings('li').removeClass('active');
+					var index = $('.switching-navi li').index(this);
 					switch(index){
 						case 0:
-							$('.tab-content1').addClass('active')
-							$('.tab-content2').removeClass('active')
-							$('.confirm-route.fixed').show()
+							$('.tab-content1').addClass('active');
+							$('.tab-content2').removeClass('active');
+							$('.confirm-route.fixed').show();
 							break;
 						case 1:
-							$('.tab-content1').removeClass('active')
-							$('.tab-content2').addClass('active')
+							$('.tab-content1').removeClass('active');
+							$('.tab-content2').addClass('active');
 
 							$('.map-spot-title-container').remove();
-							$('.confirm-route.fixed').hide()
+							$('.confirm-route.fixed').hide();
 
 							var latLngArr = mapManager.makeLatLngArr()
 							var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
@@ -289,7 +289,9 @@
 		     * ボタンのアニメーション
 		     */
 			function startAnimation(){
-				$('.confirm-route.fixed').fadeOut(100)
+				if($(".active").data("id") == "list"){
+					$('.confirm-route.fixed').fadeOut(100)
+				}
 				setTimeout(function(){
 					TweenMax.to('.spot-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
 					TweenMax.to('.map-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
@@ -318,9 +320,11 @@
 				TweenMax.to('.map-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
 				TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
 				TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
-				setTimeout(function(){
-					$('.confirm-route.fixed').fadeIn(100)
-				},700)
+				if($(".active").data("id") == "list"){
+					setTimeout(function(){
+						$('.confirm-route.fixed').fadeIn(100)
+					},700)
+				}
 				setTimeout(function(){
 					$(".sideShowBtn .first").css("transform","rotate(0deg)");
 					$(".sideShowBtn .first").animate({
