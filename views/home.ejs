@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>Home</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/stylesheets/common.css">
+	<link rel="stylesheet" href="/stylesheets/home.css">
+</head>
+<body>
+	<header id="header">
+		
+	</header>
+
+	<div class="search-form">
+		<div class="search-from search-form-flex">
+			<label for="from">出発</label>
+			<input type="text" name="from" id="from" placeholder="出発地点を入力">
+		</div>
+        <div class="add-via">
+            <p class="add-via-button">
+                <i class="fa fa-plus" aria-hidden="true"></i>経由する場所を追加
+            </p>
+        </div>
+		<div class="search-to search-form-flex">
+			<label for="to">到着</label>
+			<input type="text" name="to" id="to" placeholder="到着地点を入力">
+		</div>
+		<div class="submit-button">
+			<input type="button" value="検索">
+		</div>
+	</div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/MapManager.js"></script>
+    <script>
+        (function($){
+
+            mapManager.destorySessionRoutes()
+
+            var throttle = 1;
+            $('.add-via-button').on('click', function(){
+                if (throttle == 1) {
+                    if (!($('#from').val() == "")) {
+                        addVia()
+                        throttle++
+                    }
+                } else {
+                    if (!checkViaValueNull()) {
+                        addVia()
+                        throttle++
+                    }
+                    
+                }
+                
+            })
+
+            function checkViaValueNull(){
+                var beforeViaId = throttle-1;
+                var id = '#via'+beforeViaId;
+                if ($(id).val() == "") {
+                    return true
+                }
+                return false
+            }
+
+            function addVia(){
+                if (!$('.via-container').length) {
+                    $('.add-via').after('<div class="via-container"></div>')
+                }
+                $('.via-container').append('<div class="search-via search-via'+throttle+' search-form-flex"><label for="via'+throttle+'">経由'+throttle+'</label><input type="text" name="via'+throttle+'" id="via'+throttle+'" placeholder="経由地点を入力"><div class="remove-via-button"><i class="fa fa-times" aria-hidden="true"></i></div></div>')
+            }
+
+
+            $(".submit-button input").on("click",function(e){
+
+                var origin = $("#from").val()
+                var destination = $("#to").val()
+
+                var params = $.param({
+                    origin: origin,
+                    destination: destination
+                })
+
+                window.location.href = "/spot?"+params
+
+                return false
+
+            })
+
+            $(document).on('click', '.remove-via-button', function(){
+                $(this).parent().remove()
+                throttle--
+                if (throttle < 1) {
+                    throttle = 1;
+                }
+            })
+
+        })(jQuery)
+    </script>
+</body>
+</html>

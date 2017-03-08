@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>Mypage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/common.css">
+    <link rel="stylesheet" href="/stylesheets/mypage.css">
+</head>
+<body>
+    <header id="header">
+        
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-top">
+            <div class="profile-cover"></div>
+            <div class="profile-icon"></div>
+            <div class="profile-setting-icon">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="profile-content">
+            <div class="profile-user-info">
+                <div class="profile-name">西川 和希</div>
+                <div class="profile-region"><i class="fa fa-map-marker" aria-hidden="true"></i>東淀川・大阪</div>
+            </div>
+            <div class="walking-history">
+                <div class="map-container">
+                    <div id="map"></div>
+                    <div class="map-cover"></div>
+                </div>
+                <div class="category">
+                    <h2 class="title">行ったことのあるスポット</h2>
+                    <div class="category-flex">
+                        <div class="category-left">
+                            <div class="category-title">カテゴリー</div>
+                        </div>
+                        <div class="category-right">
+                            <canvas id="myChart" width="200" height="200"></canvas>
+                            <div id="js-legend" class="chart-legend"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="love-wrapper">
+            <h2 class="love-spot">お気に入りのスポット</h2>
+            <ul class="loveList">
+                <li v-for="shop in shops" v-bind:data-id="shop.id">
+                    <p class="title">{{shop.name}}</p>
+                    <p class="tel">{{shop.tel}}</p>
+                </li>
+            </ul>            
+        </div>
+        
+        
+
+    </div>
+    
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+    <script src="/js/gmaps.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+    <script src="/js/MapManager.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/LoveForEver.js"></script>
+    <script>
+        (function($){
+
+            setLoveHistory()
+            var vm = initVue()
+
+            $(".loveList").on("click","li",function(){
+                var placeId = $(this).data("id");
+                window.location.href = "/spot/"+placeId
+            })
+
+            function initVue(){
+                var vm = new Vue({
+                    el: ".love-wrapper",
+                    data: {
+                        shops: []
+                    }
+                })
+
+                return vm
+            }
+
+            function setLoveHistory(){
+                var tl = loveForEver.giveMeTrueLove()
+                renderView(tl)
+            }
+
+            function renderView(array){
+                Vue.nextTick(function(){
+                    vm.shops = array
+                });
+            }
+
+
+
+            var testPos = {
+                origin: {
+                    lat: 35.0004487,
+                    lng: 135.7617562
+                },
+                destination: {
+                    lat: 35.0017614,
+                    lng: 135.7751592
+                }
+            }
+
+
+            var history = [
+                    {
+                        lat: 35.0017614,
+                        lng: 135.7751592,
+                        title: "茶寮都路里 祇園本店",
+                        content: "茶寮都路里 祇園本店:カフェ"
+                    },
+                    {
+                        lat: 35.0025211,
+                        lng: 135.7750301,
+                        title: "八坂神社",
+                        content: "八坂神社:観光地"
+                    },
+                    {
+                        lat: 34.9986604,
+                        lng: 135.7785294,
+                        title: "二年坂",
+                        content: "二年坂:観光地"
+                    },
+                    {
+                        lat: 34.997195,
+                        lng: 135.7790952,
+                        title: "総本家 ゆどうふ 奥丹清水",
+                        content: "総本家 ゆどうふ 奥丹清水:お食事処"
+                    },
+                    {
+                        lat: 34.9959421,
+                        lng: 135.7814444,
+                        title: "清水坂",
+                        content: "清水坂:観光地"
+                    }
+                ]
+
+            var latArr = []
+            var lngArr = []
+
+            for (var i in history) {
+                latArr.push(history[i].lat);
+                lngArr.push(history[i].lng);
+            }
+
+            var center = mapManager.calcCenterPositionArray(latArr,lngArr)
+            
+            mapManager.initMapArray(center.lat,center.lng,14)
+            for (var i in history) {
+                mapManager.addMarker(
+                    history[i].lat,
+                    history[i].lng,
+                    history[i].title,
+                    '/images/history-map-icon.png',
+                    history[i].content
+                )
+            }
+
+
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ["観光地", "カフェ", "お食事処", "おみやげ"],
+                    datasets: [{
+                        backgroundColor: [
+                            "#09355C",
+                            "#CBCBCB",
+                            "#B61B12",
+                            "#23cbed",
+                            "#36A2EB",
+                            "#FFCE56"
+                        ],
+                        data: [3, 1, 1, 0]
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    cutoutPercentage: 50,
+                    // scaleShowLabels : false,
+                    scaleFontSize : 5,
+                    legend: {
+                        display: false
+                    },
+                }
+            });
+
+            $('.category-left').append(myChart.generateLegend())
+
+        })(jQuery)
+    </script>
+</body>
+</html>

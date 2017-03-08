@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title></title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/stylesheets/common.css">
+	<link rel="stylesheet" href="/stylesheets/spot-list.css">
+	<script>
+	var search = window.location.search
+	if(search == "") window.location.href = "/"
+	</script>
+</head>
+<body>
+	<header id="header">
+		
+	</header>
+
+	<div class="switching-navi">
+		<ul>
+			<li class="switching-navi-spot active" data-id="list">スポット一覧</li>
+			<li class="switching-navi-map" data-id="map">マップ表示</li>
+		</ul>
+	</div>
+
+	<div id="app">
+		<div class="search">
+			<i class="fa fa-search" aria-hidden="true"></i>
+			<input type="text" name="search" placeholder="絞り込み" id="search">
+		</div>
+
+
+		<div class="tab-box-container">
+			<div class="tab-box">
+
+				<div class="spot-container active tab-content1" data-id="list">
+					<ul class="spots">
+
+						<li v-for='shop in shopList' v-bind:data-id="shop.placeId">
+							<div class="spot-top">
+								<div class="spot-image transition-key" v-bind:style="{ backgroundImage: 'url('+shop.image+')'}" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId"></div>
+							</div>
+
+							<div class="spot-bottom">
+								<div class="spot-genre transition-key" v-bind:data-id="shop.placeId">
+									ジャンル: {{shop.genre}}
+								</div>
+								<div class="spot-title transition-key" v-bind:data-id="shop.placeId">
+									{{shop.shopName}}
+								</div>
+								<div class="spot-bottom-box">
+									<div class="spot-bottom-left transition-key" v-bind:data-id="shop.placeId">
+										<div class="spot-business-hours" v-if="shop.openNow" v-html="shop.openNow"></div>
+										<div class="rating" v-html="shop.ratingView"></div>
+									</div>
+									
+									<button v-if="shop.added" class="add-routes-button isAdded" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
+										追加済み
+									</button>
+									<button v-else class="add-routes-button" v-bind:data-id="shop.placeId" v-bind:data-sortid="shop.sortId" v-bind:data-lat="shop.location.lat" v-bind:data-lng="shop.location.lng" v-bind:data-placename="shop.shopName">
+										ルートに追加
+									</button>
+								</div>
+							</div>
+						</li>
+						
+					</ul>
+
+				</div>
+
+				<div class="map-container tab-content2" data-id="map">
+					<div id="map">
+						<div class="map-error-message">
+							ネットワークに<br>
+							接続されていません。
+						</div>
+					</div>
+					<div class="route-navi"></div>
+					<div class="confirm-route">
+						<button class="confirm-route-button">このルートで決定</button>
+					</div>
+				</div>
+
+			</div><!-- tab-box -->
+			<div class="tab-content3"></div>
+
+		</div>
+
+		<div class="confirm-route fixed">
+			<button class="confirm-route-button">このルートで決定</button>
+		</div>
+
+		<!-- fix-navigation -->
+		<div class="fix-navi-button">
+			<div class="sideShowBtn">
+		        <span class="first"></span>
+		        <span class="second"></span>
+		        <span class="third"></span>
+		    </div>
+		</div>
+
+		<ul class="fix-navi">
+			<li class="fix-navi-list fix-navi-home">
+				<a href="/">
+					<div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+					<div class="fix-navi-content">ホーム</div>
+				</a>
+			</li>
+			<li class="fix-navi-list fix-navi-mypage">
+				<a href="/mypage">
+					<div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+					<div class="fix-navi-content">マイページ</div>
+				</a>
+			</li>
+			<li class="fix-navi-list fix-navi-fav">
+				<a href="#">
+					<div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
+					<div class="fix-navi-content">気になるスポット</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- /fix-navigation -->
+
+	<div class="loading">
+		<div class="loading-content">
+			<div class="loading-icon">
+				<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+	<script src="/js/gmaps.min.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/TweenMax.min.js"></script>
+	<script src="/js/MapManager.js"></script>
+	<script src="/js/ShopListManager.js"></script>
+	<script src="/js/vue.min.js"></script>
+	<script>
+		(function($){
+
+			var DEV_MODE = splitParams().dev === undefined ? true : (splitParams().dev == "true");
+
+			var vm = initVue()
+
+			function initVue(){
+				var vm = new Vue({
+					el: "#app",
+					data: {
+						shopList: []
+					}
+				})
+
+				return vm
+			}
+
+			$(".spots").on("click",".transition-key",function(){
+				var place_id = $(this).data("id");
+				var sort_id = $(this).data("sortid");
+				window.location.href = "/spot/"+place_id+"?sort_id="+sort_id
+			})
+
+			$('.switching-navi li').on('click', function(){
+				if($('.fix-navi-button').hasClass('opened')){
+					noScroll(false)
+					endAnimation()
+					$('.fix-navi-button').removeClass('opened')
+				}
+				if($(this).not('active')){
+					$(this).addClass('active').siblings('li').removeClass('active');
+					var index = $('.switching-navi li').index(this);
+					switch(index){
+						case 0:
+							$('.tab-content1').addClass('active');
+							$('.tab-content2').removeClass('active');
+							$('.confirm-route.fixed').show();
+							break;
+						case 1:
+							$('.tab-content1').removeClass('active');
+							$('.tab-content2').addClass('active');
+
+							$('.map-spot-title-container').remove();
+							$('.confirm-route.fixed').hide();
+
+							var latLngArr = mapManager.makeLatLngArr()
+							var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+							mapManager.initMapArray(center.lat,center.lng,14)
+							mapManager.renderRoute()
+							break;
+					}
+				}
+			});
+
+			$('.fix-navi-button').on('touchend',onClickNaviButton)
+
+			$('.spot-container').on('click', '.add-routes-button', function(){
+				var id = $(this).data('sortid')
+				var placeId = $(this).data('id')
+				var lat = $(this).data('lat')
+				var lng = $(this).data('lng')
+				var placeName = $(this).data('placename')
+				if ($(this).hasClass('isAdded')) {
+					mapManager.removeRoute(id)
+					console.log(placeId)
+					mapManager.removeSessionRoutes(placeId)
+					$(this).text('ルートに追加')
+					$(this).removeClass('isAdded')
+				} else {
+					mapManager.setRoute(id,placeId,placeName,lat,lng);
+					mapManager.setSessionRoutes(placeId)
+					$(this).text('追加済み')
+					$(this).addClass('isAdded')
+				}
+			})
+
+			$('.confirm-route-button').on('click', function(){
+				$('.loading').show()
+				$('.loading').css('backgroundColor','rgba(0,0,0,0.3)')
+				$('.loading-content').css('color','#fff')
+				$('.loading-icon i').css('color','#fff')
+				$('.loading-icon').after('<div class="loading-message">ルートのデータを<br>作成しています</div>')
+        
+				var nickname = 'konojunya'
+				var routes = mapManager.getRoute()
+				console.log(routes)
+				$.ajax({
+					url: "/api/route/save",
+					type: "POST",
+					data: {
+						userId: nickname,
+						routes: JSON.stringify(routes)
+					}
+				})
+				.done(function(data){
+					window.location.href = "/confirm?routeId="+data.routeId
+				})
+				.fail(function(err){
+					console.log(err)
+				})
+				.always(function(){
+					$('.loading').hide()
+				})
+			})
+
+			function makeUuid() {
+				var uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
+				return uuid
+		    }
+
+			/**
+		     * fix-naviのアニメーションのキック
+		     *
+		     * @param { bool } bool
+		     */
+			function onClickNaviButton() {
+				if($(this).hasClass('opened')){
+					noScroll(false)
+					endAnimation()
+					$(this).removeClass('opened')
+				}else{
+					noScroll(true)
+					startAnimation()
+					$(this).addClass('opened')
+				}
+
+			}
+
+			/**
+		     * フラグがtrueならスクロールを止める
+		     *
+		     * @param { bool } bool
+		     */
+			function noScroll(bool){
+				if (bool) {
+					$('.tab-box-container').on('touchmove.noScroll', function(e) {
+			            e.preventDefault();
+			        });
+				} else {
+					$('.tab-box-container').off('.noScroll');
+				}
+			}
+
+			/**
+		     * 斜めにするアニメーション
+		     * ボタンのアニメーション
+		     */
+			function startAnimation(){
+				if($(".active").data("id") == "list"){
+					$('.confirm-route.fixed').fadeOut(100)
+				}
+				setTimeout(function(){
+					TweenMax.to('.spot-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+					TweenMax.to('.map-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+					TweenMax.to('.tab-box-container',0.7,{height: '120vh',transform: 'rotateZ(30deg)',ease: Circ.easeInOut})
+				},150)
+				
+				setTimeout(function(){
+					$(".sideShowBtn .first").css("transform","rotate(45deg)");
+					$(".sideShowBtn .first").animate({
+						top: "12px"
+					},0)
+					$(".sideShowBtn .second").css("opacity","0");
+					$(".sideShowBtn .third").css("transform","rotate(-45deg)");
+					$(".sideShowBtn .third").animate({
+						top: "12px"
+					},0)
+	    		},100)
+			}
+
+			/**
+		     * 斜めにするアニメーションを元に戻す
+		     * ボタンのアニメーションを元に戻す
+		     */
+			function endAnimation(){
+				TweenMax.to('.spot-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
+				TweenMax.to('.map-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
+				TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
+				TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
+				if($(".active").data("id") == "list"){
+					setTimeout(function(){
+						$('.confirm-route.fixed').fadeIn(100)
+					},700)
+				}
+				setTimeout(function(){
+					$(".sideShowBtn .first").css("transform","rotate(0deg)");
+					$(".sideShowBtn .first").animate({
+						top: "5px"
+					},0)
+					$(".sideShowBtn .second").css("opacity","1");
+					$(".sideShowBtn .third").css("transform","rotate(0deg)");
+					$(".sideShowBtn .third").animate({
+						top: "19px"
+					},0)
+	    		},100)
+			}
+
+			function splitParams(){
+				var params = new Object;
+				var pair=location.search.substring(1).split('&');
+				for(var i=0;pair[i];i++) {
+				    var kv = pair[i].split('=');
+				    params[kv[0]]=kv[1];
+				}
+				return params
+			}
+			var params = splitParams()
+
+			var place = shopListManager.getPlace()
+
+			mapManager.initAddRoute()
+
+			if(place != null && place.origin == decodeURIComponent(params.origin) && place.destination == decodeURIComponent(params.destination)){
+				var data = shopListManager.getShopData()
+				checkRouteAdded(data.shopList)
+				renderMap(data)
+				console.log('キャッシュ')
+			}else{
+				console.log('新規')
+				mapManager.destorySessionRoutes()
+				shopListManager.setPlace({
+					origin: decodeURIComponent(params.origin),
+					destination: decodeURIComponent(params.destination)
+				})
+
+				$('.loading').show();
+
+				var url = DEV_MODE ? "/dev" : "/api"
+
+				$.ajax({
+					url: url,
+					type: "GET",
+					data: {
+						origin: decodeURIComponent(params.origin),
+						destination: decodeURIComponent(params.destination)
+					},
+					timeout: 10000
+				})
+				.done(function(data){
+
+					renderView(data.shopList)
+					
+					if(data.shopList.length > 0){
+						shopListManager.setShopData(data);
+					}
+					renderMap(data)
+				})
+				.fail(function(err){
+					$('.loading').hide();
+					$('.tab-content3').append('<div class="error-message"></div>')
+					$('.error-message').text('接続がタイムアウトになりました。')
+					console.log(err)
+				})
+			}
+
+			function renderMap(data){
+				$('.spot-container').prepend('<div class="spot-container-count"></div>')
+				$('.spot-container-count').text('検索結果:'+data.shopList.length+'件')
+				var place = data.place
+				var origin = place.origin
+				var destination = place.destination
+				mapManager.setRoute('0',null,origin.placeName,origin.lat,origin.lng)
+				mapManager.setRoute('100',null,destination.placeName,destination.lat,destination.lng)
+			}
+
+			function renderView(shopListForVue){
+				$(".spots").fadeIn()
+				$('.loading').hide();
+				for (var i in shopListForVue) {
+					var openMsg = openNow(shopListForVue[i].openNow)
+					shopListForVue[i].openNow = openMsg
+					var rating = makeRating(shopListForVue[i].rating)
+					shopListForVue[i]["ratingView"] = rating
+				}
+				$(".confirm-route.fixed").fadeIn()
+				Vue.nextTick(function(){
+					vm.shopList = shopListForVue
+				});
+			}
+
+			function openNow(bool){
+				if (bool) {
+					return '現在営業中'
+				}
+				return '営業時間外'
+			}
+
+			function makeRating(rating){
+				var yelloStar = ~~rating
+				var blackStar = 5- ~~(rating)
+
+				var rating = []
+				for(var i = 0; i < yelloStar; i++){
+					rating.push('<i class="fa fa-star" aria-hidden="true"></i>')
+				}
+				for(var i = 0; i < blackStar; i++){
+					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
+				}
+				return rating.join("")
+			}
+
+			function checkRouteAdded(list){
+				var sessionRoutes = mapManager.getSessionRoutes();
+				for(var i in list){
+					list[i]["added"] = false
+					sessionRoutes.map(function(r){
+						if((r == list[i].placeId)){
+							list[i]["added"] = true
+						}
+					})
+					if (list[i]["added"]) {
+						mapManager.setRoute(list[i].sortId,list[i].placeId,list[i].shopName,list[i].location.lat,list[i].location.lng)
+					}
+				}
+				renderView(list);
+			}
+
+		})(jQuery)
+	</script>
+</body>
+</html>

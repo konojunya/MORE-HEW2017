@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>詳細ページ</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/stylesheets/flickity.min.css">
+	<link rel="stylesheet" href="/stylesheets/common.css">
+	<link rel="stylesheet" href="/stylesheets/spot-detail.css">
+</head>
+<body>
+	<header id="header">
+		<i class="fa fa-angle-left fa-3x backbutton" aria-hidden="true"></i>
+	</header>
+
+	<div id="app">
+
+		<div class="main-view">
+			<ul>
+				<li class="image" v-for="img in shop.images">
+					<img src="/images/placeholder.png" v-bind:data-flickity-lazyload="img" alt="">
+				</li>
+			</ul>
+		</div>
+
+		<div class="page-dots-cover"></div>
+
+		<div class="spot-detail-container">
+			<div class="spot-detail-navi">
+				<button class="add-fav-spot" v-bind:data-id="shop.placeId" v-bind:data-name="shop.name" v-bind:data-tel="shop.tel"><i class="fa fa-3x fa-heart-o" aria-hidden="true"></i></button>
+				<button v-if="shop.added" class="add-routes-button isAdded">
+					追加済み
+				</button>
+				<button v-else class="add-routes-button">
+					ルートに追加
+				</button>
+			</div>
+
+			<div class="spot-content">
+				<div class="spot-title">
+					<i class="fa fa-map-marker" aria-hidden="true"></i>
+					{{shop.name}}
+				</div>
+				<div class="spot-address">
+					<div class="title">
+						<span>Address</span><span class="span-right">住所</span>
+					</div>
+					<div class="spot-address-bottom">
+						{{shop.address}}
+					</div>
+				</div>
+				<div class="spot-tel">
+					<div class="title">
+						<span>Phone</span><span class="span-right">電話番号</span>
+					</div>
+					<i class="fa fa-phone" aria-hidden="true"></i>
+					{{shop.tel}}
+				</div>
+				<div class="spot-business-hours">
+					<div class="title">
+						<span>Business Hours</span><span class="span-right">営業時間</span>
+					</div>
+					<ul>
+						<li v-for="hours in shop.openingHours">{{hours}}</li>
+					</ul>
+				</div>
+				<div class="spot-review">
+					<div class="title">
+						<span>Review</span><span class="span-right">レビュー</span>
+					</div>
+					<ul>
+						<li class="review-content" v-for="review in shop.reviews">
+							<div class="review-text">
+								{{review.text}}
+							</div>
+							<div class="review-content-bottom">
+								<div class="review-rating">
+									<p v-html="review.ratingView"></p>
+								</div>
+								<div class="review-name">
+									{{review.author_name}}
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="can-not-get">
+		<p>
+			通信に失敗しました。<br/>
+			<br/>
+			APIのリクエスト制限の可能性があります。
+		</p>
+		<div class="reload" onClick="location.reload()">再試行</div>
+	</div>
+
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/flickity.pkgd.min.js"></script>
+	<script src="/js/vue.min.js"></script>
+	<script src="/js/LoveForEver.js"></script>
+	<script src="/js/MapManager.js"></script>
+	<script>
+		(function($){
+
+			var shopDetail;
+			var DEV_MODE = splitParams().dev === undefined ? false : (splitParams().dev == "true");
+
+			var placeId = window.location.pathname.replace(/\/spot\//,"");
+
+			var vm = initVue()
+			fetchShopDetail();
+
+			$(".backbutton").on("click",function(){
+				history.back()
+			})
+
+			function fetchShopDetail(){
+
+				var url = DEV_MODE ? "/dev/detail" : "/api/detail"
+
+				$.ajax({
+					url: url,
+					type: "GET",
+					data: {
+						placeid: placeId
+					}
+				})
+				.done(function(data){
+					checkRouteAdded(data.shopDetail)
+					shopDetail = data.shopDetail
+
+					var isLove = loveForEver.checkYourLove(shopDetail.placeId);
+					if(isLove){
+						$('.add-fav-spot').addClass('isLiked')
+						$('.add-fav-spot i').removeClass('fa-heart-o')
+						$('.add-fav-spot i').addClass('fa-heart')
+					}
+
+					console.log(Object.keys(data.shopDetail).length)
+					if(Object.keys(data.shopDetail).length <= 2){
+						canNotGetView()
+					}else{
+						$("#app").fadeIn()
+					}
+				})
+
+			}
+
+			function canNotGetView(){
+				$(".can-not-get").fadeIn();
+			}
+
+			function initVue(){
+				var vm = new Vue({
+					el: "#app",
+					data: {
+						shop: {}
+					}
+				})
+
+				return vm
+			}
+
+			function renderView(shopDetailForVue){
+
+				for(var i in shopDetailForVue.reviews){
+					shopDetailForVue.reviews[i]["ratingView"] = makeRating(shopDetailForVue.reviews[i].rating)
+				}
+
+				Vue.nextTick(function(){
+					vm.shop = shopDetailForVue
+				});
+				initFlickity()
+			}
+
+			function splitParams(){
+				var params = new Object;
+				var pair=location.search.substring(1).split('&');
+				for(var i=0;pair[i];i++) {
+				    var kv = pair[i].split('=');
+				    params[kv[0]]=kv[1];
+				}
+				return params
+			}
+
+			function initFlickity(){
+				setTimeout(function(){
+					$('.main-view ul').flickity({
+						autoPlay: false,
+						wrapAround: true,
+						prevNextButtons: false,
+						lazyLoad: true
+					});
+				},0)
+			}
+
+			$('.add-fav-spot').on('touchend', function(){
+				var love = {
+					id: $(this).data("id"),
+					name: $(this).data("name"),
+					tel: $(this).data("tel"),
+					isLove: null
+				}
+				favAnimation(love)
+			})
+
+			function favAnimation(love){
+				if ($('.add-fav-spot').hasClass('isLiked')) {
+					loveForEver.brokenHeart(love);
+					$('.add-fav-spot').removeClass('isLiked')
+					$('.add-fav-spot i').removeClass('fa-heart')
+					$('.add-fav-spot i').addClass('fa-heart-o')
+				} else {
+					loveForEver.confession(love)
+					$('.add-fav-spot').addClass('isLiked')
+					$('.add-fav-spot i').removeClass('fa-heart-o')
+					$('.add-fav-spot i').addClass('fa-heart')
+				}
+			}
+
+			$('.spot-detail-container').on('click', '.add-routes-button', function(){
+				var params = getParamater()
+				var id = decodeURIComponent(params.sort_id)
+				var placeId = shopDetail.placeId
+				var lat = shopDetail.location.lat
+				var lng = shopDetail.location.lng
+				var placeName = shopDetail.name
+				if ($(this).hasClass('isAdded')) {
+					mapManager.removeRoute(id)
+					mapManager.removeSessionRoutes(placeId)
+					$(this).text('ルートに追加')
+					$(this).removeClass('isAdded')
+				} else {
+					mapManager.setRoute(id,placeId,placeName,lat,lng)
+					mapManager.setSessionRoutes(placeId)
+					$(this).text('追加済み')
+					$(this).addClass('isAdded')
+				}
+			})
+
+			function checkRouteAdded(shopDetail){
+				var sessionRoutes = mapManager.getSessionRoutes();
+					shopDetail["added"] = false
+				sessionRoutes.map(function(r){
+					if((r == shopDetail.placeId)){
+						shopDetail["added"] = true
+					}
+				})
+				renderView(shopDetail);
+			}
+
+			function getParamater(){
+				var params = new Object;
+				var pair=location.search.substring(1).split('&');
+				for(var i=0;pair[i];i++) {
+				    var kv = pair[i].split('=');
+				    params[kv[0]]=kv[1];
+				}
+				return params;
+			}
+
+			function makeRating(rating){
+				var yelloStar = ~~rating
+				var blackStar = 5- ~~(rating)
+
+				var rating = []
+				for(var i = 0; i < yelloStar; i++){
+					rating.push('<i class="fa fa-star" aria-hidden="true"></i>')
+				}
+				for(var i = 0; i < blackStar; i++){
+					rating.push('<i class="fa fa-star-o" aria-hidden="true"></i>')
+				}
+				return rating.join("")
+			}
+
+
+		})(jQuery)
+	</script>
+</body>
+</html>

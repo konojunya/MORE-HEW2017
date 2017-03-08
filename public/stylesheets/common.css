@@ -1,0 +1,132 @@
+@charset "utf-8";
+*,
+*::after,
+*::before{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body,html{
+	width: 100%;
+	height: 100%;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.hidden{
+	display: none;
+}
+
+#header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3rem;
+	background-color: #F5857D;
+	z-index: 999;
+}
+
+.fix-navi-button {
+	position: fixed;
+	bottom: 80px;
+	right: 20px;
+	background-color: #444466;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	border-radius: 50%;
+	border: 5px solid #8294b5;
+	z-index: 200;
+}
+
+.sideShowBtn{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 25px;
+	height: 27px;
+	transform: translateY(-50%) translateX(-50%);
+	z-index: 200;
+}
+.sideShowBtn span{
+	display: block;
+	width: 25px;
+	height: 3px;
+	background-color: #fff;
+	transition: all 0.3s;
+}
+.sideShowBtn .first{
+	position: absolute;
+	top: 5px;
+	left: 0;
+}
+.sideShowBtn .second{
+	position: absolute;
+	top: 12px;
+	left: 0;
+}
+.sideShowBtn .third{
+	position: absolute;
+	top: 19px;
+	left: 0;
+}
+
+.fix-navi {
+	position: fixed;
+	bottom:330px;
+	right: 0;
+	z-index: 1;
+}
+.fix-navi li {
+	width: 120px;
+	list-style: none;
+	text-align: right;
+}
+.fix-navi a {
+	/*display: block;*/
+	text-decoration: none;
+}
+.fix-navi-icon {
+	width: 50px;
+	height: 50px;
+	margin: 0 auto;
+	border-radius: 50%;
+	border: 5px solid #8294b5;
+	text-align: center;
+	transition: 0.2s;
+}
+.fix-navi-icon:hover {
+	background-color: #fff;
+}
+.fix-navi-icon i {
+	font-size: 1.5rem;
+	line-height: 40px;
+	color: #52b7f3;
+}
+.fix-navi-content {
+	padding-top: 5px;
+	color: #fff;
+	font-size: 0.8rem;
+	text-align: center;
+}
+.fix-navi .fix-navi-home {
+	position: absolute;
+	top: 0px;
+	right: 0;
+}
+.fix-navi .fix-navi-mypage {
+	position: absolute;
+	top: 100px;
+	right: 40px;
+}
+.fix-navi .fix-navi-fav {
+	position: absolute;
+	top: 200px;
+	right: 80px;
+}
+
+
+

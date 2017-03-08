@@ -1,0 +1,169 @@
+.profile-container {
+    margin-top: 3rem;
+    background-color: #fafafa;
+    min-height: 90vh;
+}
+.profile-top {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12rem;
+    background-color: #ccc;
+}
+.profile-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../images/profile_cover.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+.profile-icon {
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    width: 6rem;
+    height: 6rem;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: #bbb;
+    background-image: url(../images/profile-icon.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+    transform: translateY(50%);
+}
+.profile-setting-icon {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    width: 2.5rem;
+    height: 2.5rem;
+    text-align: center;
+    transform: translateY(100%);
+}
+.profile-setting-icon i {
+    color: gray;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+}
+
+.profile-content {
+    padding: 3rem 0 1rem;
+}
+.profile-content .profile-user-info {
+    padding: 0 1rem;
+}
+.profile-content .profile-user-info .profile-region {
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 0.7rem;
+}
+.profile-content .profile-user-info .profile-region i {
+    margin-right: 5px;
+}
+.profile-content .walking-history {
+    padding: 1rem 1rem;
+}
+.profile-content .title {
+    /*border-bottom: 1px solid #757575;*/
+    /*margin-bottom: 0.5rem;*/
+}
+.profile-content .walking-history .map-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30vh;
+}
+.walking-history .title {
+    width: 100%;
+    color: rgba(0,0,0,0.87);
+}
+.profile-content .walking-history #map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*ここだけデザイン変えたほうがいいかも*/
+    width: 100%;
+    height: 30vh;
+}
+.profile-content .walking-history .map-cover {
+    width: 100%;
+    height: 30vh;
+    border-radius: 20px;
+}
+.profile-content .category {
+    background-color: #fff;
+    height: 35vh;
+    padding: 0.5rem;
+}
+.profile-content .category .title {
+    /*margin: 1rem 0.5rem 0;*/
+    font-size: 1rem;
+    margin-top: 10px;
+    border-bottom: 1px solid #757575;
+}
+.profile-content .category .category-flex {
+    display: flex;
+    padding-top: 1rem;
+    /*padding-left: 0.5rem;*/
+}
+.profile-content .category .category-left {
+    width: 45%;
+    /*padding-left: 1.5rem;*/
+    color: rgba(0,0,0,0.87);
+}
+.profile-content .category .category-left .category-title {
+    margin-bottom: 0.5rem;
+}
+.profile-content .category .category-left li {
+    list-style: none;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+.profile-content .category .category-left li span{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 10px;
+}
+.profile-content .category .category-right {
+    width: 55%;
+    text-align:left;
+    padding-right: 1.5rem;
+}
+.profile-content .category .category-right #myChart {
+    width:100% !important;
+    height:auto !important;
+}
+.loveList{
+    width: 100%;
+    padding: 10px 1rem;
+    background-color: #fff;
+}
+.loveList li{
+    list-style: none;
+    width: 100%;
+    margin: 5px 0;
+    padding: 5px;
+    color: rgba(0,0,0,0.87);
+}
+.loveList li .title{
+    font-size: 1.2rem;
+    line-height: 1.5;
+    padding: 5px 0;
+}
+.loveList li .tel{
+    font-size: 0.9rem;
+    padding: 5px 0;
+}
+.love-spot{
+    margin: 0 1rem;
+    font-size: 1rem;
+}

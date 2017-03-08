@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>ルートが完成しました | 頼道</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/flickity.min.css">
+    <link rel="stylesheet" href="/stylesheets/common.css">
+    <link rel="stylesheet" href="/stylesheets/confirm-route-complete.css">
+</head>
+<body>
+    <header id="header">
+        
+    </header>
+    
+    <div class="tab-box-container">
+        <div class="main-container">
+            <h1 class="title">ルートが作成されました</h1>
+            <!-- <div id="n"></div>
+            <div id="x"></div>
+            <div id="y"></div> -->
+
+            <div class="button-container">
+                <button class="add-calender button">カレンダーに追加する</button>
+                <button class="share-line button">LINEで共有する</button>
+            </div>
+            
+            <div id="map">
+                <div class="map-error-message">
+                    ネットワークに<br>
+                    接続されていません。
+                </div>
+            </div>
+            <div class="route-navi"></div>
+        </div>
+    </div>
+    
+
+    <!-- fix-navigation -->
+    <div class="fix-navi-button">
+        <div class="sideShowBtn">
+            <span class="first"></span>
+            <span class="second"></span>
+            <span class="third"></span>
+        </div>
+    </div>
+
+    <ul class="fix-navi">
+        <li class="fix-navi-list fix-navi-home">
+            <a href="/">
+                <div class="fix-navi-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">ホーム</div>
+            </a>
+        </li>
+        <li class="fix-navi-list fix-navi-mypage">
+            <a href="/mypage">
+                <div class="fix-navi-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">マイページ</div>
+            </a>
+        </li>
+        <li class="fix-navi-list fix-navi-fav">
+            <a href="#">
+                <div class="fix-navi-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
+                <div class="fix-navi-content">気になるスポット</div>
+            </a>
+        </li>
+    </ul>
+    <!-- /fix-navigation -->
+
+    <div class="loading">
+        <div class="loading-content">
+            <div class="loading-icon">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+    <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+    <script src="/js/gmaps.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/TweenMax.min.js"></script>
+    <script src="/js/MapManager.js"></script>
+    <script>
+        (function($){
+
+            $.ajax({
+                url: '/api/route/read',
+                type: 'GET',
+                data: {
+                    routeId: window.location.search.replace(/\?routeId\=/,"")
+                }
+            })
+            .done(function(data){
+                $('.loading').hide()
+                console.log(data)
+                for(var i in data){
+                    var routeData = {
+                        id: data[i].id,
+                        placeId: data[i].placeId,
+                        placeName: data[i].placeName,
+                        lat: data[i].lat,
+                        lng: data[i].lng
+                    }
+                    mapManager.setRouteShare(routeData)
+                }
+                var latLngArr = mapManager.makeLatLngArr()
+                var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+                mapManager.initMapArray(center.lat,center.lng,14)
+                mapManager.renderRoute()
+            })
+            .fail(function(err){
+                $('.loading').hide()
+                window.location.reload()
+            });
+
+            // var routeData = {
+            //     id: '1',
+            //     placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+            //     placeName: 'hoge1',
+            //     lat: 34.7041131,
+            //     lng: 135.4948306
+            // }
+            // mapManager.setRouteShare(routeData)
+            // routeData = {
+            //     id: '2',
+            //     placeId: 'ChIJxU8Lgo3mAGARAR2k-1SMyrY',
+            //     placeName: 'hoge2',
+            //     lat: 34.7091131,
+            //     lng: 135.5048306
+            // }
+            // mapManager.setRouteShare(routeData)
+
+            // var latLngArr = mapManager.makeLatLngArr()
+            // var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+            // mapManager.initMapArray(center.lat,center.lng,14)
+            // mapManager.renderRoute()
+
+            // var map;
+            // map = new GMaps({
+            //     div: '#map',
+            //     lat: 35.003751,
+            //     lng: 135.7687486,
+            //     zoom: 14
+            // })
+            // GMaps.geolocate({
+            //     success: function(position) {
+            //         map.setCenter(position.coords.latitude, position.coords.longitude);
+            //         console.log(position.coords.latitude)
+            //         console.log(position.coords.longitude)
+            //         mapManager.addMarker(position.coords.latitude, position.coords.longitude,'titel','/images/via-1.png','content')
+            //     },
+            //     error: function(error) {
+            //         alert('Geolocation failed: '+error.message);
+            //     },
+            //     not_supported: function() {
+            //         alert("Your browser does not support geolocation");
+            //     },
+            //     always: function() {
+            //         alert("Done!");
+            //     }
+            // });
+
+            $('.add-calender').on('click', function(){
+                console.log('click')
+            })
+
+            $('.share-line').on('click', function(){
+                $('.loading').show()
+                var uuid = makeUuid()
+                var json = mapManager.routes
+
+                var requestData = {
+                    uuid: uuid,
+                    route: json
+                }
+
+                $.ajax({
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    url: '/api/share',
+                    type: 'POST',
+                    data: JSON.stringify(requestData)
+                })
+                .done(function(data){
+                    $('.loading').hide()
+                    console.log(data)
+                    console.log(uuid)
+                    console.log(json)
+                    var lineUrl = 'http://line.me/R/msg/text/?'
+                    // var localHostUrl = 'http://192.168.43.36:3000/share/'
+                    var localHostUrl = 'http://192.168.0.4:3000/share/'
+                    window.location.href = lineUrl+localHostUrl+uuid
+
+                })
+                .fail(function(err){
+                    $('.loading').hide()
+                    console.log(err)
+
+                })
+            })
+
+            function makeUuid() {
+                var uuid = ""
+                uuid = (Date.now()+Math.floor(Math.random()*999999)).toString(36)
+                return uuid
+            }
+
+            $('.fix-navi-button').on('touchend',onClickNaviButton)
+
+            /**
+             *  generateAddGoogleCalendarUrl
+             *  googleカレンダーに追加するためのURLを生成する
+             */
+            function generateAddGoogleCalendarUrl(title,location,date){
+                var url = "http://www.google.com/calendar/event?"
+                var params = $.param({
+                    action: "TEMPLATE",
+                    text: title,
+                    location: location,
+                    dates: String(date.day.split("-").join(""))+"T"+String(date.startTime)+"/"+String(date.day.split("-").join(""))+"T"+String(date.endTime)
+                });
+
+                return url+params
+            }
+
+            /**
+             * fix-naviのアニメーションのキック
+             *
+             * @param { bool } bool
+             */
+            function onClickNaviButton() {
+                if($(this).hasClass('opened')){
+                    noScroll(false)
+                    endAnimation()
+                    $(this).removeClass('opened')
+                }else{
+                    noScroll(true)
+                    startAnimation()
+                    $(this).addClass('opened')
+                }
+
+            }
+
+            /**
+             * フラグがtrueならスクロールを止める
+             *
+             * @param { bool } bool
+             */
+            function noScroll(bool){
+                if (bool) {
+                    $('.tab-box-container').on('touchmove.noScroll', function(e) {
+                        e.preventDefault();
+                    });
+                } else {
+                    $('.tab-box-container').off('.noScroll');
+                }
+            }
+
+
+            /**
+             * 斜めにするアニメーション
+             * ボタンのアニメーション
+             */
+            function startAnimation(){
+                TweenMax.to('.main-container',0,{marginBottom: '20vh',ease: Circ.easeInOut})
+                TweenMax.to('.tab-box-container',0.7,{height: '120vh',transform: 'rotateZ(30deg)',ease: Circ.easeInOut})
+                setTimeout(function(){
+                    $(".sideShowBtn .first").css("transform","rotate(45deg)");
+                    $(".sideShowBtn .first").animate({
+                        top: "12px"
+                    },0)
+                    $(".sideShowBtn .second").css("opacity","0");
+                    $(".sideShowBtn .third").css("transform","rotate(-45deg)");
+                    $(".sideShowBtn .third").animate({
+                        top: "12px"
+                    },0)
+                },100)
+            }
+
+            /**
+             * 斜めにするアニメーションを元に戻す
+             * ボタンのアニメーションを元に戻す
+             */
+            function endAnimation(){
+                TweenMax.to('.main-container',0.7,{marginBottom: '0%',ease: Circ.easeInOut})
+                TweenMax.to('.tab-box-container',0.7,{height: '100%',transform: 'rotateZ(0deg)',ease: Circ.easeInOut})
+                setTimeout(function(){
+                    $(".sideShowBtn .first").css("transform","rotate(0deg)");
+                    $(".sideShowBtn .first").animate({
+                        top: "5px"
+                    },0)
+                    $(".sideShowBtn .second").css("opacity","1");
+                    $(".sideShowBtn .third").css("transform","rotate(0deg)");
+                    $(".sideShowBtn .third").animate({
+                        top: "19px"
+                    },0)
+                },100)
+            }
+
+        })(jQuery)
+    </script>
+</body>
+</html>

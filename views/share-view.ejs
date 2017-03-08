@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>共有されたルート | 頼道</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/common.css">
+    <link rel="stylesheet" href="/stylesheets/confirm-route-complete.css">
+</head>
+<body>
+    <header id="header">
+        
+    </header>
+    
+    <div class="tab-box-container">
+        <div class="main-container">
+            
+            <div id="map">
+                <div class="map-error-message">
+                    ネットワークに<br>
+                    接続されていません。
+                </div>
+            </div>
+            <div class="route-navi"></div>
+        </div>
+    </div>
+
+    <div class="loading">
+        <div class="loading-content">
+            <div class="loading-icon">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LspVyD9HSyrYhn8IEEn9CaPavQ0-Foc"></script>
+    <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+    <script src="/js/gmaps.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/TweenMax.min.js"></script>
+    <script src="/js/MapManager.js"></script>
+    <script>
+        (function($){
+
+            var routeData = <%- JSON.stringify(data) %>
+
+            for (i in routeData) {
+                mapManager.setRouteShare(routeData[i])
+            }
+            var latLngArr = mapManager.makeLatLngArr()
+            var center = mapManager.calcCenterPositionArray(latLngArr.latArr,latLngArr.lngArr)
+            mapManager.initMapArray(center.lat,center.lng,14)
+            mapManager.renderRoute()
+
+        })(jQuery)
+    </script>
+</body>
+</html>

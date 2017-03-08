@@ -1,0 +1,161 @@
+body {
+    background-color: #444466;
+}
+
+.tab-box-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    transform-origin: 100% 8rem;
+    overflow: scroll;
+    background-color: #fff;
+}
+.main-container {
+    position: relative;
+    top: 3rem;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    padding: 3rem 1rem 5rem;
+    z-index: 200;
+}
+.main-container .title {
+    font-weight: normal;
+    font-size: 1.3rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+.button-container .button {
+    width: 48%;
+    display: block;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    color: #16A6B6;
+    outline: none;
+    border: 1px solid #16A6B6;
+    border-radius: 5px;
+    background: none;
+}
+
+#map {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 50vh;
+    margin: 0 auto;
+    background-color: #999;
+}
+.map-error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #fafafa;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    text-align: center;
+    transform: translateY(-50%) translateX(-50%);
+}
+.route-navi {
+    margin-top: 2rem;
+    width: 100%;
+}
+.map-spot-title-container {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.map-spot-title {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    padding-left: 3.5rem;
+    background-color: #EBEBEB;
+    height: 30px;
+    line-height: 30px;
+}
+.map-spot-title img {
+    display: block;
+    height: 25px;
+    margin-right: 5px;
+}
+.map-spot-title p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1rem;
+}
+.map-spot-title-container .icon {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    content: "";
+    width: 20px;
+    height: 20px;
+    transform: translateY(-50%) translateX(-25%);
+    /*background-color: #000;*/
+    z-index: 100;
+    text-align: center;
+    color: #fff;
+    line-height: 20px;
+}
+.map-spot-title-container .map-spot-from {
+    background-color: #757575;
+}
+.map-spot-title-container .map-spot-via {
+    background-color: #fff;
+    border: 2px solid #16A6B6;
+    border-radius: 50%;
+}
+.map-spot-title-container .map-spot-to {
+    background-color: #757575;
+}
+.map-spot-title-container .first:before {
+
+}
+.map-spot-title-container .after {
+    margin-top: 40px;
+}
+.map-spot-title-container .after:before {
+    position: absolute;
+    top: -60px;
+    left: 20px;
+    content: "";
+    width: 10px;
+    height: 80px;
+    background-color: #16A6B6;
+    z-index: 50;
+}
+.map-spot-title-container .last {
+/*アイコンのcss*/
+}
+
+.loading {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+.loading-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    text-align: center;
+    color: #fff;
+}
+.loading-icon i {
+    color: #fff
+}
